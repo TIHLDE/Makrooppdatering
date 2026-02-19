@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { AssetType } from '@prisma/client';
+import Redis from 'ioredis';
+
+// Redis client for caching
+const redis = process.env.REDIS_URL 
+  ? new Redis(process.env.REDIS_URL)
+  : null;
+
+const CACHE_TTL = 60; // 1 minute in production, adjust as needed
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,8 +21,28 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search');
     const timeRange = (searchParams.get('timeRange') || '24h').toLowerCase();
     const sentiment = searchParams.get('sentiment') || 'all';
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '25');
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+    const limit = Math.min(Math.max(1, parseInt(searchParams.get('limit') || '25')), 500);
+    
+    // Build cache key
+    const cacheKey = `news:${JSON.stringify({
+      assetTypes, sources, tickers, search, timeRange, sentiment, page, limit
+    })}`;
+    
+    // Check Redis cache
+    if (redis) {
+      try {
+        const cached = await redis.get(cacheKey);
+        if (cached) {
+          return NextResponse.json({ 
+            ...JSON.parse(cached), 
+            fromCache: true 
+          });
+        }
+      } catch (err) {
+        console.error('Redis cache error:', err);
+      }
+    }
     
     // Calculate date range
     const now = new Date();
@@ -76,6 +104,8 @@ export async function GET(request: NextRequest) {
     }
     
     // Fetch news with pagination
+    const skip = Math.max(0, (page - 1) * limit);
+    
     const [news, total] = await Promise.all([
       prisma.newsItem.findMany({
         where,
@@ -84,13 +114,13 @@ export async function GET(request: NextRequest) {
           tags: true,
         },
         orderBy: { publishedAt: 'desc' },
-        skip: (page - 1) * limit,
+        skip,
         take: limit,
       }),
       prisma.newsItem.count({ where }),
     ]);
     
-    return NextResponse.json({
+    const result = {
       news,
       pagination: {
         page,
@@ -98,7 +128,18 @@ export async function GET(request: NextRequest) {
         total,
         totalPages: Math.ceil(total / limit),
       },
-    });
+    };
+    
+    // Store in Redis cache
+    if (redis) {
+      try {
+        await redis.setex(cacheKey, CACHE_TTL, JSON.stringify(result));
+      } catch (err) {
+        console.error('Redis set error:', err);
+      }
+    }
+    
+    return NextResponse.json({ ...result, fromCache: false });
   } catch (error) {
     console.error('News API error:', error);
     return NextResponse.json(

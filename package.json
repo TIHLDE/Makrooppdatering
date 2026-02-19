@@ -19,13 +19,14 @@
   },
   "dependencies": {
     "@prisma/client": "^5.7.1",
+    "clsx": "^2.0.0",
+    "date-fns": "^3.0.6",
+    "ioredis": "^5.9.3",
+    "lucide-react": "^0.303.0",
     "next": "14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rss-parser": "^3.13.0",
-    "date-fns": "^3.0.6",
-    "lucide-react": "^0.303.0",
-    "clsx": "^2.0.0",
     "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
