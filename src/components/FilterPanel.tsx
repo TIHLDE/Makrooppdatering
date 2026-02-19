@@ -580,21 +580,19 @@ export function FilterPanel({ onFilterChange, initialFilters }: FilterPanelProps
       </div>
 
       {/* Desktop Filter Panel */}
-      <div className="hidden md:block">
-        <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
-          <div className="bg-terminal-card border border-terminal-border">
-            <div className="flex items-center gap-2 p-3 border-b border-terminal-border bg-terminal-bg">
-              <Filter className="w-4 h-4 text-bloomberg-orange" />
-              <span className="text-sm font-mono font-semibold text-terminal-text">FILTERS</span>
-              {activeFilterCount > 0 && (
-                <span className="ml-auto px-1.5 py-0.5 bg-bloomberg-orange text-white text-2xs font-mono">
-                  {activeFilterCount}
-                </span>
-              )}
-            </div>
-            <div className="p-3">
-              {filterContent}
-            </div>
+      <div className="hidden md:block h-full">
+        <div className="bg-terminal-card border border-terminal-border h-full overflow-y-auto">
+          <div className="flex items-center gap-2 p-3 border-b border-terminal-border bg-terminal-bg sticky top-0 z-10">
+            <Filter className="w-4 h-4 text-bloomberg-orange" />
+            <span className="text-sm font-mono font-semibold text-terminal-text">FILTERS</span>
+            {activeFilterCount > 0 && (
+              <span className="ml-auto px-1.5 py-0.5 bg-bloomberg-orange text-white text-2xs font-mono">
+                {activeFilterCount}
+              </span>
+            )}
+          </div>
+          <div className="p-3">
+            {filterContent}
           </div>
         </div>
       </div>

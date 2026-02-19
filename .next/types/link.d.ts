@@ -34,6 +34,7 @@ declare namespace __next_route_internal_types__ {
     | `/api/ingest`
     | `/api/news`
     | `/api/placeholder`
+    | `/api/preprocess`
     | `/api/quiz`
     | `/api/quiz/generate`
     | `/dashboard`

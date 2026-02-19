@@ -1,4 +1,4 @@
-// Prisma schema for Makro Oppdatering
+// Prisma schema shit for Makro Oppdatering
 
 generator client {
   provider = "prisma-client-js"
@@ -173,15 +173,71 @@ model RssSource {
   fetchCount  Int      @default(0)
 }
 
+// Preprocessed data cache for fast loading
+model PreprocessedCache {
+  id          String   @id @default(cuid())
+  filterHash  String   @unique
+  data        String   // JSON stringified data
+  generatedAt DateTime @default(now())
+  expiresAt   DateTime
+  
+  @@index([filterHash])
+  @@index([expiresAt])
+}
+
 enum AssetType {
-  EQUITY
-  ETF
-  FUND
-  CRYPTO
-  MACRO
-  GEOPOLITICS
-  POLITICS
+  // Equities
+  EQUITY      // Single stocks, shares
+  ETF         // Exchange Traded Funds
+  FUND        // Mutual funds, index funds, hedge funds
+  ADR         // American Depositary Receipts
+  
+  // Fixed Income
+  BOND        // Government and corporate bonds
+  
+  // Crypto & Digital Assets
+  CRYPTO      // Bitcoin, Ethereum, etc.
+  
+  // Commodities (as tradable assets)
+  COMMODITY   // Oil, gold, wheat futures, etc.
+  
+  // FX
+  FOREX       // Currency pairs, FX markets
+  
+  // Indices
+  INDEX       // S&P 500, OBX, etc.
+  
+  // Other tradable instruments
+  DERIVATIVE  // Options, futures, swaps
+  
+  // Non-specific / Uncategorized
   OTHER
+}
+
+// News topic/categories (separate from asset types)
+enum NewsTopic {
+  // Macroeconomics
+  MACRO       // GDP, general economy
+  INFLATION   // CPI, prices
+  EMPLOYMENT  // Jobs, unemployment
+  RATES       // Interest rates, central banks
+  
+  // Geopolitics & Policy
+  GEOPOLITICS // Wars, conflicts, diplomacy
+  POLITICS    // Elections, government
+  REGULATION  // SEC, laws, compliance
+  TRADE       // Trade deals, tariffs
+  
+  // Market Events
+  EARNINGS    // Company earnings reports
+  IPO         // Initial public offerings
+  MNA         // Mergers & acquisitions
+  
+  // Sectors/Themes
+  TECH        // Technology sector
+  HEALTHCARE  // Pharma, biotech
+  ENERGY      // Oil, gas, renewables
+  FINANCE_SECTOR // Banking sector news
 }
 
 enum QuizType {

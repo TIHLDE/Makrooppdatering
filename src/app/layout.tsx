@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import { PreprocessorProvider } from '@/components/PreprocessorProvider';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -14,7 +15,7 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: 'Makro | Terminal',
-  description: 'Bloomberg-style financial news terminal',
+  description: 'Bloomberg-style financial news terminal with AI sentiment analysis',
 };
 
 export default function RootLayout({
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="no" className="dark">
       <body className={`${inter.variable} ${jetbrains.variable} bg-terminal-bg text-terminal-text min-h-screen`}>
-        {children}
+        <PreprocessorProvider>
+          {children}
+        </PreprocessorProvider>
       </body>
     </html>
   );
