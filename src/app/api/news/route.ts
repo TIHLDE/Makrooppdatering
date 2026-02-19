@@ -14,26 +14,33 @@ export async function GET(request: NextRequest) {
     const tickers = searchParams.getAll('ticker');
     const search = searchParams.get('search');
     const timeRange = searchParams.get('timeRange') || '24h';
+    const sentiment = searchParams.get('sentiment') || 'all';
+    const marketCap = searchParams.get('marketCap') || 'all';
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '20');
+    const limit = parseInt(searchParams.get('limit') || '25');
     
     // Calculate date range
     const now = new Date();
     let dateFrom = new Date();
     
     switch (timeRange) {
+      case '1h':
+        dateFrom.setHours(now.getHours() - 1);
+        break;
+      case '6h':
+        dateFrom.setHours(now.getHours() - 6);
+        break;
       case '24h':
         dateFrom.setHours(now.getHours() - 24);
+        break;
+      case '3d':
+        dateFrom.setDate(now.getDate() - 3);
         break;
       case '7d':
         dateFrom.setDate(now.getDate() - 7);
         break;
       case '30d':
         dateFrom.setDate(now.getDate() - 30);
-        break;
-      case 'custom':
-        const fromDate = searchParams.get('from');
-        if (fromDate) dateFrom = new Date(fromDate);
         break;
       default:
         dateFrom.setHours(now.getHours() - 24);
@@ -61,6 +68,28 @@ export async function GET(request: NextRequest) {
         { title: { contains: search, mode: 'insensitive' } },
         { summary: { contains: search, mode: 'insensitive' } },
       ];
+    }
+
+    // Sentiment filter
+    if (sentiment && sentiment !== 'all') {
+      switch (sentiment) {
+        case 'positive':
+          where.sentiment = { gt: 0.2 };
+          break;
+        case 'negative':
+          where.sentiment = { lt: -0.2 };
+          break;
+        case 'neutral':
+          where.sentiment = { gte: -0.2, lte: 0.2 };
+          break;
+      }
+    }
+
+    // Market cap filter (requires market data - stubbed for now)
+    if (marketCap && marketCap !== 'all') {
+      // This would join with MarketData table if available
+      // For now, we'll just log it
+      console.log('Market cap filter requested:', marketCap);
     }
     
     // Handle relations

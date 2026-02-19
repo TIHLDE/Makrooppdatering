@@ -21,12 +21,22 @@ export function formatRelativeTime(date: Date | string): string {
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - d.getTime()) / 1000);
 
-  if (diffInSeconds < 60) return 'akkurat nå';
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min siden`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}t siden`;
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d siden`;
+  // Bloomberg terminal style - short and concise
+  if (diffInSeconds < 60) return 'NOW';
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d`;
   
-  return formatDate(date);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+}
+
+export function formatTimeOnly(date: Date | string): string {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return d.toLocaleTimeString('en-US', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    hour12: false 
+  });
 }
 
 export function truncateText(text: string, maxLength: number): string {

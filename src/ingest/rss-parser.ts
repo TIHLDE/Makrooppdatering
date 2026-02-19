@@ -1,6 +1,7 @@
 import Parser from 'rss-parser';
 import { prisma } from '@/lib/prisma';
 import { generateHash, extractTickers, calculateRelevanceScore } from '@/lib/utils';
+import { analyzeSentiment } from '@/lib/sentiment';
 import { AssetType } from '@prisma/client';
 
 const parser = new Parser({
@@ -198,9 +199,34 @@ export async function saveNewsItems(items: ParsedNewsItem[]): Promise<number> {
         })
       );
       
+      // AI Sentiment Analysis
+      let sentiment: number | null = null;
+      try {
+        const sentimentResult = await analyzeSentiment({
+          id: 'temp',
+          hash: item.hash,
+          title: item.title,
+          summary: item.summary,
+          url: item.url,
+          source: item.source,
+          sourceUrl: item.sourceUrl,
+          publishedAt: item.publishedAt,
+          fetchedAt: new Date(),
+          language: item.language,
+          assetType: item.assetType,
+          sentiment: null,
+          relevance: 0.5,
+          isDuplicate: false,
+        });
+        sentiment = sentimentResult.score;
+        console.log(`Sentiment for "${item.title.substring(0, 40)}...": ${sentiment} (${sentimentResult.label})`);
+      } catch (error) {
+        console.warn(`Failed to analyze sentiment for: ${item.title.substring(0, 40)}...`, error);
+      }
+      
       // Calculate relevance
       const relevance = calculateRelevanceScore(
-        null, // Sentiment not implemented in MVP
+        sentiment,
         item.tickers.length > 0,
         item.tags.includes('breaking')
       );
@@ -217,6 +243,7 @@ export async function saveNewsItems(items: ParsedNewsItem[]): Promise<number> {
           publishedAt: item.publishedAt,
           language: item.language,
           assetType: item.assetType,
+          sentiment,
           relevance,
           tickers: {
             connect: tickerRecords.map(t => ({ id: t.id })),

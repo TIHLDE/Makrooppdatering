@@ -166,7 +166,7 @@ model QuizScore {
 model RssSource {
   id          String   @id @default(cuid())
   name        String
-  url         String
+  url         String   @unique
   assetType   AssetType @default(OTHER)
   isActive    Boolean  @default(true)
   lastFetched DateTime?

@@ -2,55 +2,122 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { BarChart3, Newspaper, Gamepad2, Home } from 'lucide-react';
+import { TickerTape } from './TickerTape';
+import { 
+  BarChart3, 
+  Newspaper, 
+  Gamepad2, 
+  Menu, 
+  X,
+  Terminal,
+  Zap,
+  TrendingUp
+} from 'lucide-react';
 
 const navItems = [
-  { href: '/', label: 'Hjem', icon: Home },
-  { href: '/dashboard', label: 'Nyheter', icon: Newspaper },
-  { href: '/summary', label: 'Oppsummering', icon: BarChart3 },
-  { href: '/quiz', label: 'Quiz', icon: Gamepad2 },
+  { href: '/dashboard', label: 'FEED', icon: Newspaper },
+  { href: '/summary', label: 'SUMMARY', icon: BarChart3 },
+  { href: '/quiz', label: 'QUIZ', icon: Gamepad2 },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <Link href="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary-600">
-                Makro Oppdatering
+    <>
+      {/* Ticker Tape */}
+      <TickerTape />
+      
+      {/* Main Navigation */}
+      <nav className="bg-terminal-card border-b border-terminal-border sticky top-0 z-50">
+        <div className="max-w-full px-2 sm:px-4 lg:px-6">
+          <div className="flex items-center justify-between h-12">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-2 group">
+              <Terminal className="w-5 h-5 text-bloomberg-orange group-hover:text-bloomberg-orange-light transition-colors" />
+              <span className="font-mono text-sm font-bold tracking-wider">
+                <span className="text-bloomberg-orange">MAKRO</span>
+                <span className="text-terminal-muted">_TERM</span>
               </span>
             </Link>
-          </div>
-          
-          <div className="flex space-x-8">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    'inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors',
-                    isActive
-                      ? 'text-primary-600 border-b-2 border-primary-600'
-                      : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  )}
-                >
-                  <Icon className="w-4 h-4 mr-2" />
-                  {item.label}
-                </Link>
-              );
-            })}
+
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center space-x-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+                
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      'flex items-center space-x-1.5 px-3 py-1.5 text-xs font-mono transition-all',
+                      isActive
+                        ? 'bg-bloomberg-orange text-white'
+                        : 'text-terminal-muted hover:text-terminal-text hover:bg-terminal-border'
+                    )}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Right side - Status */}
+            <div className="hidden md:flex items-center space-x-4">
+              <div className="flex items-center space-x-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-market-up animate-pulse" />
+                <span className="text-2xs font-mono text-terminal-muted">LIVE</span>
+              </div>
+              <div className="text-2xs font-mono text-terminal-muted">
+                {new Date().toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' })}
+              </div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-terminal-text hover:text-bloomberg-orange"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
-      </div>
-    </nav>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-terminal-border bg-terminal-card">
+            <div className="px-2 py-2 space-y-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+                
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      'flex items-center space-x-3 px-3 py-2.5 text-sm font-mono transition-all',
+                      isActive
+                        ? 'bg-bloomberg-orange text-white'
+                        : 'text-terminal-muted hover:text-terminal-text hover:bg-terminal-border'
+                    )}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </nav>
+    </>
   );
 }

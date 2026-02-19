@@ -30,15 +30,15 @@ declare namespace __next_route_internal_types__ {
 
   type StaticRoutes = 
     | `/`
-    | `/api/ingest`
     | `/api/filters`
+    | `/api/ingest`
+    | `/api/news`
     | `/api/placeholder`
     | `/api/quiz`
     | `/api/quiz/generate`
-    | `/api/news`
     | `/dashboard`
-    | `/summary`
     | `/quiz`
+    | `/summary`
   type DynamicRoutes<T extends string = string> = 
     | `/api/quiz/${SafeSlug<T>}`
     | `/quiz/${SafeSlug<T>}`
