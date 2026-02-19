@@ -1,0 +1,191 @@
+// Prisma schema for Makro Oppdatering
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Nyhetsartikler fra RSS/scraping
+model NewsItem {
+  id          String   @id @default(cuid())
+  hash        String   @unique // Deduplisering: hash(title+source+publishedAt)
+  title       String
+  summary     String?
+  url         String
+  source      String   // RSS kilde navn
+  sourceUrl   String?  // Original kilde URL
+  publishedAt DateTime
+  fetchedAt   DateTime @default(now())
+  
+  // Enrichment fields
+  language    String   @default("en")
+  assetType   AssetType @default(OTHER)
+  
+  // Relasjoner
+  tags        Tag[]
+  tickers     Ticker[]
+  countries   Country[]
+  sectors     Sector[]
+  
+  // Metadata
+  sentiment   Float?   // -1 til 1
+  relevance   Float    @default(0.5) // 0 til 1
+  isDuplicate Boolean  @default(false)
+  
+  // For quiz generering
+  quizQuestions QuizQuestion[]
+  
+  @@index([publishedAt])
+  @@index([assetType])
+  @@index([source])
+  @@index([hash])
+}
+
+// Tags for kategorisering
+model Tag {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  newsItems NewsItem[]
+}
+
+// Tickers (aksjesymboler)
+model Ticker {
+  id          String     @id @default(cuid())
+  symbol      String     @unique
+  name        String?
+  assetType   AssetType
+  exchange    String?
+  country     String?
+  sectorId    String?
+  sector      Sector?    @relation(fields: [sectorId], references: [id])
+  newsItems   NewsItem[]
+  
+  // Markedsdata (valgfritt)
+  marketData  MarketData?
+  
+  @@index([symbol])
+}
+
+// Land/nasjonalitet
+model Country {
+  id        String     @id @default(cuid())
+  code      String     @unique // ISO 3166-1 alpha-2
+  name      String
+  newsItems NewsItem[]
+}
+
+// Sektors (GICS-lignende)
+model Sector {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?
+  tickers     Ticker[]
+  newsItems   NewsItem[]
+}
+
+// Markedsdata (priser, PE-ratio, etc)
+model MarketData {
+  id        String   @id @default(cuid())
+  tickerId  String   @unique
+  ticker    Ticker   @relation(fields: [tickerId], references: [id], onDelete: Cascade)
+  
+  // Priser
+  price     Float?
+  priceChange Float?
+  priceChangePercent Float?
+  
+  // Fundamentals
+  peRatio   Float?
+  marketCap Float?
+  
+  // Metadata
+  updatedAt DateTime @updatedAt
+  
+  @@index([peRatio])
+}
+
+// Quiz system
+model QuizSet {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  type        QuizType
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  // Filters used to generate
+  dateFrom    DateTime
+  dateTo      DateTime
+  assetTypes  AssetType[]
+  
+  questions   QuizQuestion[]
+  scores      QuizScore[]
+}
+
+model QuizQuestion {
+  id       String   @id @default(cuid())
+  quizSetId String
+  quizSet  QuizSet  @relation(fields: [quizSetId], references: [id], onDelete: Cascade)
+  
+  question String
+  options  String[] // JSON array
+  correct  Int      // Index i options array
+  
+  // Relasjon til nyhet
+  newsItemId String?
+  newsItem   NewsItem? @relation(fields: [newsItemId], references: [id])
+  
+  // For "match par" og "finn sammenhengen"
+  imageUrl   String?
+  pairId     String?  // For matching quizer
+  
+  order      Int
+}
+
+model QuizScore {
+  id        String   @id @default(cuid())
+  quizSetId String
+  quizSet   QuizSet  @relation(fields: [quizSetId], references: [id], onDelete: Cascade)
+  
+  // Anonym eller auth
+  sessionId String
+  userName  String?
+  
+  score     Int
+  maxScore  Int
+  timeMs    Int      // Tid brukt i millisekunder
+  
+  createdAt DateTime @default(now())
+}
+
+// RSS Sources konfigurasjon
+model RssSource {
+  id          String   @id @default(cuid())
+  name        String
+  url         String
+  assetType   AssetType @default(OTHER)
+  isActive    Boolean  @default(true)
+  lastFetched DateTime?
+  fetchCount  Int      @default(0)
+}
+
+enum AssetType {
+  EQUITY
+  ETF
+  FUND
+  CRYPTO
+  MACRO
+  GEOPOLITICS
+  POLITICS
+  OTHER
+}
+
+enum QuizType {
+  MULTIPLE_CHOICE
+  MATCH_PAIRS
+  FIND_CONNECTION
+}

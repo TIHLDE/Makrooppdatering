@@ -1,0 +1,9 @@
+{
+  "/page": "app/page.js",
+  "/api/filters/route": "app/api/filters/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/api/news/route": "app/api/news/route.js",
+  "/quiz/page": "app/quiz/page.js",
+  "/api/quiz/route": "app/api/quiz/route.js",
+  "/api/quiz/generate/route": "app/api/quiz/generate/route.js"
+}
