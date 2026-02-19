@@ -57,7 +57,9 @@ function generateFilterHash(filters: any): string {
     sentiment: filters.sentiment || 'all',
     search: filters.search || '',
   };
-  return Buffer.from(JSON.stringify(normalized)).toString('base64').substring(0, 32);
+  const hash = Buffer.from(JSON.stringify(normalized)).toString('base64').substring(0, 32);
+  console.log(`[Cache] Generating hash for timeRange=${normalized.timeRange}, hash=${hash.substring(0, 8)}`);
+  return hash;
 }
 
 /**
@@ -71,6 +73,7 @@ export async function preprocessNewsFeed(
   const now = new Date();
 
   // Check cache first
+  console.log(`[Cache] Looking up hash: ${filterHash.substring(0, 8)} for timeRange=${filters.timeRange}`);
   const cached = await prisma.preprocessedCache.findFirst({
     where: {
       filterHash,
@@ -79,19 +82,21 @@ export async function preprocessNewsFeed(
   });
 
   if (cached) {
-    console.log(`[Cache] Using cached data for hash: ${filterHash.substring(0, 8)}...`);
+    console.log(`[Cache] HIT! Using cached data for hash: ${filterHash.substring(0, 8)}...`);
     return {
       ...JSON.parse(cached.data),
       fromCache: true,
     };
   }
+  
+  console.log(`[Cache] MISS! No cached data for hash: ${filterHash.substring(0, 8)}...`);
 
   console.log(`[Cache] Generating fresh data for hash: ${filterHash.substring(0, 8)}...`);
 
   // Calculate date range
   const dateTo = new Date();
   const dateFrom = new Date();
-  switch (filters.timeRange || '24h') {
+  switch ((filters.timeRange || '24h').toLowerCase()) {
     case '1h': dateFrom.setHours(dateFrom.getHours() - 1); break;
     case '6h': dateFrom.setHours(dateFrom.getHours() - 6); break;
     case '24h': dateFrom.setHours(dateFrom.getHours() - 24); break;
@@ -100,6 +105,8 @@ export async function preprocessNewsFeed(
     case '30d': dateFrom.setDate(dateFrom.getDate() - 30); break;
     default: dateFrom.setHours(dateFrom.getHours() - 24);
   }
+
+  console.log(`[Cache] TimeRange: ${filters.timeRange}, dateFrom: ${dateFrom.toISOString()}, dateTo: ${dateTo.toISOString()}`);
 
   // Build where clause
   const where: Prisma.NewsItemWhereInput = {
@@ -145,6 +152,11 @@ export async function preprocessNewsFeed(
     orderBy: { publishedAt: 'desc' },
     take: limit,
   });
+  
+  console.log(`[Cache] Fetched ${news.length} items from DB`);
+  if (news.length > 0) {
+    console.log(`[Cache] Date range: ${news[news.length-1].publishedAt} to ${news[0].publishedAt}`);
+  }
 
   // Calculate aggregated stats
   const stats = calculateAggregatedStats(news);

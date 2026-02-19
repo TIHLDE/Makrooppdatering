@@ -10,20 +10,20 @@ interface EmptyStateProps {
 export function EmptyState({ type, message }: EmptyStateProps) {
   if (type === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center py-16 border border-terminal-border">
-        <Loader2 className="w-8 h-8 animate-spin text-bloomberg-orange mb-4" />
-        <p className="text-sm font-mono text-terminal-muted">LOADING...</p>
+      <div className="flex flex-col items-center justify-center py-16 bg-[#0d1117] border border-[#30363d]">
+        <Loader2 className="w-8 h-8 animate-spin text-[#ff6b35] mb-4" />
+        <p className="text-white font-bold">LOADING...</p>
       </div>
     );
   }
 
   if (type === 'error') {
     return (
-      <div className="flex flex-col items-center justify-center py-16 border border-red-500/30 bg-red-500/5">
-        <AlertTriangle className="w-12 h-12 text-market-down mb-4" />
-        <p className="text-sm font-mono text-terminal-text mb-2">ERROR LOADING DATA</p>
+      <div className="flex flex-col items-center justify-center py-16 bg-red-900/20 border border-red-500">
+        <AlertTriangle className="w-12 h-12 text-red-500 mb-4" />
+        <p className="text-white font-bold mb-2">ERROR LOADING DATA</p>
         {message && (
-          <p className="text-xs font-mono text-terminal-muted max-w-md text-center px-4">
+          <p className="text-sm text-[#8b949e] max-w-md text-center px-4">
             {message}
           </p>
         )}
@@ -31,11 +31,11 @@ export function EmptyState({ type, message }: EmptyStateProps) {
     );
   }
 
-  // No data state - simple, neutral message
+  // No data state
   return (
-    <div className="flex flex-col items-center justify-center py-16 border border-terminal-border">
-      <p className="text-sm font-mono text-terminal-muted mb-2">NO DATA AVAILABLE</p>
-      <p className="text-xs font-mono text-terminal-muted">
+    <div className="flex flex-col items-center justify-center py-16 bg-[#0d1117] border border-[#30363d]">
+      <p className="text-white font-bold mb-2">NO DATA AVAILABLE</p>
+      <p className="text-sm text-[#8b949e]">
         Data will appear when RSS sources are updated
       </p>
     </div>

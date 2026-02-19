@@ -8,14 +8,11 @@ export async function GET(request: NextRequest) {
     
     // Parse query parameters
     const assetTypes = searchParams.getAll('assetType') as AssetType[];
-    const sectors = searchParams.getAll('sector');
-    const countries = searchParams.getAll('country');
     const sources = searchParams.getAll('source');
     const tickers = searchParams.getAll('ticker');
     const search = searchParams.get('search');
-    const timeRange = searchParams.get('timeRange') || '24h';
+    const timeRange = (searchParams.get('timeRange') || '24h').toLowerCase();
     const sentiment = searchParams.get('sentiment') || 'all';
-    const marketCap = searchParams.get('marketCap') || 'all';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '25');
     
@@ -24,26 +21,13 @@ export async function GET(request: NextRequest) {
     let dateFrom = new Date();
     
     switch (timeRange) {
-      case '1h':
-        dateFrom.setHours(now.getHours() - 1);
-        break;
-      case '6h':
-        dateFrom.setHours(now.getHours() - 6);
-        break;
-      case '24h':
-        dateFrom.setHours(now.getHours() - 24);
-        break;
-      case '3d':
-        dateFrom.setDate(now.getDate() - 3);
-        break;
-      case '7d':
-        dateFrom.setDate(now.getDate() - 7);
-        break;
-      case '30d':
-        dateFrom.setDate(now.getDate() - 30);
-        break;
-      default:
-        dateFrom.setHours(now.getHours() - 24);
+      case '1h': dateFrom.setHours(now.getHours() - 1); break;
+      case '6h': dateFrom.setHours(now.getHours() - 6); break;
+      case '24h': dateFrom.setHours(now.getHours() - 24); break;
+      case '3d': dateFrom.setDate(now.getDate() - 3); break;
+      case '7d': dateFrom.setDate(now.getDate() - 7); break;
+      case '30d': dateFrom.setDate(now.getDate() - 30); break;
+      default: dateFrom.setHours(now.getHours() - 24);
     }
     
     // Build where clause
@@ -61,6 +45,12 @@ export async function GET(request: NextRequest) {
     
     if (sources.length > 0) {
       where.source = { in: sources };
+    }
+    
+    if (tickers.length > 0) {
+      where.tickers = {
+        some: { symbol: { in: tickers } },
+      };
     }
     
     if (search) {
@@ -84,49 +74,15 @@ export async function GET(request: NextRequest) {
           break;
       }
     }
-
-    // Market cap filter (requires market data - stubbed for now)
-    if (marketCap && marketCap !== 'all') {
-      // This would join with MarketData table if available
-      // For now, we'll just log it
-      console.log('Market cap filter requested:', marketCap);
-    }
-    
-    // Handle relations
-    const include: any = {
-      tickers: true,
-      tags: true,
-    };
-    
-    if (sectors.length > 0) {
-      include.sectors = {
-        where: { name: { in: sectors } },
-      };
-      where.sectors = {
-        some: { name: { in: sectors } },
-      };
-    }
-    
-    if (countries.length > 0) {
-      include.countries = {
-        where: { code: { in: countries } },
-      };
-      where.countries = {
-        some: { code: { in: countries } },
-      };
-    }
-    
-    if (tickers.length > 0) {
-      where.tickers = {
-        some: { symbol: { in: tickers } },
-      };
-    }
     
     // Fetch news with pagination
     const [news, total] = await Promise.all([
       prisma.newsItem.findMany({
         where,
-        include,
+        include: {
+          tickers: true,
+          tags: true,
+        },
         orderBy: { publishedAt: 'desc' },
         skip: (page - 1) * limit,
         take: limit,

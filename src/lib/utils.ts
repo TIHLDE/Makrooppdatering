@@ -96,14 +96,17 @@ export function slugify(text: string): string {
 }
 
 export const ASSET_TYPE_LABELS: Record<string, string> = {
-  EQUITY: 'Aksje',
+  EQUITY: 'Stocks',
   ETF: 'ETF',
-  FUND: 'Fond',
-  CRYPTO: 'Krypto',
-  MACRO: 'Makroøkonomi',
-  GEOPOLITICS: 'Geopolitikk',
-  POLITICS: 'Politikk',
-  OTHER: 'Annet',
+  FUND: 'Funds',
+  ADR: 'ADR',
+  BOND: 'Bonds',
+  CRYPTO: 'Crypto',
+  COMMODITY: 'Commodities',
+  FOREX: 'Forex',
+  INDEX: 'Indices',
+  DERIVATIVE: 'Derivatives',
+  OTHER: 'Other',
 };
 
 export const SECTOR_LABELS: Record<string, string> = {

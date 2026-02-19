@@ -28,22 +28,73 @@ async function main() {
     });
   }
 
-  // 2. Seed countries
+  // 2. Seed countries - all regions
   const countries = [
+    // North America
     { code: 'US', name: 'United States' },
+    { code: 'CA', name: 'Canada' },
+    { code: 'MX', name: 'Mexico' },
+    
+    // Europe
+    { code: 'GB', name: 'United Kingdom' },
+    { code: 'DE', name: 'Germany' },
+    { code: 'FR', name: 'France' },
+    { code: 'NL', name: 'Netherlands' },
+    { code: 'CH', name: 'Switzerland' },
+    { code: 'ES', name: 'Spain' },
+    { code: 'IT', name: 'Italy' },
+    { code: 'AT', name: 'Austria' },
+    { code: 'BE', name: 'Belgium' },
+    { code: 'IE', name: 'Ireland' },
+    { code: 'PT', name: 'Portugal' },
+    
+    // Nordics
     { code: 'NO', name: 'Norway' },
     { code: 'SE', name: 'Sweden' },
     { code: 'DK', name: 'Denmark' },
-    { code: 'DE', name: 'Germany' },
-    { code: 'GB', name: 'United Kingdom' },
+    { code: 'FI', name: 'Finland' },
+    { code: 'IS', name: 'Iceland' },
+    
+    // Asia Pacific
     { code: 'CN', name: 'China' },
     { code: 'JP', name: 'Japan' },
-    { code: 'CA', name: 'Canada' },
-    { code: 'FR', name: 'France' },
-    { code: 'CH', name: 'Switzerland' },
-    { code: 'NL', name: 'Netherlands' },
+    { code: 'IN', name: 'India' },
     { code: 'AU', name: 'Australia' },
     { code: 'SG', name: 'Singapore' },
+    { code: 'HK', name: 'Hong Kong' },
+    { code: 'KR', name: 'South Korea' },
+    { code: 'TW', name: 'Taiwan' },
+    { code: 'ID', name: 'Indonesia' },
+    { code: 'MY', name: 'Malaysia' },
+    { code: 'TH', name: 'Thailand' },
+    { code: 'VN', name: 'Vietnam' },
+    { code: 'NZ', name: 'New Zealand' },
+    
+    // Middle East
+    { code: 'AE', name: 'UAE' },
+    { code: 'SA', name: 'Saudi Arabia' },
+    { code: 'IL', name: 'Israel' },
+    { code: 'QA', name: 'Qatar' },
+    { code: 'KW', name: 'Kuwait' },
+    { code: 'TR', name: 'Turkey' },
+    
+    // Latin America
+    { code: 'BR', name: 'Brazil' },
+    { code: 'AR', name: 'Argentina' },
+    { code: 'CL', name: 'Chile' },
+    { code: 'CO', name: 'Colombia' },
+    { code: 'PE', name: 'Peru' },
+    { code: 'UY', name: 'Uruguay' },
+    { code: 'MX', name: 'Mexico' },
+    
+    // Africa
+    { code: 'ZA', name: 'South Africa' },
+    { code: 'NG', name: 'Nigeria' },
+    { code: 'EG', name: 'Egypt' },
+    { code: 'KE', name: 'Kenya' },
+    { code: 'MA', name: 'Morocco' },
+    
+    // Global/Other
     { code: 'GLOBAL', name: 'Global' },
   ];
 

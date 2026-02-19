@@ -1,12 +1,12 @@
 'use client';
 
+'use client';
+
 import { useState, useEffect, useCallback } from 'react';
-import { Navigation } from '@/components/Navigation';
-import { FilterPanel } from '@/components/FilterPanel';
-import { NewsCard } from '@/components/NewsCard';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { NewsItem, Ticker, Tag } from '@prisma/client';
-import { Loader2, Newspaper, AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react';
-import { EmptyState } from '@/components/EmptyState';
+import { Loader2, TrendingUp, TrendingDown, Home, Newspaper, BarChart3, Gamepad2 } from 'lucide-react';
 
 interface NewsWithRelations extends NewsItem {
   tickers: Ticker[];
@@ -16,257 +16,585 @@ interface NewsWithRelations extends NewsItem {
 interface Filters {
   assetTypes: string[];
   sectors: string[];
-  countries: string[];
-  sources: string[];
-  tickers: string[];
-  search: string;
+  regions: string[];
   timeRange: string;
+  sentiment: 'all' | 'positive' | 'negative' | 'neutral';
 }
 
-interface DashboardStats {
-  totalCount: number;
-  bySource: Record<string, number>;
-  sentimentDistribution: {
-    bullish: number;
-    bearish: number;
-    neutral: number;
-  };
-}
+// Bloomberg-style ticker data
+const TICKER_DATA = [
+  { symbol: 'SPX', name: 'S&P 500', price: 4783.35, change: -12.44, changePercent: -0.26 },
+  { symbol: 'NDX', name: 'NASDAQ 100', price: 16832.41, change: 45.23, changePercent: 0.27 },
+  { symbol: 'DJI', name: 'Dow Jones', price: 37468.61, change: -94.45, changePercent: -0.25 },
+  { symbol: 'RUT', name: 'Russell 2000', price: 1965.21, change: 8.92, changePercent: 0.46 },
+  { symbol: 'EUR', name: 'EUR/USD', price: 1.0845, change: 0.0023, changePercent: 0.21 },
+  { symbol: 'GBP', name: 'GBP/USD', price: 1.2654, change: -0.0012, changePercent: -0.09 },
+  { symbol: 'JPY', name: 'USD/JPY', price: 148.32, change: 0.45, changePercent: 0.30 },
+  { symbol: 'BTC', name: 'Bitcoin', price: 52134.00, change: 1240.00, changePercent: 2.44 },
+  { symbol: 'ETH', name: 'Ethereum', price: 2897.45, change: 45.50, changePercent: 1.60 },
+  { symbol: 'XAU', name: 'Gold', price: 2034.20, change: 12.40, changePercent: 0.61 },
+  { symbol: 'OIL', name: 'WTI Crude', price: 78.45, change: -0.82, changePercent: -1.04 },
+  { symbol: 'NAT', name: 'Natural Gas', price: 2.89, change: -0.05, changePercent: -1.70 },
+  { symbol: 'AAPL', name: 'Apple', price: 195.89, change: -2.15, changePercent: -1.09 },
+  { symbol: 'MSFT', name: 'Microsoft', price: 412.34, change: 5.67, changePercent: 1.39 },
+  { symbol: 'NVDA', name: 'NVIDIA', price: 721.45, change: 23.12, changePercent: 3.31 },
+  { symbol: 'TSLA', name: 'Tesla', price: 248.42, change: -8.23, changePercent: -3.21 },
+  { symbol: 'AMZN', name: 'Amazon', price: 178.23, change: 2.45, changePercent: 1.39 },
+  { symbol: 'GOOGL', name: 'Alphabet', price: 142.65, change: 1.23, changePercent: 0.87 },
+  { symbol: 'OBX', name: 'OBX Index', price: 1324.56, change: 12.34, changePercent: 0.94 },
+  { symbol: 'EQNR', name: 'Equinor', price: 285.40, change: 3.20, changePercent: 1.13 },
+];
 
 export default function DashboardPage() {
   const [news, setNews] = useState<NewsWithRelations[]>([]);
+  const [filteredNews, setFilteredNews] = useState<NewsWithRelations[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [totalCount, setTotalCount] = useState(0);
-  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [activeTab, setActiveTab] = useState('NEWS');
+  const [commandInput, setCommandInput] = useState('');
+  const [showHelp, setShowHelp] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     assetTypes: [],
     sectors: [],
-    countries: [],
-    sources: [],
-    tickers: [],
-    search: '',
-    timeRange: '24h',
+    regions: [],
+    timeRange: '24H',
+    sentiment: 'all',
   });
 
-  const fetchNews = useCallback(async (pageNum: number, append: boolean = false) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams();
-      params.set('page', pageNum.toString());
-      params.set('limit', '25');
-      params.set('timeRange', filters.timeRange);
-      
-      filters.assetTypes.forEach(t => params.append('assetType', t));
-      filters.sectors.forEach(s => params.append('sector', s));
-      filters.countries.forEach(c => params.append('country', c));
-      filters.sources.forEach(s => params.append('source', s));
-      filters.tickers.forEach(t => params.append('ticker', t));
-      
-      if (filters.search) params.set('search', filters.search);
+  useEffect(() => {
+    fetchNews();
+  }, [filters.timeRange]);
 
-      const res = await fetch(`/api/news?${params}`);
-      if (!res.ok) throw new Error('Failed to fetch news');
-      
-      const data = await res.json();
-      if (append) {
-        setNews(prev => [...prev, ...data.news]);
-      } else {
+  // Apply filters to news
+  useEffect(() => {
+    let filtered = [...news];
+    
+    // Search filter
+    if (commandInput && !commandInput.startsWith('/')) {
+      const search = commandInput.toLowerCase();
+      filtered = filtered.filter(item => 
+        item.title.toLowerCase().includes(search) ||
+        item.summary?.toLowerCase().includes(search) ||
+        item.source.toLowerCase().includes(search) ||
+        item.tickers.some(t => t.symbol.toLowerCase().includes(search))
+      );
+    }
+    
+    // Asset type filter
+    if (filters.assetTypes.length > 0) {
+      filtered = filtered.filter(item => filters.assetTypes.includes(item.assetType));
+    }
+    
+    // Sector filter - check if news has tickers in that sector
+    if (filters.sectors.length > 0) {
+      filtered = filtered.filter(item => {
+        // This is simplified - ideally we'd check ticker sectors
+        // For now, filter based on keywords in title/summary
+        return filters.sectors.some(sector => {
+          const sectorKeywords: Record<string, string[]> = {
+            'Technology': ['tech', 'software', 'ai', 'apple', 'microsoft', 'google', 'nvidia'],
+            'Healthcare': ['pharma', 'health', 'medical', 'drug', 'vaccine'],
+            'Finance': ['bank', 'financial', 'credit', 'loan', 'jpmorgan', 'goldman'],
+            'Energy': ['oil', 'gas', 'energy', 'renewable', 'equinor', 'shell'],
+            'Consumer': ['retail', 'consumer', 'walmart', 'amazon', 'shopping'],
+            'Industrial': ['manufacturing', 'industrial', 'aerospace', 'boeing'],
+          };
+          const keywords = sectorKeywords[sector] || [];
+          const text = (item.title + ' ' + (item.summary || '')).toLowerCase();
+          return keywords.some(kw => text.includes(kw.toLowerCase()));
+        });
+      });
+    }
+    
+    // Region filter - check source or content
+    if (filters.regions.length > 0) {
+      filtered = filtered.filter(item => {
+        const regionKeywords: Record<string, string[]> = {
+          'North America': ['us', 'usa', 'american', 'fed', 'nasdaq', 'nyse', 'wall street'],
+          'Europe': ['europe', 'european', 'ecb', 'euro', 'germany', 'france', 'uk'],
+          'Asia Pacific': ['china', 'japan', 'asia', 'hong kong', 'singapore', 'australia'],
+          'Nordics': ['norway', 'sweden', 'denmark', 'finland', 'norsk', 'nordic', 'equinor'],
+          'Latin America': ['brazil', 'mexico', 'argentina', 'latin america'],
+        };
+        return filters.regions.some(region => {
+          const keywords = regionKeywords[region] || [];
+          const text = (item.title + ' ' + (item.summary || '') + ' ' + item.source).toLowerCase();
+          return keywords.some(kw => text.includes(kw.toLowerCase()));
+        });
+      });
+    }
+    
+    // Sentiment filter
+    if (filters.sentiment !== 'all') {
+      filtered = filtered.filter(item => {
+        if (filters.sentiment === 'positive') return (item.sentiment || 0) > 0.2;
+        if (filters.sentiment === 'negative') return (item.sentiment || 0) < -0.2;
+        return Math.abs(item.sentiment || 0) <= 0.2;
+      });
+    }
+    
+    setFilteredNews(filtered);
+  }, [news, filters, commandInput]);
+
+  const fetchNews = async () => {
+    setLoading(true);
+    try {
+      const timeRangeMap: Record<string, string> = {
+        '1H': '1h',
+        '6H': '6h',
+        '24H': '24h',
+        '3D': '3d',
+        '7D': '7d',
+        '30D': '30d',
+      };
+      const timeParam = timeRangeMap[filters.timeRange] || '24h';
+      const res = await fetch(`/api/news?limit=50&timeRange=${timeParam}`);
+      if (res.ok) {
+        const data = await res.json();
         setNews(data.news);
       }
-      setHasMore(data.pagination.page < data.pagination.totalPages);
-      setTotalCount(data.pagination.total);
-
-      // Calculate stats from current data
-      const bySource: Record<string, number> = {};
-      let bullish = 0, bearish = 0, neutral = 0;
-      
-      data.news.forEach((item: NewsWithRelations) => {
-        bySource[item.source] = (bySource[item.source] || 0) + 1;
-        
-        if (item.sentiment !== null) {
-          if (item.sentiment > 0.2) bullish++;
-          else if (item.sentiment < -0.2) bearish++;
-          else neutral++;
-        } else {
-          neutral++;
-        }
-      });
-      
-      setStats({
-        totalCount: data.pagination.total,
-        bySource,
-        sentimentDistribution: { bullish, bearish, neutral },
-      });
     } catch (error) {
-      console.error('Failed to fetch news:', error);
-      setError('Failed to load news. Please try again.');
+      console.error('Failed to fetch:', error);
     } finally {
       setLoading(false);
     }
-  }, [filters]);
-
-  useEffect(() => {
-    fetchNews(1, false);
-    setPage(1);
-  }, [filters, fetchNews]);
-
-  const loadMore = () => {
-    const nextPage = page + 1;
-    fetchNews(nextPage, true);
-    setPage(nextPage);
   };
 
-  const handleFilterChange = (newFilters: Filters) => {
-    setFilters(newFilters);
+  const formatTime = (date: string | Date) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const hours = dateObj.getHours().toString().padStart(2, '0');
+    const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
   };
 
-  const topSources = stats?.bySource 
-    ? Object.entries(stats.bySource)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
-    : [];
+  const getSentimentColor = (sentiment: number | null) => {
+    if (sentiment === null) return 'text-[#888]';
+    if (sentiment > 0.2) return 'text-[#0f0]';
+    if (sentiment < -0.2) return 'text-[#f00]';
+    return 'text-[#888]';
+  };
 
   return (
-    <>
-      <Navigation />
-      
-      <div className="flex h-[calc(100vh-5rem)]">
-        {/* Filters - Fixed/Sticky */}
-        <aside className="hidden lg:block w-64 flex-shrink-0 border-r border-terminal-border h-full">
-          <div className="h-full overflow-y-auto p-4">
-            <FilterPanel onFilterChange={handleFilterChange} />
-          </div>
-        </aside>
+    <div className="h-screen flex flex-col bg-black text-white font-mono text-sm overflow-hidden">
+      {/* TICKER TAPE */}
+      <div className="bg-[#111] border-b border-[#333] h-8 flex items-center overflow-hidden whitespace-nowrap">
+        <div className="flex animate-marquee">
+          {[...TICKER_DATA, ...TICKER_DATA].map((ticker, i) => (
+            <div key={i} className="flex items-center px-4 border-r border-[#333]">
+              <span className="font-bold mr-2">{ticker.symbol}</span>
+              <span className="mr-2">{ticker.price.toFixed(2)}</span>
+              <span className={ticker.change >= 0 ? 'text-[#0f0]' : 'text-[#f00]'}>
+                {ticker.change >= 0 ? '+' : ''}{ticker.change.toFixed(2)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {/* News Feed - Scrollable */}
-        <main className="flex-1 overflow-y-auto h-full">
-          {/* Header */}
-          <div className="sticky top-0 z-10 bg-terminal-bg/95 backdrop-blur border-b border-terminal-border px-4 py-3">
-            <div className="flex items-center gap-3">
-              <Newspaper className="w-4 h-4 text-bloomberg-orange" />
-              <div>
-                <h1 className="text-sm font-mono font-semibold text-terminal-text">NEWS FEED</h1>
-                <p className="text-2xs font-mono text-terminal-muted">
-                  {totalCount.toLocaleString()} ITEMS
-                </p>
+      {/* MENU BAR */}
+      <div className="bg-[#161b22] border-b border-[#333] h-10 flex items-center px-2">
+        <div className="flex items-center gap-1">
+          {[
+            { tab: 'DASHBOARD', href: '/dashboard', icon: Newspaper },
+            { tab: 'SUMMARY', href: '/summary', icon: BarChart3 },
+            { tab: 'QUIZ', href: '/quiz', icon: Gamepad2 },
+          ].map(({ tab, href, icon: Icon }) => (
+            <Link
+              key={tab}
+              href={href}
+              className={`flex items-center gap-1 px-4 py-1 text-xs font-bold ${
+                activeTab === tab 
+                  ? 'bg-[#ff6b35] text-black' 
+                  : 'text-[#888] hover:text-white hover:bg-[#333]'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {tab}
+            </Link>
+          ))}
+        </div>
+        <div className="ml-auto flex items-center gap-4 text-xs text-[#888]">
+          <span>USD/NOK: 10.52</span>
+          <span>EUR/USD: 1.08</span>
+          <span className="text-[#0f0]">● LIVE</span>
+        </div>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex overflow-hidden">
+        
+        {/* LEFT PANEL - FILTERS */}
+        <div className="w-64 bg-[#0a0a0a] border-r border-[#333] flex flex-col">
+          <div className="bg-[#ff6b35] text-black px-3 py-1 font-bold text-xs">
+            FILTERS
+          </div>
+          <div className="flex-1 overflow-y-auto p-2">
+            {/* Time Range */}
+            <div className="mb-4">
+              <div className="text-[#ff6b35] text-xs font-bold mb-1">TIME RANGE</div>
+              <div className="grid grid-cols-3 gap-1">
+                {['1H', '6H', '24H', '3D', '7D', '30D'].map((time) => (
+                  <button
+                    key={time}
+                    onClick={() => setFilters({ ...filters, timeRange: time })}
+                    className={`px-2 py-1 text-xs ${
+                      filters.timeRange === time
+                        ? 'bg-[#ff6b35] text-black font-bold'
+                        : 'bg-[#222] text-[#888] hover:text-white'
+                    }`}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Asset Types */}
+            <div className="mb-4">
+              <div className="text-[#ff6b35] text-xs font-bold mb-1">ASSET TYPE</div>
+              <div className="space-y-1">
+                {['EQUITY', 'ETF', 'CRYPTO', 'FOREX', 'COMMODITY'].map((type) => (
+                  <label key={type} className="flex items-center gap-2 cursor-pointer hover:bg-[#222] p-1">
+                    <input
+                      type="checkbox"
+                      checked={filters.assetTypes.includes(type)}
+                      onChange={(e) => {
+                        const newTypes = e.target.checked
+                          ? [...filters.assetTypes, type]
+                          : filters.assetTypes.filter(t => t !== type);
+                        setFilters({ ...filters, assetTypes: newTypes });
+                      }}
+                      className="w-3 h-3 accent-[#ff6b35]"
+                    />
+                    <span className="text-xs text-[#ccc]">{type}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Sectors */}
+            <div className="mb-4">
+              <div className="text-[#ff6b35] text-xs font-bold mb-1">SECTOR</div>
+              <div className="space-y-1">
+                {['Technology', 'Healthcare', 'Finance', 'Energy', 'Consumer', 'Industrial'].map((sector) => (
+                  <label key={sector} className="flex items-center gap-2 cursor-pointer hover:bg-[#222] p-1">
+                    <input
+                      type="checkbox"
+                      checked={filters.sectors.includes(sector)}
+                      onChange={(e) => {
+                        const newSectors = e.target.checked
+                          ? [...filters.sectors, sector]
+                          : filters.sectors.filter(s => s !== sector);
+                        setFilters({ ...filters, sectors: newSectors });
+                      }}
+                      className="w-3 h-3 accent-[#ff6b35]"
+                    />
+                    <span className="text-xs text-[#ccc]">{sector}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Regions */}
+            <div className="mb-4">
+              <div className="text-[#ff6b35] text-xs font-bold mb-1">REGION</div>
+              <div className="space-y-1">
+                {['North America', 'Europe', 'Asia Pacific', 'Nordics', 'Latin America'].map((region) => (
+                  <label key={region} className="flex items-center gap-2 cursor-pointer hover:bg-[#222] p-1">
+                    <input
+                      type="checkbox"
+                      checked={filters.regions.includes(region)}
+                      onChange={(e) => {
+                        const newRegions = e.target.checked
+                          ? [...filters.regions, region]
+                          : filters.regions.filter(r => r !== region);
+                        setFilters({ ...filters, regions: newRegions });
+                      }}
+                      className="w-3 h-3 accent-[#ff6b35]"
+                    />
+                    <span className="text-xs text-[#ccc]">{region}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Sentiment */}
+            <div className="mb-4">
+              <div className="text-[#ff6b35] text-xs font-bold mb-1">SENTIMENT</div>
+              <div className="space-y-1">
+                {[
+                  { val: 'all', label: 'ALL' },
+                  { val: 'positive', label: 'BULLISH', color: '#0f0' },
+                  { val: 'negative', label: 'BEARISH', color: '#f00' },
+                ].map((opt) => (
+                  <button
+                    key={opt.val}
+                    onClick={() => setFilters({ ...filters, sentiment: opt.val as any })}
+                    className={`w-full text-left px-2 py-1 text-xs ${
+                      filters.sentiment === opt.val
+                        ? 'bg-[#ff6b35] text-black font-bold'
+                        : 'text-[#888] hover:text-white'
+                    }`}
+                  >
+                    <span style={{ color: opt.color }}>{opt.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Mobile Filters */}
-          <div className="lg:hidden px-4 py-2 border-b border-terminal-border">
-            <FilterPanel onFilterChange={handleFilterChange} />
+        {/* CENTER PANEL - NEWS */}
+        <div className="flex-1 bg-black flex flex-col min-w-0">
+          <div className="bg-[#161b22] border-b border-[#333] px-3 py-2 flex items-center justify-between">
+            <div className="text-[#ff6b35] font-bold">NEWS FEED</div>
+            <div className="text-xs text-[#888]">{filteredNews.length} / {news.length} ITEMS</div>
           </div>
-
-          {/* Error */}
-          {error && (
-            <div className="mx-4 mt-4 p-4 bg-red-500/10 border border-red-500/30">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-market-down" />
-                <span className="text-sm font-mono text-terminal-text">{error}</span>
+          
+          <div className="flex-1 overflow-y-auto">
+            {loading ? (
+              <div className="flex items-center justify-center h-full">
+                <Loader2 className="w-8 h-8 animate-spin text-[#ff6b35]" />
               </div>
-            </div>
-          )}
-
-          {/* News */}
-          <div className="p-4">
-            <div className="grid gap-2">
-              {news.map((item) => (
-                <NewsCard key={item.id} news={item} />
-              ))}
-            </div>
-
-            {loading && (
-              <div className="flex justify-center py-8">
-                <Loader2 className="w-6 h-6 animate-spin text-bloomberg-orange" />
-              </div>
-            )}
-
-            {!loading && hasMore && news.length > 0 && (
-              <div className="flex justify-center py-6">
-                <button
-                  onClick={loadMore}
-                  className="px-6 py-2 bg-bloomberg-orange text-white text-xs font-mono hover:bg-bloomberg-orange-light transition-colors"
-                >
-                  LOAD MORE
-                </button>
-              </div>
-            )}
-
-            {!loading && news.length === 0 && !error && (
-              <EmptyState type="no-data" />
-            )}
-          </div>
-        </main>
-
-        {/* Stats Sidebar - Fixed/Sticky */}
-        <aside className="hidden xl:block w-72 flex-shrink-0 border-l border-terminal-border h-full">
-          <div className="h-full overflow-y-auto p-4">
-            <h3 className="text-xs font-mono font-semibold text-terminal-text mb-3 pb-2 border-b border-terminal-border">
-              MARKET OVERVIEW
-            </h3>
-            
-            {stats && stats.totalCount > 0 ? (
-              <div className="space-y-3">
-                <div className="bg-terminal-card border border-terminal-border p-3">
-                  <div className="text-2xs font-mono text-terminal-muted mb-1">TOTAL NEWS</div>
-                  <div className="text-lg font-mono font-bold text-terminal-text">
-                    {stats.totalCount.toLocaleString()}
-                  </div>
-                </div>
-
-                <div className="bg-terminal-card border border-terminal-border p-3">
-                  <div className="text-2xs font-mono text-terminal-muted mb-2">SENTIMENT</div>
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-2xs font-mono">
-                      <span className="flex items-center gap-1 text-market-up">
-                        <TrendingUp className="w-3 h-3" />
-                        BULLISH
-                      </span>
-                      <span>{stats.sentimentDistribution.bullish}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-2xs font-mono">
-                      <span className="flex items-center gap-1 text-market-down">
-                        <TrendingDown className="w-3 h-3" />
-                        BEARISH
-                      </span>
-                      <span>{stats.sentimentDistribution.bearish}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-2xs font-mono">
-                      <span className="text-terminal-muted">NEUTRAL</span>
-                      <span>{stats.sentimentDistribution.neutral}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {topSources.length > 0 && (
-                  <div className="pt-4 border-t border-terminal-border">
-                    <h4 className="text-2xs font-mono font-semibold text-terminal-text mb-2">
-                      TOP SOURCES
-                    </h4>
-                    <div className="space-y-1.5">
-                      {topSources.map(([source, count], idx) => (
-                        <div key={source} className="flex items-center justify-between text-2xs font-mono">
-                          <span className="text-terminal-muted">{idx + 1}. {source}</span>
-                          <span className="text-bloomberg-orange">{count}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+            ) : filteredNews.length === 0 ? (
+              <div className="flex items-center justify-center h-full text-[#666]">
+                No matching items found
               </div>
             ) : (
-              <p className="text-2xs font-mono text-terminal-muted">
-                No data available
-              </p>
+              <div className="divide-y divide-[#222]">
+                {filteredNews.map((item, idx) => (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block p-3 hover:bg-[#111] transition-colors border-l-2 border-transparent hover:border-[#ff6b35]"
+                  >
+                    <div className="flex items-start justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[#ff6b35] font-bold text-xs">{item.source}</span>
+                        <span className="text-[#666] text-xs">{formatTime(item.publishedAt)}</span>
+                      </div>
+                      <span className={getSentimentColor(item.sentiment)}>
+                        {item.sentiment && item.sentiment > 0 ? '+' : ''}
+                        {item.sentiment?.toFixed(2) || '0.00'}
+                      </span>
+                    </div>
+                    <div className="font-bold text-sm text-white mb-1 leading-tight">
+                      {item.title}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs bg-[#222] text-[#888] px-1">{item.assetType}</span>
+                      {item.tickers.slice(0, 2).map(t => (
+                        <span key={t.id} className="text-xs text-[#ff6b35]">{t.symbol}</span>
+                      ))}
+                    </div>
+                  </a>
+                ))}
+              </div>
             )}
           </div>
-        </aside>
+        </div>
+
+        {/* RIGHT PANEL - STATS */}
+        <div className="w-72 bg-[#0a0a0a] border-l border-[#333] flex flex-col">
+          <div className="bg-[#ff6b35] text-black px-3 py-1 font-bold text-xs">
+            MARKET OVERVIEW
+          </div>
+          <div className="flex-1 overflow-y-auto p-3">
+            {/* Total News */}
+            <div className="bg-[#111] border border-[#333] p-3 mb-3">
+              <div className="text-[#666] text-xs mb-1">FILTERED / TOTAL</div>
+              <div className="text-2xl font-bold text-white">
+                {filteredNews.length} <span className="text-lg text-[#666]">/ {news.length}</span>
+              </div>
+            </div>
+
+            {/* Sentiment */}
+            <div className="bg-[#111] border border-[#333] p-3 mb-3">
+              <div className="text-[#666] text-xs mb-2">SENTIMENT (FILTERED)</div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-[#0f0] flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3" /> BULLISH
+                  </span>
+                  <span className="text-white font-bold">
+                    {filteredNews.filter(n => (n.sentiment || 0) > 0).length}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-[#f00] flex items-center gap-1">
+                    <TrendingDown className="w-3 h-3" /> BEARISH
+                  </span>
+                  <span className="text-white font-bold">
+                    {filteredNews.filter(n => (n.sentiment || 0) < 0).length}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-[#888]">NEUTRAL</span>
+                  <span className="text-white">
+                    {news.filter(n => (n.sentiment || 0) === 0).length}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Top Sources */}
+            <div className="bg-[#111] border border-[#333] p-3">
+              <div className="text-[#666] text-xs mb-2">TOP SOURCES</div>
+              <div className="space-y-1">
+                {Object.entries(
+                  news.reduce((acc, item) => {
+                    acc[item.source] = (acc[item.source] || 0) + 1;
+                    return acc;
+                  }, {} as Record<string, number>)
+                )
+                  .sort((a, b) => b[1] - a[1])
+                  .slice(0, 5)
+                  .map(([source, count], idx) => (
+                    <div key={source} className="flex justify-between text-xs">
+                      <span className="text-[#888]">{idx + 1}. {source}</span>
+                      <span className="text-[#ff6b35] font-bold">{count}</span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </>
+
+      {/* COMMAND LINE */}
+      <div className="bg-[#161b22] border-t border-[#333] flex flex-col">
+        {/* AUTOCOMPLETE SUGGESTIONS */}
+        {commandInput.startsWith('/') && commandInput.length > 0 && (
+          <div className="bg-[#0a0a0a] border-b border-[#333] px-3 py-1">
+            <div className="flex items-center gap-4 text-xs overflow-x-auto">
+              <span className="text-[#666]">SUGGESTIONS:</span>
+              {[
+                { cmd: '/help', desc: 'Show help' },
+                { cmd: '/clear', desc: 'Clear filters' },
+                { cmd: '/bullish', desc: 'Bullish news' },
+                { cmd: '/bearish', desc: 'Bearish news' },
+                { cmd: '/crypto', desc: 'Crypto only' },
+                { cmd: '/stocks', desc: 'Stocks only' },
+              ]
+                .filter(s => s.cmd.startsWith(commandInput.toLowerCase()))
+                .map((suggestion) => (
+                  <button
+                    key={suggestion.cmd}
+                    onClick={() => {
+                      setCommandInput(suggestion.cmd);
+                      // Auto-execute on click
+                      const cmd = suggestion.cmd.slice(1);
+                      if (cmd === 'help' || cmd === 'h') {
+                        setShowHelp(true);
+                      } else if (cmd === 'clear' || cmd === 'c') {
+                        setCommandInput('');
+                        setFilters({ assetTypes: [], sectors: [], regions: [], timeRange: '24H', sentiment: 'all' });
+                      } else if (cmd === 'bullish' || cmd === 'b') {
+                        setFilters({ ...filters, sentiment: 'positive' });
+                      } else if (cmd === 'bearish' || cmd === 'be') {
+                        setFilters({ ...filters, sentiment: 'negative' });
+                      } else if (cmd === 'crypto') {
+                        setFilters({ ...filters, assetTypes: ['CRYPTO'] });
+                      } else if (cmd === 'stocks' || cmd === 's') {
+                        setFilters({ ...filters, assetTypes: ['EQUITY'] });
+                      }
+                    }}
+                    className="flex items-center gap-1 text-[#ccc] hover:text-[#ff6b35] whitespace-nowrap"
+                  >
+                    <span className="text-[#ff6b35] font-bold">{suggestion.cmd}</span>
+                    <span className="text-[#666]">- {suggestion.desc}</span>
+                  </button>
+                ))}
+            </div>
+          </div>
+        )}
+        
+        <div className="h-8 flex items-center px-3">
+          <span className="text-[#ff6b35] font-bold mr-2">{`>`}</span>
+          <input
+            type="text"
+            value={commandInput}
+            onChange={(e) => setCommandInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                // Execute command or search
+                if (commandInput.startsWith('/')) {
+                  const cmd = commandInput.slice(1).toLowerCase();
+                  if (cmd === 'help' || cmd === 'h') {
+                    setShowHelp(true);
+                  } else if (cmd === 'clear' || cmd === 'c') {
+                    setCommandInput('');
+                    setFilters({ assetTypes: [], sectors: [], regions: [], timeRange: '24H', sentiment: 'all' });
+                  } else if (cmd === 'bullish' || cmd === 'b') {
+                    setFilters({ ...filters, sentiment: 'positive' });
+                  } else if (cmd === 'bearish' || cmd === 'be') {
+                    setFilters({ ...filters, sentiment: 'negative' });
+                  } else if (cmd === 'crypto') {
+                    setFilters({ ...filters, assetTypes: ['CRYPTO'] });
+                  } else if (cmd === 'stocks' || cmd === 's') {
+                    setFilters({ ...filters, assetTypes: ['EQUITY'] });
+                  }
+                }
+              } else if (e.key === 'F1') {
+                e.preventDefault();
+                setShowHelp(true);
+              } else if (e.key === 'Escape') {
+                setShowHelp(false);
+              }
+            }}
+            placeholder="Type / for commands or search..."
+            className="bg-transparent text-white flex-1 outline-none text-sm"
+            autoFocus
+          />
+          <span className="text-[#666] text-xs">F1=Help ESC=Close</span>
+        </div>
+      </div>
+
+      {/* HELP MODAL */}
+      {showHelp && (
+        <div className="absolute bottom-16 left-4 right-4 bg-[#161b22] border-2 border-[#ff6b35] p-4 z-50 max-w-2xl">
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-[#ff6b35] font-bold">COMMAND HELP</span>
+            <button onClick={() => setShowHelp(false)} className="text-[#666] hover:text-white">[X]</button>
+          </div>
+          <div className="grid grid-cols-2 gap-4 text-xs">
+            <div>
+              <div className="text-[#ff6b35] font-bold mb-2">COMMANDS:</div>
+              <div className="text-[#ccc] space-y-1">
+                <div>/help or /h - Show this help</div>
+                <div>/clear or /c - Clear all filters</div>
+                <div>/bullish or /b - Show bullish news</div>
+                <div>/bearish or /be - Show bearish news</div>
+                <div>/crypto - Show crypto news</div>
+                <div>/stocks or /s - Show stock news</div>
+              </div>
+            </div>
+            <div>
+              <div className="text-[#ff6b35] font-bold mb-2">HOTKEYS:</div>
+              <div className="text-[#ccc] space-y-1">
+                <div>F1 - Show help</div>
+                <div>ESC - Close help</div>
+                <div>Enter - Execute command</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* STATUS BAR */}
+      <div className="bg-[#0a0a0a] border-t border-[#333] h-6 flex items-center justify-between px-3 text-xs">
+        <div className="flex items-center gap-4 text-[#666]">
+          <span>MAPRO TERMINAL v1.0</span>
+          <span className="text-[#0f0]">● CONNECTED</span>
+        </div>
+        <div className="text-[#666]">
+          {(() => {
+            const now = new Date();
+            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+          })()}
+        </div>
+      </div>
+    </div>
   );
 }

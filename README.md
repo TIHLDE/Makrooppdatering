@@ -1,20 +1,4 @@
 # Makro Oppdatering
-
-En webapp som samler finansnyheter (aksjer, fond/ETF, krypto, makroøkonomi, geopolitikk) og presenterer dem med kraftige filtre og en quiz-modul for læring.
-
-## Arkitekturvalg
-
-### Database: Supabase (eller Neon)
-- **Begrunnelse**: Supabase har god gratis-tier, enkel Prisma-integrasjon, og godt UI for datahåndtering
-- Alternative: Neon for serverless Postgres med bedre cold-start ytelse
-
-### Cron: Vercel Cron
-- **Begrunnelse**: Integrert med Vercel deployment, enklere enn GitHub Actions, god for MVP
-- Limit: Maks 2 cron jobs på hobby-plan
-
-### Auth: Stubbet for MVP
-- **Begrunnelse**: Reduserer kompleksitet. Kan enkelt legges til senere med NextAuth.js
-
 ## Hurtigstart (Lokal utvikling)
 
 ### 1. Installasjon
@@ -96,39 +80,6 @@ npm run test:run
 npm run test
 ```
 
-## Prosjektstruktur
 
-```
-├── prisma/
-│   ├── schema.prisma      # Database skjema
-│   └── seed.ts            # Testdata
-├── src/
-│   ├── app/               # Next.js App Router
-│   │   ├── page.tsx       # Landingsside
-│   │   ├── dashboard/     # Nyhetsfeed med filtre
-│   │   ├── summary/       # Makro oppsummering
-│   │   └── quiz/          # Quiz-modul
-│   ├── components/        # React komponenter
-│   ├── lib/               # Hjelpefunksjoner, Prisma client
-│   ├── ingest/            # RSS ingestion & enrichment
-│   ├── quiz/              # Quiz generering
-│   └── scripts/           # CLI scripts (ingest)
-├── tests/                 # Unit tester
-└── vercel.json            # Cron konfigurasjon
-```
-
-## TODO / Roadmap v2
-
-- [ ] **Ekte scraping**: Legg til støtte for nettside-scraping med Playwright/Puppeteer
-- [ ] **Embeddings/Semantic search**: Integrer OpenAI embeddings for bedre søk
-- [ ] **Sentiment analysis**: Automatisk sentiment-score på nyheter
-- [ ] **Watchlists**: Bruker kan lagre favoritt-aksjer/fond
-- [ ] **Notifications**: Push-varsler for viktige nyheter
-- [ ] **Auth**: Full NextAuth.js integrasjon med brukerprofiler
-- [ ] **Real-time data**: WebSocket for live prisoppdateringer
-- [ ] **AI-genererte quizer**: GPT-basert quiz-generering fra nyheter
-- [ ] **Embeddable widgets**: Tillat andre å embedde feed på sine sider
-
-## Lisens
 
 MIT
