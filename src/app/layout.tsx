@@ -13,7 +13,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Makro | Terminal',
+  title: 'MakroOppdatering',
   description: 'Bloomberg-style financial news terminal with AI sentiment analysis',
 };
 

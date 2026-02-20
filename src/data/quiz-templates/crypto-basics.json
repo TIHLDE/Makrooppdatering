@@ -1,0 +1,44 @@
+{
+  "id": "template-crypto-basics",
+  "title": "Krypto Grunnleggende",
+  "description": "Grunnleggende spørsmål om kryptovaluta og blockchain",
+  "type": "MULTIPLE_CHOICE",
+  "assetTypes": ["CRYPTO"],
+  "questions": [
+    {
+      "id": "c1",
+      "question": "Hvem skapte Bitcoin?",
+      "options": ["Vitalik Buterin", "Satoshi Nakamoto", "Elon Musk", "Charlie Lee"],
+      "correct": 1,
+      "order": 1
+    },
+    {
+      "id": "c2",
+      "question": "Hva er maksimalt antall Bitcoin som kan eksistere?",
+      "options": ["10 millioner", "21 millioner", "100 millioner", "Uendelig"],
+      "correct": 1,
+      "order": 2
+    },
+    {
+      "id": "c3",
+      "question": "Hvilken konsensusmekanisme bruker Ethereum etter The Merge?",
+      "options": ["Proof of Work", "Proof of Stake", "Proof of Authority", "Delegated PoS"],
+      "correct": 1,
+      "order": 3
+    },
+    {
+      "id": "c4",
+      "question": "Hva er gas fees i Ethereum?",
+      "options": ["Bensin til mining", "Transaksjonsgebyrer", "Lagringskostnader", "Validator-lønn"],
+      "correct": 1,
+      "order": 4
+    },
+    {
+      "id": "c5",
+      "question": "Hva er en smart kontrakt?",
+      "options": ["En juridisk avtale", "Selvutførende kode på blockchain", "En bankoverføring", "En krypto-lommebok"],
+      "correct": 1,
+      "order": 5
+    }
+  ]
+}

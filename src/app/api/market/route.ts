@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchStockQuote, fetchMultipleCryptoPrices } from '@/lib/market-data';
+import { fetchCryptoPrices } from '@/lib/market-data';
 
 // Cache prices for 5 minutes
 const CACHE_DURATION = 5 * 60 * 1000;
-let cachedData: any = null;
+let cachedData: { quotes: Array<{symbol: string; name?: string; price: number; change: number; changePercent: number}> } | null = null;
 let lastFetch = 0;
 
 export async function GET(request: NextRequest) {
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const cryptoSymbols = ['BTC', 'ETH', 'SOL'];
     
     // Fetch crypto prices (batch - fast)
-    const cryptoQuotes = await fetchMultipleCryptoPrices(cryptoSymbols);
+    const cryptoQuotes = await fetchCryptoPrices(cryptoSymbols);
     
     // For stocks, return cached/mock data to avoid rate limits
     // In production, you'd fetch these from your database

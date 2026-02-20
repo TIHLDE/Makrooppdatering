@@ -1,0 +1,44 @@
+{
+  "id": "template-weekly-macro",
+  "title": "Ukas Makro Quiz",
+  "description": "Test dine kunnskaper om ukens viktigste makroøkonomiske nyheter",
+  "type": "MULTIPLE_CHOICE",
+  "assetTypes": ["MACRO", "CRYPTO", "EQUITY"],
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Hvilken sentralbank hevet renten mest denne uken?",
+      "options": ["Federal Reserve", "ECB", "Norges Bank", "Bank of England"],
+      "correct": 0,
+      "order": 1
+    },
+    {
+      "id": "q2",
+      "question": "Hva var hovedårsaken til oljeprisfallet på mandag?",
+      "options": ["Økt OPEC-produksjon", "Svak kinesisk etterspørsel", "Styrking av USD", "Geopolitisk stabilitet"],
+      "correct": 1,
+      "order": 2
+    },
+    {
+      "id": "q3",
+      "question": "Hvilken kryptovaluta hadde størst oppgang denne uken?",
+      "options": ["Bitcoin", "Ethereum", "Solana", "Cardano"],
+      "correct": 2,
+      "order": 3
+    },
+    {
+      "id": "q4",
+      "question": "Hva viste den siste inflasjonsrapporten fra USA?",
+      "options": ["CPI opp 0.3%", "CPI ned 0.1%", "CPI uendret", "CPI opp 0.5%"],
+      "correct": 0,
+      "order": 4
+    },
+    {
+      "id": "q5",
+      "question": "Hvilket selskap overrasket positivt med kvartalstall?",
+      "options": ["Apple", "Tesla", "NVIDIA", "Microsoft"],
+      "correct": 2,
+      "order": 5
+    }
+  ]
+}

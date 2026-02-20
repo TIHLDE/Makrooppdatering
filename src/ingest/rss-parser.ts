@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { generateHash, extractTickers, calculateRelevanceScore } from '@/lib/utils';
 import { analyzeSentimentFast } from '@/lib/sentiment';
 import { AssetType } from '@prisma/client';
+import { detectAssetType } from './asset-detector';
 
 const parser = new Parser({
   timeout: 10000,
@@ -49,8 +50,8 @@ export async function parseRssFeed(feedUrl: string, sourceName: string, defaultA
       const textToAnalyze = `${title} ${summary}`;
       const tickers = extractTickers(textToAnalyze);
       
-      // Determine asset type from content
-      const assetType = determineAssetType(textToAnalyze, defaultAssetType);
+      // Determine asset type from content using advanced detector
+      const assetType = detectAssetType(textToAnalyze, defaultAssetType).assetType;
       
       // Extract tags
       const tags = extractTags(textToAnalyze);
@@ -81,59 +82,7 @@ export async function parseRssFeed(feedUrl: string, sourceName: string, defaultA
   }
 }
 
-function determineAssetType(text: string, defaultType: AssetType): AssetType {
-  const lowerText = text.toLowerCase();
-  
-  // Crypto keywords
-  if (lowerText.includes('bitcoin') || 
-      lowerText.includes('crypto') || 
-      lowerText.includes('blockchain') ||
-      lowerText.includes('ethereum') ||
-      lowerText.includes('btc') ||
-      lowerText.includes('eth')) {
-    return AssetType.CRYPTO;
-  }
-  
-  // ETF keywords
-  if (lowerText.includes('etf') || lowerText.includes('exchange traded fund')) {
-    return AssetType.ETF;
-  }
-  
-  // Fund keywords
-  if (lowerText.includes('fund') || lowerText.includes('mutual fund')) {
-    return AssetType.FUND;
-  }
-  
-  // Geopolitics keywords
-  if (lowerText.includes('war') || 
-      lowerText.includes('conflict') || 
-      lowerText.includes('sanctions') ||
-      lowerText.includes('tension') ||
-      lowerText.includes('border')) {
-    return AssetType.OTHER;
-  }
-  
-  // Politics keywords
-  if (lowerText.includes('election') || 
-      lowerText.includes('policy') || 
-      lowerText.includes('regulation') ||
-      lowerText.includes('congress') ||
-      lowerText.includes('parliament')) {
-    return AssetType.OTHER;
-  }
-  
-  // Macro keywords
-  if (lowerText.includes('fed') || 
-      lowerText.includes('inflation') || 
-      lowerText.includes('interest rate') ||
-      lowerText.includes('gdp') ||
-      lowerText.includes('unemployment') ||
-      lowerText.includes('central bank')) {
-    return AssetType.OTHER;
-  }
-  
-  return defaultType;
-}
+
 
 function extractTags(text: string): string[] {
   const tags: string[] = [];

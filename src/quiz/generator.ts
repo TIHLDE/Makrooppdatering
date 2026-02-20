@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { AssetType, QuizType, Prisma } from '@prisma/client';
+import { AssetType, QuizType } from '@prisma/client';
 
 export interface QuizGenerationOptions {
   title: string;
