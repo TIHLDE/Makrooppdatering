@@ -1,85 +1,60 @@
 # Makro Oppdatering
-## Hurtigstart (Lokal utvikling)
 
-### 1. Installasjon
+## Hvordan kjøre lokalt @kajasd
+
+### 1. Installer avhengigheter
 ```bash
 npm install
 ```
 
-### 2. Miljøvariabler
+### 2. Sett opp database
+Kopier miljøvariabler:
 ```bash
 cp .env.example .env
-# Rediger .env med din database URL
 ```
 
-### 3. Database setup
+Rediger `.env` og legg til din PostgreSQL database URL:
+```
+DATABASE_URL="postgresql://user:password@localhost:5432/makro"
+```
+
+### 3. Initialiser databasen
 ```bash
 # Generer Prisma klient
 npm run db:generate
 
-# Kjør migrasjoner
+# Kjør database migrasjoner
 npm run db:migrate
 
 # Seed med testdata
 npm run db:seed
 ```
 
-### 4. Start utviklingsserver
+### 4. Start applikasjonen
 ```bash
 npm run dev
 ```
 
-Appen er nå tilgjengelig på http://localhost:3000
+Åpne http://localhost:3000 i nettleseren.
 
-### 5. Kjør ingest (manuelt)
+### 5. Hent nyheter (valgfritt)
 ```bash
 npm run ingest
 ```
 
-Dette henter RSS-feeds og populerer databasen.
+Dette henter RSS-feeds og legger dem i databasen.
 
-## Deploy til Vercel
+---
 
-### 1. Forberedelser
-```bash
-# Push kode til GitHub
-git init
-git add .
-git commit -m "Initial commit"
-git push origin main
-```
-
-### 2. Vercel Setup
-1. Gå til [vercel.com](https://vercel.com) og importer repo
-2. Legg til miljøvariabler i Vercel dashboard:
-   - `DATABASE_URL` (fra Supabase/Neon)
-3. Deploy!
-
-### 3. Database migrasjoner på Vercel
-```bash
-# Lokal migrasjon
-npm run db:migrate
-
-# Eller bruk Prisma Studio for manuell datahåndtering
-npm run db:studio
-```
-
-### 4. Cron job setup
-Cron-jobbene er definert i `vercel.json`. De kjører automatisk på Vercel.
-
-- **Development**: Kjør `npm run ingest` manuelt
-- **Production**: Automatisk hver time via Vercel Cron
-
-## Testing
+## Andre nyttige kommandoer
 
 ```bash
-# Kjør alle tester
+# Kjør tester
 npm run test:run
 
-# Watch mode under utvikling
-npm run test
+# Åpne database GUI
+npm run db:studio
+
+# Bygg for produksjon
+npm run build
 ```
-
-
-
-MIT
