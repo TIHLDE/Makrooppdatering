@@ -1,0 +1,57 @@
+{
+  "id": "template-market-match",
+  "title": "Match Indekser og Land",
+  "description": "Koble sammen aksjeindekser med riktig land",
+  "type": "MATCH_PAIRS",
+  "assetTypes": ["EQUITY", "INDEX"],
+  "questions": [
+    {
+      "id": "m1",
+      "question": "S&P 500",
+      "options": ["USA", "Storbritannia", "Tyskland", "Japan"],
+      "correct": 0,
+      "order": 1,
+      "pairId": "pair1"
+    },
+    {
+      "id": "m2",
+      "question": "FTSE 100",
+      "options": ["USA", "Storbritannia", "Frankrike", "Australia"],
+      "correct": 1,
+      "order": 2,
+      "pairId": "pair2"
+    },
+    {
+      "id": "m3",
+      "question": "DAX",
+      "options": ["Sveits", "Østerrike", "Tyskland", "Nederland"],
+      "correct": 2,
+      "order": 3,
+      "pairId": "pair3"
+    },
+    {
+      "id": "m4",
+      "question": "Nikkei 225",
+      "options": ["Kina", "Sør-Korea", "Hong Kong", "Japan"],
+      "correct": 3,
+      "order": 4,
+      "pairId": "pair4"
+    },
+    {
+      "id": "m5",
+      "question": "CAC 40",
+      "options": ["Spania", "Frankrike", "Italia", "Belgia"],
+      "correct": 1,
+      "order": 5,
+      "pairId": "pair5"
+    },
+    {
+      "id": "m6",
+      "question": "OBX",
+      "options": ["Sverige", "Danmark", "Norge", "Finland"],
+      "correct": 2,
+      "order": 6,
+      "pairId": "pair6"
+    }
+  ]
+}

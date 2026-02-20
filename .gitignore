@@ -4,15 +4,5 @@ node_modules/
 .DS_Store
 *.log
 .vercel
-.next
-
-node_modules/
 .next/
-
-# deps
-node_modules/
-
-
-# deps
-node_modules/
-
+*.tsbuildinfo

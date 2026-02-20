@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import type { ParsedNewsItem } from './rss-parser';
 import { analyzeSentimentFast } from '@/lib/sentiment';
-import { AssetType } from '@prisma/client';
+import type { AssetType } from '@prisma/client';
 
 /**
  * Batch save news items with optimized database operations

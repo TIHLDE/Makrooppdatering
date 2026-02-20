@@ -1,0 +1,41 @@
+{
+  "id": "template-find-connection",
+  "title": "Finn Sammenhengen",
+  "description": "Se på bildene/ikonene og finn ut hvilken finansiell hendelse de representerer",
+  "type": "FIND_CONNECTION",
+  "assetTypes": ["MACRO", "CRYPTO", "EQUITY"],
+  "questions": [
+    {
+      "id": "f1",
+      "question": "Hvilken hendelse beskrives?",
+      "options": ["Rentemøte", "Kvartalsrapport", "Børsintroduksjon", "Fusjon"],
+      "correct": 0,
+      "order": 1,
+      "imageUrl": "/images/quiz/rentemote.png"
+    },
+    {
+      "id": "f2",
+      "question": "Hva indikerer dette mønsteret?",
+      "options": ["Bull market", "Bear market", "Sideways", "Flash crash"],
+      "correct": 1,
+      "order": 2,
+      "imageUrl": "/images/quiz/bear-market.png"
+    },
+    {
+      "id": "f3",
+      "question": "Hvilken indikator vises her?",
+      "options": ["RSI", "MACD", "Bollinger Bands", "Moving Average"],
+      "correct": 2,
+      "order": 3,
+      "imageUrl": "/images/quiz/bollinger.png"
+    },
+    {
+      "id": "f4",
+      "question": "Hvilken finansiell instrument er dette?",
+      "options": ["Aksje", "Obligasjon", "Opsjon", "ETF"],
+      "correct": 2,
+      "order": 4,
+      "imageUrl": "/images/quiz/option-payoff.png"
+    }
+  ]
+}

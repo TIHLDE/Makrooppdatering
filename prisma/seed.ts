@@ -344,77 +344,298 @@ async function main() {
     });
   }
 
-  // 6. Seed sample quizzes
-  const quizSet1 = await prisma.quizSet.create({
+  // 6. Seed MakroOppdatering Quizzer - Ultimate Finance Challenge!
+  
+  // Quiz 1: GJETT HVEM - Kjente Finanspersoner
+  const gjettHvemQuiz = await prisma.quizSet.create({
     data: {
-      title: 'Market Movers - December 2024',
-      description: 'Test your knowledge on the biggest market moves this week!',
+      title: '🕵️ Gjett Hvem - Finanslegender',
+      description: 'Kan du kjenne igjen verdens mest kjente investorer og finanspersoner fra bildene?',
       type: 'MULTIPLE_CHOICE',
-      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
+      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
       dateTo: new Date(),
-      assetTypes: [AssetType.OTHER, AssetType.CRYPTO, AssetType.EQUITY],
+      assetTypes: [AssetType.OTHER],
     },
   });
 
   await prisma.quizQuestion.createMany({
     data: [
       {
-        quizSetId: quizSet1.id,
-        question: 'What did the Federal Reserve signal about interest rates?',
-        options: ['Immediate hike', 'Potential cuts in 2024', 'Freeze permanently', 'Drop by 2%'],
+        quizSetId: gjettHvemQuiz.id,
+        question: 'Hvem er denne legenden? Kjent for "value investing" og Berkshire Hathaway',
+        options: ['Jeff Bezos', 'Warren Buffett', 'Elon Musk', 'Bill Gates'],
         correct: 1,
         order: 0,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg/440px-Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg',
       },
       {
-        quizSetId: quizSet1.id,
-        question: 'What drove Bitcoin above $45,000?',
-        options: ['China crypto ban', 'ETF optimism', 'Tesla purchase', 'Fed rate hike'],
+        quizSetId: gjettHvemQuiz.id,
+        question: 'Hvem er sjefen for Federal Reserve?',
+        options: ['Janet Yellen', 'Jerome Powell', 'Ben Bernanke', 'Alan Greenspan'],
         correct: 1,
         order: 1,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Jerome_Powell_%2853449480388%29_%28cropped%29.jpg/440px-Jerome_Powell_%2853449480388%29_%28cropped%29.jpg',
       },
       {
-        quizSetId: quizSet1.id,
-        question: 'Which sectors drove Norwegian Oil Fund returns?',
-        options: ['Tech & Energy', 'Healthcare only', 'Real Estate only', 'Banks only'],
-        correct: 0,
+        quizSetId: gjettHvemQuiz.id,
+        question: 'Hvem er grunnleggeren av Tesla, SpaceX og X?',
+        options: ['Mark Zuckerberg', 'Jeff Bezos', 'Elon Musk', 'Larry Page'],
+        correct: 2,
         order: 2,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/440px-Elon_Musk_Royal_Society_%28crop2%29.jpg',
       },
       {
-        quizSetId: quizSet1.id,
-        question: 'Why did Tesla stock drop 7%?',
-        options: ['Missed delivery targets', 'CEO resignation', 'Factory fire', 'Regulatory fine'],
-        correct: 0,
+        quizSetId: gjettHvemQuiz.id,
+        question: 'Hvem er "The Oracle of Omaha"?',
+        options: ['Charlie Munger', 'Warren Buffett', 'Ray Dalio', 'Carl Icahn'],
+        correct: 1,
         order: 3,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Warren_Buffett_with_Female_Fan_2017.jpg/440px-Warren_Buffett_with_Female_Fan_2017.jpg',
       },
     ],
   });
 
-  const quizSet2 = await prisma.quizSet.create({
+  // Quiz 2: MATCH LOGO - Kjente Selskap
+  const matchLogoQuiz = await prisma.quizSet.create({
     data: {
-      title: 'Crypto & Tech Deep Dive',
-      description: 'Advanced quiz for crypto and tech enthusiasts',
-      type: 'MULTIPLE_CHOICE',
-      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14),
+      title: '🎯 Match Logoen - Tech Giants',
+      description: 'Koble sammen logoen med riktig selskap! Kjenner du igjen alle tech-gigantene?',
+      type: 'MATCH_PAIRS',
+      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
       dateTo: new Date(),
-      assetTypes: [AssetType.CRYPTO, AssetType.EQUITY],
+      assetTypes: [AssetType.EQUITY],
     },
   });
 
   await prisma.quizQuestion.createMany({
     data: [
       {
-        quizSetId: quizSet2.id,
-        question: 'What fueled NVIDIA\'s all-time high?',
-        options: ['Gaming demand', 'AI chip demand', 'Crypto mining', 'Mobile processors'],
+        quizSetId: matchLogoQuiz.id,
+        question: 'Hvilket selskap har denne logoen? 🍎',
+        options: ['Microsoft', 'Apple', 'Google', 'Samsung'],
         correct: 1,
         order: 0,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/200px-Apple_logo_black.svg.png',
       },
       {
-        quizSetId: quizSet2.id,
-        question: 'How much oil might Equinor\'s new field contain?',
-        options: ['10M barrels', '50M barrels', '100M barrels', '500M barrels'],
+        quizSetId: matchLogoQuiz.id,
+        question: 'Hvilket selskap har denne logoen? 🔷',
+        options: ['Meta', 'Twitter', 'Facebook', 'Instagram'],
         correct: 2,
         order: 1,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/200px-2021_Facebook_icon.svg.png',
+      },
+      {
+        quizSetId: matchLogoQuiz.id,
+        question: 'Hvilket selskap har denne logoen? 🎮',
+        options: ['AMD', 'NVIDIA', 'Intel', 'Qualcomm'],
+        correct: 1,
+        order: 2,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Nvidia_logo.svg/200px-Nvidia_logo.svg.png',
+      },
+      {
+        quizSetId: matchLogoQuiz.id,
+        question: 'Hvilket selskap har denne logoen? 🚗',
+        options: ['Ford', 'Tesla', 'GM', 'Toyota'],
+        correct: 1,
+        order: 3,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Tesla_Motors.svg/200px-Tesla_Motors.svg.png',
+      },
+      {
+        quizSetId: matchLogoQuiz.id,
+        question: 'Hvilket selskap har denne logoen? 📦',
+        options: ['eBay', 'Amazon', 'Alibaba', 'Shopify'],
+        correct: 1,
+        order: 4,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/200px-Amazon_logo.svg.png',
+      },
+    ],
+  });
+
+  // Quiz 3: FINN SAKEN - Hva hendte med denne aksjen?
+  const finnSakenQuiz = await prisma.quizSet.create({
+    data: {
+      title: '📈 Finn Sammenhengen - Aksjehistorier',
+      description: 'Se på grafen og finn ut hva som skjedde! Kan du forutse markedet?',
+      type: 'FIND_CONNECTION',
+      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      dateTo: new Date(),
+      assetTypes: [AssetType.EQUITY, AssetType.CRYPTO],
+    },
+  });
+
+  await prisma.quizQuestion.createMany({
+    data: [
+      {
+        quizSetId: finnSakenQuiz.id,
+        question: 'Hva skjedde med Bitcoin i 2024 som fikk prisen til å eksplodere til over $100,000?',
+        options: ['Kina forbød Bitcoin', 'SEC godkjente Spot Bitcoin ETFer', 'Elon Musk solgte alt', 'Fed hevet renten'],
+        correct: 1,
+        order: 0,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/200px-Bitcoin.svg.png',
+      },
+      {
+        quizSetId: finnSakenQuiz.id,
+        question: 'Hvorfor steg NVIDIA-aksjen til å bli verdens mest verdifulle selskap?',
+        options: ['Nye spillkort', 'AI-revolusjonen trenger deres chip', 'Kryptograving', 'Mobiltelefoner'],
+        correct: 1,
+        order: 1,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Nvidia_logo.svg/200px-Nvidia_logo.svg.png',
+      },
+      {
+        quizSetId: finnSakenQuiz.id,
+        question: 'Hva skjedde med Tesla-aksjen da de leverte færre biler enn forventet?',
+        options: ['Steg 20%', 'Falt over 7%', 'Ingen endring', 'Doblet seg'],
+        correct: 1,
+        order: 2,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Tesla_Motors.svg/200px-Tesla_Motors.svg.png',
+      },
+      {
+        quizSetId: finnSakenQuiz.id,
+        question: 'Hva signaliserte Federal Reserve om rentene i 2024?',
+        options: ['Heve renten til 10%', 'Holde renten uendret lengre', 'Kutte renten til 0%', 'Abolere renten'],
+        correct: 1,
+        order: 3,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Seal_of_the_United_States_Federal_Reserve_System.svg/200px-Seal_of_the_United_States_Federal_Reserve_System.svg.png',
+      },
+    ],
+  });
+
+  // Quiz 4: Hvem sa det? - Kjente sitater
+  const hvemSaDetQuiz = await prisma.quizSet.create({
+    data: {
+      title: '💬 Hvem Sa Det? - Legendariske Sitater',
+      description: 'Gjenkjenn disse berømte finanssitatene! Hvem sa hva?',
+      type: 'MULTIPLE_CHOICE',
+      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      dateTo: new Date(),
+      assetTypes: [AssetType.OTHER],
+    },
+  });
+
+  await prisma.quizQuestion.createMany({
+    data: [
+      {
+        quizSetId: hvemSaDetQuiz.id,
+        question: '"Be fearful when others are greedy, and greedy when others are fearful"',
+        options: ['Elon Musk', 'Warren Buffett', 'Ray Dalio', 'Charlie Munger'],
+        correct: 1,
+        order: 0,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg/440px-Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg',
+      },
+      {
+        quizSetId: hvemSaDetQuiz.id,
+        question: '"The stock market is a device for transferring money from the impatient to the patient"',
+        options: ['Warren Buffett', 'Peter Lynch', 'Benjamin Graham', 'John Bogle'],
+        correct: 0,
+        order: 1,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg/440px-Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg',
+      },
+      {
+        quizSetId: hvemSaDetQuiz.id,
+        question: '"Price is what you pay, value is what you get"',
+        options: ['Warren Buffett', 'Charlie Munger', 'Seth Klarman', 'Howard Marks'],
+        correct: 0,
+        order: 2,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg/440px-Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg',
+      },
+    ],
+  });
+
+  // Quiz 5: Hva koster det? - Gjett prisen
+  const hvaKosterDetQuiz = await prisma.quizSet.create({
+    data: {
+      title: '💰 Hva Koster Det? - Gjett Prisen',
+      description: 'Kan du gjette markedsverdien eller prisen på disse kjente selskapene?',
+      type: 'MULTIPLE_CHOICE',
+      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      dateTo: new Date(),
+      assetTypes: [AssetType.EQUITY, AssetType.CRYPTO],
+    },
+  });
+
+  await prisma.quizQuestion.createMany({
+    data: [
+      {
+        quizSetId: hvaKosterDetQuiz.id,
+        question: '🍎 Hva var Apples markedsverdi på sitt høyeste i 2024?',
+        options: ['$1 trillion', '$3 trillion', '$5 trillion', '$10 trillion'],
+        correct: 1,
+        order: 0,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/200px-Apple_logo_black.svg.png',
+      },
+      {
+        quizSetId: hvaKosterDetQuiz.id,
+        question: '₿ Hva var Bitcoins høyeste pris i 2024?',
+        options: ['$50,000', '$75,000', '$100,000+', '$200,000'],
+        correct: 2,
+        order: 1,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/200px-Bitcoin.svg.png',
+      },
+      {
+        quizSetId: hvaKosterDetQuiz.id,
+        question: '🎮 Hva kostet én NVIDIA H100 AI-chip i 2024?',
+        options: ['$1,000', '$10,000', '$30,000+', '$100,000'],
+        correct: 2,
+        order: 2,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Nvidia_logo.svg/200px-Nvidia_logo.svg.png',
+      },
+      {
+        quizSetId: hvaKosterDetQuiz.id,
+        question: '🇳🇴 Hva var Oljefondets verdi ved utgangen av 2024?',
+        options: ['1 billion kr', '100 billioner kr', '1 trillion kr', '10 trillioner kr'],
+        correct: 2,
+        order: 3,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Norway.svg/200px-Flag_of_Norway.svg.png',
+      },
+    ],
+  });
+
+  // Quiz 6: True or False - Fakta eller Fiksjon
+  const trueFalseQuiz = await prisma.quizSet.create({
+    data: {
+      title: '✅❌ Fakta eller Fiksjon?',
+      description: 'Sant eller usant? Test kunnskapen om finanshistorie og merkedager!',
+      type: 'MULTIPLE_CHOICE',
+      dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      dateTo: new Date(),
+      assetTypes: [AssetType.OTHER],
+    },
+  });
+
+  await prisma.quizQuestion.createMany({
+    data: [
+      {
+        quizSetId: trueFalseQuiz.id,
+        question: 'Bitcoin ble skapt i 2008 av en person (eller gruppe) kalt Satoshi Nakamoto.',
+        options: ['SANT', 'USANT'],
+        correct: 0,
+        order: 0,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/200px-Bitcoin.svg.png',
+      },
+      {
+        quizSetId: trueFalseQuiz.id,
+        question: 'Warren Buffett kjøpte sin første aksje da han var 11 år gammel.',
+        options: ['SANT', 'USANT'],
+        correct: 0,
+        order: 1,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg/440px-Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg',
+      },
+      {
+        quizSetId: trueFalseQuiz.id,
+        question: 'Den store børskrakket i 1929 skjedde på en tirsdag.',
+        options: ['SANT', 'USANT'],
+        correct: 0,
+        order: 2,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/New_York_Stock_Exchange_1929_Crash.jpg/400px-New_York_Stock_Exchange_1929_Crash.jpg',
+      },
+      {
+        quizSetId: trueFalseQuiz.id,
+        question: 'GameStop-aksjen steg over 1000% på én uke i januar 2021 pga Reddit.',
+        options: ['SANT', 'USANT'],
+        correct: 0,
+        order: 3,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/GameStop.svg/200px-GameStop.svg.png',
       },
     ],
   });
@@ -423,7 +644,13 @@ async function main() {
   console.log(`📊 Added ${tickers.length} tickers`);
   console.log(`📰 Added ${rssSources.length} RSS sources`);
   console.log(`📈 Added ${sampleNews.length} sample news items`);
-  console.log(`🎯 Added 2 quiz sets`);
+  console.log(`🎯 Added 6 MakroOppdatering quizer med bilder!`);
+  console.log('   🕵️ Gjett Hvem - Finanspersoner');
+  console.log('   🎯 Match Logo - Selskapslogoer');
+  console.log('   📈 Finn Sammenhengen - Aksjehistorier');
+  console.log('   💬 Hvem Sa Det - Legendariske sitater');
+  console.log('   💰 Hva Koster Det - Gjett prisen');
+  console.log('   ✅❌ Fakta eller Fiksjon');
 }
 
 main()

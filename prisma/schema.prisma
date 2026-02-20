@@ -165,6 +165,10 @@ model QuizScore {
   timeMs    Int      // Tid brukt i millisekunder
   
   createdAt DateTime @default(now())
+  
+  @@index([quizSetId])
+  @@index([sessionId])
+  @@index([quizSetId, score])
 }
 
 // RSS Sources konfigurasjon

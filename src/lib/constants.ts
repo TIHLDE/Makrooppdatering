@@ -1,8 +1,9 @@
-'use client';
+/**
+ * Shared constants for the application
+ * Consolidates duplicate data from multiple files
+ */
 
-import { useState, useEffect } from 'react';
-
-interface TickerData {
+export interface TickerData {
   symbol: string;
   name: string;
   price: number;
@@ -10,7 +11,7 @@ interface TickerData {
   changePercent: number;
 }
 
-const TICKER_DATA: TickerData[] = [
+export const TICKER_DATA: TickerData[] = [
   { symbol: 'SPX', name: 'S&P 500', price: 4783.35, change: -12.44, changePercent: -0.26 },
   { symbol: 'NDX', name: 'NASDAQ 100', price: 16832.41, change: 45.23, changePercent: 0.27 },
   { symbol: 'DJI', name: 'Dow Jones', price: 37468.61, change: -94.45, changePercent: -0.25 },
@@ -33,30 +34,20 @@ const TICKER_DATA: TickerData[] = [
   { symbol: 'EQNR', name: 'Equinor', price: 285.40, change: 3.20, changePercent: 1.13 },
 ];
 
-export function TickerTape() {
-  const [mounted, setMounted] = useState(false);
+// Common time formatter used across pages
+export function formatTime(date: string | Date): string {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const hours = dateObj.getHours().toString().padStart(2, '0');
+  const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return <div className="bg-[#111] border-b border-[#333] h-8" />;
-  }
-
-  return (
-    <div className="bg-[#111] border-b border-[#333] h-8 flex items-center overflow-hidden whitespace-nowrap">
-      <div className="flex animate-marquee">
-        {[...TICKER_DATA, ...TICKER_DATA].map((ticker, i) => (
-          <div key={i} className="flex items-center px-4 border-r border-[#333]">
-            <span className="font-bold mr-2">{ticker.symbol}</span>
-            <span className="mr-2">{ticker.price.toFixed(2)}</span>
-            <span className={ticker.change >= 0 ? 'text-[#0f0]' : 'text-[#f00]'}>
-              {ticker.change >= 0 ? '+' : ''}{ticker.change.toFixed(2)}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+export function formatTimeWithDate(date: string | Date): string {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  return dateObj.toLocaleDateString('nb-NO', {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 }

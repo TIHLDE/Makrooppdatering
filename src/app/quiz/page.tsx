@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
-import { QuizSet, AssetType, QuizType } from '@prisma/client';
-import { Gamepad2, Plus, Clock, HelpCircle, Loader2 } from 'lucide-react';
+import { QuizSet, QuizType, AssetType } from '@prisma/client';
+import { Gamepad2, Plus, Clock, HelpCircle, Loader2, Sparkles, ArrowRight } from 'lucide-react';
 
 interface QuizWithCount extends QuizSet {
   _count: { questions: number };
@@ -53,10 +54,10 @@ export default function QuizListPage() {
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
               <Gamepad2 className="w-8 h-8 text-purple-600" />
-              Quiz
+              MakroOppdatering
             </h1>
             <p className="text-gray-600 mt-2">
-              Lær finans på en morsom måte! &quot;Lættis læring&quot; 🎓
+              Test dine makro-kunnskaper! Hvor godt følger du med på finans? 📈🧠
             </p>
           </div>
           <button
@@ -72,6 +73,45 @@ export default function QuizListPage() {
         {showGenerator && (
           <QuizGenerator onClose={() => setShowGenerator(false)} onSuccess={fetchQuizzes} />
         )}
+
+        {/* Featured Quiz - Nytt på nytt */}
+        <div className="mb-8">
+          <Link href="/quiz/nytt-pa-nytt">
+            <div className="relative bg-gradient-to-r from-[#ff6b35] to-[#ff8555] rounded-2xl p-8 text-white cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all group">
+              <div className="absolute top-4 right-4">
+                <Sparkles className="w-8 h-8 text-white/80" />
+              </div>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
+                      Ny! 🔥
+                    </span>
+                    <span className="text-white/80 text-sm">5 runder • 13 spørsmål</span>
+                  </div>
+                  <h2 className="text-3xl font-bold mb-3">
+                    Nytt på nytt: Finans & Økonomi
+                  </h2>
+                  <p className="text-white/90 text-lg mb-4 max-w-2xl">
+                    Test deg selv på de siste ukene i finansmarkedene! Gjett sammenhenger, 
+                    analyser sentralbank-retorikk, og forstå markedsreaksjoner.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-3 py-1 bg-white/20 rounded-full text-sm">Gjett sammenhenger</span>
+                    <span className="px-3 py-1 bg-white/20 rounded-full text-sm">Nyhetsquiz</span>
+                    <span className="px-3 py-1 bg-white/20 rounded-full text-sm">Toneanalyse</span>
+                    <span className="px-3 py-1 bg-white/20 rounded-full text-sm">Markedsreaksjoner</span>
+                    <span className="px-3 py-1 bg-white/20 rounded-full text-sm">Case</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white font-semibold group-hover:gap-3 transition-all">
+                    <span>Start quiz nå</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
 
         {/* Quiz Types Info */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -104,18 +144,18 @@ export default function QuizListPage() {
 
         {quizzes.length === 0 && !loading && (
           <div className="text-center py-12">
-            <Gamepad2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <Gamepad2 className="w-16 h-16 text-purple-300 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Ingen quizer ennå
+              Ingen MakroOppdatering ennå
             </h3>
             <p className="text-gray-600 mb-4">
-              Lag din første quiz for å komme i gang!
+              Klar for å teste dine finanskunnskaper? 🚀
             </p>
             <button
               onClick={() => setShowGenerator(true)}
               className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
             >
-              Lag quiz nå
+              Lag din første quiz
             </button>
           </div>
         )}
