@@ -1,33 +1,81 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { AssetType } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import Redis from 'ioredis';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis as UpstashRedis } from '@upstash/redis';
+import { newsFilterSchema, sanitizeSearch } from '@/lib/validation';
 
 // Redis client for caching
 const redis = process.env.REDIS_URL 
   ? new Redis(process.env.REDIS_URL)
   : null;
 
-const CACHE_TTL = 60; // 1 minute in production, adjust as needed
+// Upstash Redis for rate limiting
+const upstashRedis = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+  ? new UpstashRedis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    })
+  : null;
+
+// Rate limiter: 30 requests per minute per IP
+const ratelimit = upstashRedis
+  ? new Ratelimit({
+      redis: upstashRedis,
+      limiter: Ratelimit.slidingWindow(30, '1 m'),
+      analytics: true,
+    })
+  : null;
+
+const CACHE_TTL = 60; // 1 minute
 
 export async function GET(request: NextRequest) {
   try {
+    // Rate limiting
+    if (ratelimit) {
+      const ip = request.ip ?? '127.0.0.1';
+      const { success, limit, reset, remaining } = await ratelimit.limit(ip);
+      
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Too many requests', limit, reset, remaining },
+          { status: 429, headers: {
+            'X-RateLimit-Limit': limit.toString(),
+            'X-RateLimit-Remaining': remaining.toString(),
+            'X-RateLimit-Reset': reset.toString(),
+          }}
+        );
+      }
+    }
+
     const { searchParams } = new URL(request.url);
     
-    // Parse query parameters
-    const assetTypes = searchParams.getAll('assetType') as AssetType[];
-    const sources = searchParams.getAll('source');
-    const tickers = searchParams.getAll('ticker');
-    const search = searchParams.get('search');
-    const timeRange = (searchParams.get('timeRange') || '24h').toLowerCase();
-    const sentiment = searchParams.get('sentiment') || 'all';
-    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
-    const limit = Math.min(Math.max(1, parseInt(searchParams.get('limit') || '25')), 500);
+    // Parse and validate parameters
+    const rawParams = {
+      timeRange: searchParams.get('timeRange') || '24h',
+      assetTypes: searchParams.getAll('assetType'),
+      sources: searchParams.getAll('source'),
+      tickers: searchParams.getAll('ticker'),
+      search: searchParams.get('search') || undefined,
+      sentiment: searchParams.get('sentiment') || 'all',
+      page: searchParams.get('page') || '1',
+      limit: searchParams.get('limit') || '25',
+    };
+
+    const validation = newsFilterSchema.safeParse(rawParams);
+    
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Invalid parameters', details: validation.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const params = validation.data;
     
     // Build cache key
-    const cacheKey = `news:${JSON.stringify({
-      assetTypes, sources, tickers, search, timeRange, sentiment, page, limit
-    })}`;
+    const cacheKey = `news:${JSON.stringify(params)}`;
     
     // Check Redis cache
     if (redis) {
@@ -46,20 +94,19 @@ export async function GET(request: NextRequest) {
     
     // Calculate date range
     const now = new Date();
-    let dateFrom = new Date();
+    const dateFrom = new Date();
     
-    switch (timeRange) {
+    switch (params.timeRange) {
       case '1h': dateFrom.setHours(now.getHours() - 1); break;
       case '6h': dateFrom.setHours(now.getHours() - 6); break;
       case '24h': dateFrom.setHours(now.getHours() - 24); break;
       case '3d': dateFrom.setDate(now.getDate() - 3); break;
       case '7d': dateFrom.setDate(now.getDate() - 7); break;
       case '30d': dateFrom.setDate(now.getDate() - 30); break;
-      default: dateFrom.setHours(now.getHours() - 24);
     }
     
-    // Build where clause
-    const where: any = {
+    // Build typed where clause
+    const where: Prisma.NewsItemWhereInput = {
       publishedAt: {
         gte: dateFrom,
         lte: now,
@@ -67,30 +114,31 @@ export async function GET(request: NextRequest) {
       isDuplicate: false,
     };
     
-    if (assetTypes.length > 0) {
-      where.assetType = { in: assetTypes };
+    if (params.assetTypes.length > 0) {
+      where.assetType = { in: params.assetTypes };
     }
     
-    if (sources.length > 0) {
-      where.source = { in: sources };
+    if (params.sources.length > 0) {
+      where.source = { in: params.sources };
     }
     
-    if (tickers.length > 0) {
+    if (params.tickers.length > 0) {
       where.tickers = {
-        some: { symbol: { in: tickers } },
+        some: { symbol: { in: params.tickers } },
       };
     }
     
-    if (search) {
+    if (params.search) {
+      const sanitizedSearch = sanitizeSearch(params.search);
       where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { summary: { contains: search, mode: 'insensitive' } },
+        { title: { contains: sanitizedSearch, mode: 'insensitive' } },
+        { summary: { contains: sanitizedSearch, mode: 'insensitive' } },
       ];
     }
 
     // Sentiment filter
-    if (sentiment && sentiment !== 'all') {
-      switch (sentiment) {
+    if (params.sentiment !== 'all') {
+      switch (params.sentiment) {
         case 'positive':
           where.sentiment = { gt: 0.2 };
           break;
@@ -104,18 +152,18 @@ export async function GET(request: NextRequest) {
     }
     
     // Fetch news with pagination
-    const skip = Math.max(0, (page - 1) * limit);
+    const skip = Math.max(0, (params.page - 1) * params.limit);
     
     const [news, total] = await Promise.all([
       prisma.newsItem.findMany({
         where,
         include: {
-          tickers: true,
-          tags: true,
+          tickers: { select: { id: true, symbol: true } },
+          tags: { select: { id: true, name: true } },
         },
         orderBy: { publishedAt: 'desc' },
         skip,
-        take: limit,
+        take: params.limit,
       }),
       prisma.newsItem.count({ where }),
     ]);
@@ -123,10 +171,10 @@ export async function GET(request: NextRequest) {
     const result = {
       news,
       pagination: {
-        page,
-        limit,
+        page: params.page,
+        limit: params.limit,
         total,
-        totalPages: Math.ceil(total / limit),
+        totalPages: Math.ceil(total / params.limit),
       },
     };
     
@@ -143,7 +191,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('News API error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch news' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

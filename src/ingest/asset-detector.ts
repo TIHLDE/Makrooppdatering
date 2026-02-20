@@ -12,7 +12,7 @@ interface DetectionResult {
 }
 
 // Detection patterns for each asset type
-const patterns: Record<AssetType, { keywords: string[]; weight: number }[]> = {
+const patterns: Partial<Record<AssetType, { keywords: string[]; weight: number }[]>> = {
   // Equities
   EQUITY: [
     { keywords: ['stock', 'shares', 'earnings', 'revenue', 'profit', 'loss', 'q1', 'q2', 'q3', 'q4', 'quarterly', 'annual report', 'dividend', 'buyback'], weight: 1.0 },
@@ -78,6 +78,17 @@ const patterns: Record<AssetType, { keywords: string[]; weight: number }[]> = {
   
   OTHER: [
     { keywords: [], weight: 0 },
+  ],
+  
+  // Legacy types (minimal patterns)
+  MACRO: [
+    { keywords: ['fed', 'gdp', 'inflation', 'economy', 'central bank'], weight: 0.8 },
+  ],
+  POLITICS: [
+    { keywords: ['election', 'policy', 'regulation', 'government'], weight: 0.8 },
+  ],
+  GEOPOLITICS: [
+    { keywords: ['war', 'conflict', 'sanctions', 'tensions'], weight: 0.8 },
   ],
 };
 

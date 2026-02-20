@@ -43,6 +43,11 @@ model NewsItem {
   @@index([assetType])
   @@index([source])
   @@index([hash])
+  @@index([isDuplicate])
+  @@index([sentiment, publishedAt])
+  @@index([publishedAt, assetType])
+  @@index([source, publishedAt])
+  @@index([assetType, publishedAt])
 }
 
 // Tags for kategorisering
@@ -212,6 +217,11 @@ enum AssetType {
   
   // Non-specific / Uncategorized
   OTHER
+  
+  // Legacy values (deprecated but kept for DB compatibility)
+  MACRO       // Macroeconomics
+  POLITICS    // Political news
+  GEOPOLITICS // Geopolitical news
 }
 
 // News topic/categories (separate from asset types)

@@ -56,7 +56,7 @@ export default function QuizListPage() {
               Quiz
             </h1>
             <p className="text-gray-600 mt-2">
-              Lær finans på en morsom måte! "Lættis læring" 🎓
+              Lær finans på en morsom måte! &quot;Lættis læring&quot; 🎓
             </p>
           </div>
           <button

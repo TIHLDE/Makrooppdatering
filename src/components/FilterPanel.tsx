@@ -19,7 +19,7 @@ interface FilterPanelProps {
   initialFilters?: Partial<Filters>;
 }
 
-const assetTypeLabels: Record<AssetType, string> = {
+const assetTypeLabels: Partial<Record<AssetType, string>> = {
   EQUITY: 'Stocks / Shares',
   ETF: 'ETF',
   FUND: 'Funds',
@@ -31,6 +31,9 @@ const assetTypeLabels: Record<AssetType, string> = {
   INDEX: 'Indices',
   DERIVATIVE: 'Derivatives',
   OTHER: 'Other',
+  MACRO: 'Macro',
+  POLITICS: 'Politics',
+  GEOPOLITICS: 'Geopolitics',
 };
 
 const timeRanges = [

@@ -1,7 +1,7 @@
 import Parser from 'rss-parser';
 import { prisma } from '@/lib/prisma';
 import { generateHash, extractTickers, calculateRelevanceScore } from '@/lib/utils';
-import { analyzeSentiment } from '@/lib/sentiment';
+import { analyzeSentimentFast } from '@/lib/sentiment';
 import { AssetType } from '@prisma/client';
 
 const parser = new Parser({
@@ -199,29 +199,20 @@ export async function saveNewsItems(items: ParsedNewsItem[]): Promise<number> {
         })
       );
       
-      // AI Sentiment Analysis
+      // Sentiment Analysis (fast rule-based)
       let sentiment: number | null = null;
       try {
-        const sentimentResult = await analyzeSentiment({
-          id: 'temp',
-          hash: item.hash,
+        const sentimentResult = await analyzeSentimentFast({
           title: item.title,
           summary: item.summary,
-          url: item.url,
-          source: item.source,
-          sourceUrl: item.sourceUrl ?? null,
-          publishedAt: item.publishedAt,
-          fetchedAt: new Date(),
-          language: item.language,
           assetType: item.assetType,
-          sentiment: null,
-          relevance: 0.5,
-          isDuplicate: false,
         });
         sentiment = sentimentResult.score;
-        console.log(`Sentiment for "${item.title.substring(0, 40)}...": ${sentiment} (${sentimentResult.label})`);
+        if (Math.abs(sentiment) > 0.1) {
+          console.log(`✓ Sentiment: ${sentiment.toFixed(2)} (${sentimentResult.label}) - "${item.title.substring(0, 40)}..."`);
+        }
       } catch (error) {
-        console.warn(`Failed to analyze sentiment for: ${item.title.substring(0, 40)}...`, error);
+        console.warn(`✗ Sentiment failed: ${item.title.substring(0, 40)}...`);
       }
       
       // Calculate relevance
