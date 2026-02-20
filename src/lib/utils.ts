@@ -67,7 +67,7 @@ export function extractTickers(text: string): string[] {
     }
   }
   
-  return [...new Set(matches)];
+  return Array.from(new Set(matches));
 }
 
 export function calculateRelevanceScore(

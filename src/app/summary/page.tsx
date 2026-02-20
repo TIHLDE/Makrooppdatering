@@ -49,12 +49,18 @@ export default function SummaryPage() {
   };
 
   const generateSummarySlides = (news: NewsWithRelations[]): SummarySlide[] => {
-    const themes = [
+    const themes: Array<{
+      id: string;
+      title: string;
+      icon: React.ReactNode;
+      types: AssetType[];
+      keywords: string[];
+    }> = [
       {
         id: 'macro',
         title: 'Makroøkonomi',
         icon: <DollarSign className="w-6 h-6" />,
-        types: [AssetType.MACRO],
+        types: [AssetType.OTHER],
         keywords: ['fed', 'rente', 'inflation', 'gdp', 'unemployment'],
       },
       {

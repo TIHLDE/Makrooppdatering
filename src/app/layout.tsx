@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-import { PreprocessorProvider } from '@/components/PreprocessorProvider';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -26,9 +25,7 @@ export default function RootLayout({
   return (
     <html lang="no" className="dark">
       <body className={`${inter.variable} ${jetbrains.variable} bg-terminal-bg text-terminal-text min-h-screen`}>
-        <PreprocessorProvider>
-          {children}
-        </PreprocessorProvider>
+        {children}
       </body>
     </html>
   );

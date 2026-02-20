@@ -41,16 +41,6 @@ const patterns: Record<AssetType, { keywords: string[]; weight: number }[]> = {
     { keywords: ['satoshi', 'halving', 'hard fork', 'airdrop'], weight: 0.8 },
   ],
   
-  DEFI: [
-    { keywords: ['defi', 'decentralized finance', 'yield farming', 'liquidity pool', 'dex', 'uniswap', 'aave', 'compound'], weight: 1.0 },
-    { keywords: ['smart contract', 'protocol', 'tvl', 'total value locked'], weight: 0.8 },
-  ],
-  
-  NFT: [
-    { keywords: ['nft', 'non-fungible token', 'digital art', 'opensea', 'cryptopunks', 'bored ape'], weight: 1.0 },
-    { keywords: ['mint', 'collection', 'floor price'], weight: 0.8 },
-  ],
-  
   // Fixed Income
   BOND: [
     { keywords: ['bond', 'treasury', 'yield', 'fixed income', 'duration', 'maturity', 'coupon'], weight: 1.0 },
@@ -58,99 +48,32 @@ const patterns: Record<AssetType, { keywords: string[]; weight: number }[]> = {
     { keywords: ['credit rating', 'junk bond', 'investment grade'], weight: 0.8 },
   ],
   
-  RATES: [
-    { keywords: ['interest rate', 'fed funds', 'eonia', 'sonia', 'libor', 'sofr'], weight: 1.0 },
-    { keywords: ['central bank', 'monetary policy', 'hawkish', 'dovish'], weight: 0.8 },
-  ],
-  
-  // Macro
-  MACRO: [
-    { keywords: ['fed', 'federal reserve', 'ecb', 'boe', 'norges bank', 'interest rate', 'monetary policy'], weight: 1.0 },
-    { keywords: ['gdp', 'economic growth', 'recession', 'recovery', 'expansion'], weight: 0.9 },
-    { keywords: ['pmi', 'manufacturing', 'services', 'economic indicator'], weight: 0.8 },
-  ],
-  
-  INFLATION: [
-    { keywords: ['inflation', 'cpi', 'consumer price index', 'deflation', 'hyperinflation', 'pce'], weight: 1.0 },
-    { keywords: ['price stability', 'real wages', 'purchasing power'], weight: 0.8 },
-  ],
-  
-  EMPLOYMENT: [
-    { keywords: ['jobs report', 'unemployment', 'nfp', 'non-farm payrolls', 'labor market', 'wages'], weight: 1.0 },
-    { keywords: ['jobless claims', 'adp', 'participation rate'], weight: 0.8 },
-  ],
-  
-  GDP: [
-    { keywords: ['gdp', 'gross domestic product', 'economic output', 'national accounts'], weight: 1.0 },
-    { keywords: ['consumption', 'investment', 'government spending', 'net exports'], weight: 0.8 },
-  ],
-  
-  // Geopolitics
-  GEOPOLITICS: [
-    { keywords: ['war', 'conflict', 'invasion', 'sanctions', 'tensions', 'border dispute'], weight: 1.0 },
-    { keywords: ['military', 'defense', 'nato', 'security council', 'un resolution'], weight: 0.9 },
-    { keywords: ['embassy', 'diplomatic', 'evacuation', 'hostage'], weight: 0.8 },
-  ],
-  
-  POLITICS: [
-    { keywords: ['election', 'vote', 'parliament', 'congress', 'senate', 'legislation', 'bill'], weight: 1.0 },
-    { keywords: ['president', 'prime minister', 'government', 'administration'], weight: 0.9 },
-    { keywords: ['campaign', 'poll', 'swing state', 'coalition'], weight: 0.7 },
-  ],
-  
-  REGULATION: [
-    { keywords: ['sec', 'finma', 'fca', 'regulator', 'regulation', 'compliance', 'fine', 'investigation'], weight: 1.0 },
-    { keywords: ['rules', 'oversight', 'licensing', 'approval', 'ban', 'restrictions'], weight: 0.8 },
-  ],
-  
-  TRADE: [
-    { keywords: ['trade war', 'tariff', 'import', 'export', 'trade deficit', 'wto', 'trade deal'], weight: 1.0 },
-    { keywords: ['customs', 'duties', 'trade barriers', 'protectionism', 'free trade'], weight: 0.8 },
-  ],
-  
   // Commodities
-  ENERGY: [
-    { keywords: ['oil', 'crude', 'brent', 'wti', 'natural gas', 'gasoline', 'petrol', 'electricity', 'power'], weight: 1.0 },
-    { keywords: ['opec', 'energy crisis', 'renewable', 'solar', 'wind', 'nuclear'], weight: 0.9 },
-    { keywords: ['equinor', 'shell', 'bp', 'exxon', 'chevron', 'saudi aramco'], weight: 0.8 },
+  COMMODITY: [
+    { keywords: ['oil', 'crude', 'brent', 'wti', 'natural gas', 'gasoline', 'petrol'], weight: 1.0 },
+    { keywords: ['gold', 'silver', 'copper', 'platinum', 'precious metals'], weight: 1.0 },
+    { keywords: ['wheat', 'corn', 'soy', 'agriculture', 'grain'], weight: 0.9 },
+    { keywords: ['opec', 'commodity', 'futures', 'spot price'], weight: 0.8 },
   ],
   
-  METALS: [
-    { keywords: ['gold', 'silver', 'copper', 'platinum', 'palladium', 'precious metals', 'bullion'], weight: 1.0 },
-    { keywords: ['mining', 'ore', 'refinery', 'smelter', 'commodity supercycle'], weight: 0.8 },
+  // FX
+  FOREX: [
+    { keywords: ['currency', 'exchange rate', 'usd', 'eur', 'gbp', 'jpy', 'nok'], weight: 1.0 },
+    { keywords: ['forex', 'fx', 'dollar', 'euro', 'yen', 'pound'], weight: 0.9 },
+    { keywords: ['central bank', 'monetary policy', 'interest rate'], weight: 0.7 },
   ],
   
-  AGRICULTURE: [
-    { keywords: ['wheat', 'corn', 'soy', 'agriculture', 'grain', 'food prices', 'famine', 'crop'], weight: 1.0 },
-    { keywords: ['fertilizer', 'drought', 'harvest', 'livestock', 'dairy'], weight: 0.8 },
+  // Indices
+  INDEX: [
+    { keywords: ['s&p 500', 'nasdaq', 'dow jones', 'index', 'benchmark'], weight: 1.0 },
+    { keywords: ['obx', 'ftse', 'dax', 'cac', 'nikkei', 'hang seng'], weight: 0.9 },
+    { keywords: ['all-time high', 'correction', 'bear market', 'bull market'], weight: 0.8 },
   ],
   
-  // Sectors
-  TECH: [
-    { keywords: ['tech', 'technology', 'software', 'ai', 'artificial intelligence', 'cloud', 'semiconductor', 'chip'], weight: 1.0 },
-    { keywords: ['apple', 'microsoft', 'google', 'amazon', 'meta', 'nvidia', 'tesla', 'netflix'], weight: 0.9 },
-    { keywords: ['startup', 'unicorn', 'venture capital', 'ipo', 'big tech'], weight: 0.8 },
-  ],
-  
-  HEALTHCARE: [
-    { keywords: ['pharma', 'biotech', 'drug', 'vaccine', 'fda approval', 'clinical trial', 'medicine'], weight: 1.0 },
-    { keywords: ['pfizer', 'moderna', 'johnson & johnson', 'roche', 'novartis'], weight: 0.8 },
-    { keywords: ['healthcare', 'hospital', 'medical device'], weight: 0.7 },
-  ],
-  
-  FINANCE: [
-    { keywords: ['bank', 'insurance', 'jpmorgan', 'goldman sachs', 'morgan stanley', 'wells fargo'], weight: 1.0 },
-    { keywords: ['credit', 'loan', 'mortgage', 'underwriting', 'fintech', 'payment'], weight: 0.8 },
-  ],
-  
-  CONSUMER: [
-    { keywords: ['retail', 'consumer', 'walmart', 'target', 'amazon', 'luxury', 'brand'], weight: 1.0 },
-    { keywords: ['shopping', 'e-commerce', 'consumer spending', 'disposable income'], weight: 0.8 },
-  ],
-  
-  INDUSTRIAL: [
-    { keywords: ['manufacturing', 'industrial', 'aerospace', 'defense', 'boeing', 'airbus', 'lockheed'], weight: 1.0 },
-    { keywords: ['supply chain', 'logistics', 'shipping', 'transportation'], weight: 0.8 },
+  // Derivatives
+  DERIVATIVE: [
+    { keywords: ['option', 'call', 'put', 'future', 'forward', 'swap', 'derivative'], weight: 1.0 },
+    { keywords: ['expiry', 'strike price', 'premium', 'open interest'], weight: 0.8 },
   ],
   
   OTHER: [

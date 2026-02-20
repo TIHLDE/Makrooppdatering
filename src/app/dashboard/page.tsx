@@ -1,12 +1,11 @@
 'use client';
 
-'use client';
-
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NewsItem, Ticker, Tag } from '@prisma/client';
 import { Loader2, TrendingUp, TrendingDown, Home, Newspaper, BarChart3, Gamepad2 } from 'lucide-react';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 interface NewsWithRelations extends NewsItem {
   tickers: Ticker[];
@@ -316,7 +315,7 @@ export default function DashboardPage() {
               <div className="flex flex-col items-center justify-center h-full text-[#666]">
                 <div className="text-lg mb-4">Select filters and load news</div>
                 <button
-                  onClick={loadNews}
+                  onClick={() => loadNews(1)}
                   className="px-6 py-3 bg-[#ff6b35] text-black font-bold text-sm hover:bg-[#ff8555] transition-colors"
                 >
                   LOAD NEWS

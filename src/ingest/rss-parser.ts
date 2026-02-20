@@ -110,7 +110,7 @@ function determineAssetType(text: string, defaultType: AssetType): AssetType {
       lowerText.includes('sanctions') ||
       lowerText.includes('tension') ||
       lowerText.includes('border')) {
-    return AssetType.GEOPOLITICS;
+    return AssetType.OTHER;
   }
   
   // Politics keywords
@@ -119,7 +119,7 @@ function determineAssetType(text: string, defaultType: AssetType): AssetType {
       lowerText.includes('regulation') ||
       lowerText.includes('congress') ||
       lowerText.includes('parliament')) {
-    return AssetType.POLITICS;
+    return AssetType.OTHER;
   }
   
   // Macro keywords
@@ -129,7 +129,7 @@ function determineAssetType(text: string, defaultType: AssetType): AssetType {
       lowerText.includes('gdp') ||
       lowerText.includes('unemployment') ||
       lowerText.includes('central bank')) {
-    return AssetType.MACRO;
+    return AssetType.OTHER;
   }
   
   return defaultType;
@@ -209,7 +209,7 @@ export async function saveNewsItems(items: ParsedNewsItem[]): Promise<number> {
           summary: item.summary,
           url: item.url,
           source: item.source,
-          sourceUrl: item.sourceUrl,
+          sourceUrl: item.sourceUrl ?? null,
           publishedAt: item.publishedAt,
           fetchedAt: new Date(),
           language: item.language,

@@ -178,13 +178,13 @@ async function main() {
   // 4. Seed RSS sources - 20+ premium sources
   const rssSources = [
     // Major Financial News
-    { name: 'MarketWatch', url: 'https://feeds.marketwatch.com/marketwatch/topstories', assetType: AssetType.MACRO },
-    { name: 'Yahoo Finance', url: 'https://finance.yahoo.com/rss/topstories', assetType: AssetType.MACRO },
-    { name: 'CNBC', url: 'https://www.cnbc.com/id/100003114/device/rss/rss.html', assetType: AssetType.MACRO },
-    { name: 'Reuters', url: 'https://www.reutersagency.com/feed/?taxonomy=markets&post_type=reuters-best', assetType: AssetType.MACRO },
-    { name: 'Financial Times', url: 'https://www.ft.com/?format=rss', assetType: AssetType.MACRO },
-    { name: 'WSJ', url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml', assetType: AssetType.MACRO },
-    { name: 'Bloomberg', url: 'https://feeds.bloomberg.com/markets/news.rss', assetType: AssetType.MACRO },
+    { name: 'MarketWatch', url: 'https://feeds.marketwatch.com/marketwatch/topstories', assetType: AssetType.OTHER },
+    { name: 'Yahoo Finance', url: 'https://finance.yahoo.com/rss/topstories', assetType: AssetType.OTHER },
+    { name: 'CNBC', url: 'https://www.cnbc.com/id/100003114/device/rss/rss.html', assetType: AssetType.OTHER },
+    { name: 'Reuters', url: 'https://www.reutersagency.com/feed/?taxonomy=markets&post_type=reuters-best', assetType: AssetType.OTHER },
+    { name: 'Financial Times', url: 'https://www.ft.com/?format=rss', assetType: AssetType.OTHER },
+    { name: 'WSJ', url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml', assetType: AssetType.OTHER },
+    { name: 'Bloomberg', url: 'https://feeds.bloomberg.com/markets/news.rss', assetType: AssetType.OTHER },
     
     // Crypto
     { name: 'CoinDesk', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', assetType: AssetType.CRYPTO },
@@ -198,20 +198,20 @@ async function main() {
     { name: 'Ars Technica', url: 'https://arstechnica.com/feed/', assetType: AssetType.EQUITY },
     
     // Nordic/Norwegian
-    { name: 'E24', url: 'https://e24.no/rss', assetType: AssetType.MACRO },
-    { name: 'Finansavisen', url: 'https://www.finansavisen.no/rss', assetType: AssetType.MACRO },
-    { name: 'Dagens Næringsliv', url: 'https://www.dn.no/rss', assetType: AssetType.MACRO },
-    { name: 'Børsen', url: 'https://borsen.dk/rss', assetType: AssetType.MACRO },
+    { name: 'E24', url: 'https://e24.no/rss', assetType: AssetType.OTHER },
+    { name: 'Finansavisen', url: 'https://www.finansavisen.no/rss', assetType: AssetType.OTHER },
+    { name: 'Dagens Næringsliv', url: 'https://www.dn.no/rss', assetType: AssetType.OTHER },
+    { name: 'Børsen', url: 'https://borsen.dk/rss', assetType: AssetType.OTHER },
     
     // Specialized
     { name: 'Seeking Alpha', url: 'https://seekingalpha.com/feed.xml', assetType: AssetType.EQUITY },
-    { name: 'Investopedia', url: 'https://www.investopedia.com/feedprovider/news.rss', assetType: AssetType.MACRO },
-    { name: 'ZeroHedge', url: 'https://feeds.feedburner.com/zerohedge/feed', assetType: AssetType.MACRO },
-    { name: 'Kitco', url: 'https://www.kitco.com/rss/news.rss', assetType: AssetType.MACRO },
+    { name: 'Investopedia', url: 'https://www.investopedia.com/feedprovider/news.rss', assetType: AssetType.OTHER },
+    { name: 'ZeroHedge', url: 'https://feeds.feedburner.com/zerohedge/feed', assetType: AssetType.OTHER },
+    { name: 'Kitco', url: 'https://www.kitco.com/rss/news.rss', assetType: AssetType.OTHER },
     
     // Geopolitics
-    { name: 'Foreign Policy', url: 'https://foreignpolicy.com/feed/', assetType: AssetType.GEOPOLITICS },
-    { name: 'Stratfor', url: 'https://worldview.stratfor.com/feed', assetType: AssetType.GEOPOLITICS },
+    { name: 'Foreign Policy', url: 'https://foreignpolicy.com/feed/', assetType: AssetType.OTHER },
+    { name: 'Stratfor', url: 'https://worldview.stratfor.com/feed', assetType: AssetType.OTHER },
   ];
 
   for (const source of rssSources) {
@@ -231,7 +231,7 @@ async function main() {
       url: 'https://example.com/fed-rates-1',
       source: 'MarketWatch',
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 2),
-      assetType: AssetType.MACRO,
+      assetType: AssetType.OTHER,
       language: 'en',
       sentiment: 0.3,
       relevance: 0.95,
@@ -267,7 +267,7 @@ async function main() {
       url: 'https://example.com/eu-energy-1',
       source: 'Bloomberg',
       publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 8),
-      assetType: AssetType.GEOPOLITICS,
+      assetType: AssetType.OTHER,
       language: 'en',
       sentiment: -0.55,
       relevance: 0.82,
@@ -352,7 +352,7 @@ async function main() {
       type: 'MULTIPLE_CHOICE',
       dateFrom: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
       dateTo: new Date(),
-      assetTypes: [AssetType.MACRO, AssetType.CRYPTO, AssetType.EQUITY],
+      assetTypes: [AssetType.OTHER, AssetType.CRYPTO, AssetType.EQUITY],
     },
   });
 
