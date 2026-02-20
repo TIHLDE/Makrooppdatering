@@ -8,7 +8,16 @@ Dette er en nettside som viser økonomiske nyheter og har quizzer om finans.
 - `.env` filen (den hemmelige koden)
 
 Tri har allerede satt opp databasen, så du trenger bare å få filen av han.
-
+## Hvordan laste ned programmet
+1. **Clone programmet**
+   - Skriv dette i terminalen:
+   ```bash
+   git clone https://github.com/TIHLDE/Makrooppdatering.git
+   ```
+2. **Deretter gå til mappen**
+   ```bash
+   cd /Makrooppdatering
+   ```
 ## Hvordan starte programmet
 
 ### Første gang (gjør dette én gang):
@@ -67,3 +76,4 @@ Tri har allerede satt opp databasen, så du trenger bare å få filen av han.
 ---
 
 **Funker det ikke?** Spør Claude om hjelp! 😊
+Kan godt hend at du må last ned node og sånt. Chat fikse det bare lim inn feilmelding fra terminalen i chat
