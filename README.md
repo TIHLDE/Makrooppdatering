@@ -20,7 +20,7 @@ Tri har allerede satt opp databasen, så du trenger bare å få filen av han.
 
 2. **Gå til mappen**
    ```bash
-   cd /Users/trile/Desktop/freetime/projects/web/makrooppdatering
+   cd /Makrooppdatering
    ```
 
 3. **Installer programmet**
@@ -49,7 +49,7 @@ Tri har allerede satt opp databasen, så du trenger bare å få filen av han.
 
 1. **Gå til mappen**
    ```bash
-   cd /Users/trile/Desktop/freetime/projects/web/makrooppdatering
+   cd /Makrooppdatering
    ```
 
 2. **Start programmet**
