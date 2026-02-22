@@ -122,7 +122,7 @@
               "mediaId": "m-1",
               "type": "image",
               "title": "Norges Bank 16. januar",
-              "url": "https://www.norges-bank.no/content/uploads/2026/01/rentemote-januar-2026.jpg",
+              "url": "/images/norges_bank.jpg",
               "alt": "Norges Bank holder renten uendret på 4 prosent",
               "credit": "Norges Bank",
               "sourceId": "src-1",
@@ -132,7 +132,7 @@
               "mediaId": "m-2",
               "type": "image",
               "title": "ECB 30. januar",
-              "url": "https://www.ecb.europa.eu/press/photo/2026/ecb-governing-council-january.jpg",
+              "url": "/images/ecb-january-2026.jpg",
               "alt": "ECB rentebeslutning januar 2026",
               "credit": "ECB",
               "sourceId": "src-3",
@@ -142,7 +142,7 @@
               "mediaId": "m-3",
               "type": "image",
               "title": "Federal Reserve 29. januar",
-              "url": "https://www.federalreserve.gov/images/fomc-january-2026.jpg",
+              "url": "/images/federal_reserve.jpg",
               "alt": "Fed holder renten uendret",
               "credit": "Federal Reserve",
               "sourceId": "src-4",
@@ -157,8 +157,8 @@
           ],
           "interaction": {
             "format": "free_text",
-            "prompt": "Hva er fellesnevneren for disse tre beslutningene, og hva er én plausibel konsekvens for valutamarkedet?",
-            "instructions": "Skriv 1–2 setninger. Ingen multiple choice. Maks 280 tegn.",
+            "prompt": "Hva er felles for disse tre sentralbankene, og hva kan skje med en valuta når renter holdes uendret?",
+            "instructions": "Skriv 1 kort setning (maks 280 tegn).",
             "answerSpec": {
               "mode": "rubric",
               "normalization": {
@@ -182,15 +182,15 @@
             }
           },
           "solution": {
-            "shortAnswer": "Alle tre sentralbankene holder renten uendret og signaliserer tålmodighet ('vente-og-se').",
-            "modelAnswer": "Alle tre sentralbankene holder renten uendret og signaliserer tålmodighet med hensyn til neste endring. Dette kan føre til NOK-svakhet hvis markedet hadde priset inn en mer hawkish Norges Bank enn ECB/Fed, eller generell valutavolatilitet når usikkerhet om timing av neste renteendring øker.",
+            "shortAnswer": "Alle holder renten uendret og sier «vi venter og ser».",
+            "modelAnswer": "Fellesnevneren er at de holder renten uendret og signaliserer «vente-og-se». Det kan gi mer valutabevegelse (og i noen tilfeller svakere valuta) når markedet blir mer usikkert på når neste renteendring kommer.",
             "explanation": {
-              "short": "Fellesskapet er 'vente-og-se'-politikk (hold) på tvers av tre store sentralbanker.",
-              "whyCorrect": "Norges Bank, ECB og Fed valgte alle å holde renten uendret i januar 2026. Kommunikasjonen la vekt på å avvente mer data om inflasjonsutviklingen før neste trekk. Dette skaper usikkerhet om rentebane, noe som typisk fører til økt volatilitet i valutamarkedet. NOK kan svekkes hvis norske renteoppgangser forventninger justeres ned.",
+              "short": "Hold + «vente-og-se» kan skape mer usikkerhet i valutamarkedet.",
+              "whyCorrect": "Når flere sentralbanker holder renten uendret og sier at de vil avvente mer data, blir timingen av neste renteendring mer usikker. Da kan valutakurser svinge mer, og en valuta kan svekkes hvis forventningene til fremtidig rente justeres ned.",
               "whyOthersWrong": [
-                "Å kun si 'de holder renten uendret' uten å nevne kommunikasjonen om tålmodighet får ikke med den viktige forward guidance-komponenten.",
-                "Å fokusere kun på inflasjon uten å koble det til sentralbankenes vente-og-se-strategi er ufullstendig.",
-                "Å hevde at dette automatisk fører til sterkere NOK er feil – utfall avhenger av relative forventninger og hvem som beveger seg først."
+                "Å bare skrive «de holdt renten uendret» uten å nevne «vente-og-se» mangler poenget om kommunikasjonen.",
+                "Svar som ikke sier noe om valuta/effekt i markedet blir ufullstendige.",
+                "Å si at valutaen alltid må styrke seg er for bastant – det avhenger av forventninger og relative renter."
               ]
             }
           },
@@ -200,7 +200,7 @@
         {
           "segmentId": "r-1-s-2",
           "segmentType": "guess_connection",
-          "title": "Video: Hva signaliserer denne uttalelsen?",
+          "title": "Video: Hva prøver han å si?",
           "topicTags": ["obligasjoner", "yieldkurve", "term-premium", "inflasjon"],
           "difficulty": "medium",
           "media": [
@@ -224,8 +224,8 @@
           ],
           "interaction": {
             "format": "free_text",
-            "prompt": "Basert på videoen og konteksten: Hva signaliserer Powell om inflasjonsforventninger, og hvordan påvirker dette obligasjonsmarkedet?",
-            "instructions": "Skriv 1–2 setninger. Nevn mekanismen (yield/term premium).",
+            "prompt": "Hva sier Powell (enkelt forklart), og hva skjer ofte med lange renter/yield når markedet blir mer bekymret for inflasjon?",
+            "instructions": "Skriv 1 kort setning. Nevn gjerne «yield» eller «lange renter».",
             "answerSpec": {
               "mode": "rubric",
               "normalization": {
@@ -248,15 +248,15 @@
             }
           },
           "solution": {
-            "shortAnswer": "Powell signaliserer bekymring for vedvarende inflasjon, noe som øker term premium og skyver opp lange renter.",
-            "modelAnswer": "Powell antyder at inflasjonsdataene er bekymringsverdige og at Fed ikke rushere til rentesenkning. Dette øker usikkerheten (term premium) i obligasjonsmarkedet og fører til at investorer krever høyere avkastning (yield) på lang løpetid for å kompensere for inflasjonsrisiko.",
+            "shortAnswer": "Han virker mer bekymret for inflasjon, og da kan lange renter (yield) stige.",
+            "modelAnswer": "Powell signaliserer at inflasjon fortsatt er en bekymring, og at Fed ikke haster med kutt. Når inflasjonsrisiko/uro øker, krever investorer ofte høyere avkastning, så lange yields kan stige (og obligasjonspriser falle).",
             "explanation": {
-              "short": "Hawkish inflasjonskommentarer øker term premium og presser opp yields.",
-              "whyCorrect": "Når sentralbanksjefen uttrykker bekymring for vedvarende inflasjon, justerer markedet forventninger om fremtidig rentepolitikk nedover (færre/forsinkede kutt). Samtidig øker risikopremien (term premium) fordi usikkerheten om inflasjonsbanen øker. Dette gir høyere yields spesielt på lang løpetid.",
+              "short": "Mer inflasjonsuro → høyere yield.",
+              "whyCorrect": "Hvis markedet tror inflasjonen kan bli høyere eller mer seiglivet, øker usikkerheten. Da krever mange en høyere rente på lange obligasjoner som «kompensasjon», som gir høyere yield og lavere obligasjonspris.",
               "whyOthersWrong": [
-                "Å si at dette er 'bullish for obligasjoner' er motsatt av riktig – høyere yields betyr lavere obligasjonspriser.",
-                "Å fokusere kun på 'renteoppgang' uten å nevne term premium-komponenten får ikke med hele bildet.",
-                "Å hevde at Powell signaliserer rentesenkning er direkte feil basert på yield-bevegelsene."
+                "Å si at dette er positivt for obligasjonspriser er feil – høyere yield betyr typisk lavere pris.",
+                "Svar som bare sier «renten går opp» uten å koble det til inflasjon/uro gir for lite forklaring.",
+                "Å påstå at han garanterer raske rentekutt passer dårlig med konteksten i faktaboksen."
               ]
             }
           },
@@ -266,7 +266,7 @@
         {
           "segmentId": "r-1-s-3",
           "segmentType": "guess_connection",
-          "title": "Fire nøkkeltall – hva forteller de sammen?",
+          "title": "Fire hint – hvorfor svekkes NOK?",
           "topicTags": ["valuta", "rente-differanse", "carry-trade", "fondsstrømmer"],
           "difficulty": "hard",
           "media": [
@@ -319,8 +319,8 @@
           ],
           "interaction": {
             "format": "free_text",
-            "prompt": "Koble disse fire elementene: Hva er den underliggende mekanismen som forklarer NOK-svakhet sett i lys av rente-differanser og global risk-off?",
-            "instructions": "Skriv 1–2 setninger. Nevn minst én mekanisme (carry-trade, safe-haven, eller kapitalstrømmer).",
+            "prompt": "Hvorfor kan NOK bli svakere når renteforskjellen krymper og verden er «risk-off»?",
+            "instructions": "Skriv 1 kort setning. Nevn «rentedifferanse» eller «risk-off».",
             "answerSpec": {
               "mode": "rubric",
               "normalization": {
@@ -343,15 +343,15 @@
             }
           },
           "solution": {
-            "shortAnswer": "Krympende rente-differanse reduserer carry-trade-appellen til NOK, mens risk-off øker safe-haven-etterspørsel etter EUR/USD.",
-            "modelAnswer": "Når renteforskjellen mellom Norge og Eurosonen krymper (fra 75 til 25 bp), blir det mindre profitabelt å drive carry-trade (låne EUR billig, plassere i NOK). Samtidig øker risk-off (bevegelse bort fra risiko) etterspørsel etter safe-haven-valutaer som EUR og USD, mens NOK (en mindre likvid, høybeta-valuta) svekkes. Oljefondets ATH er en separat strukturell faktor som isolert sett kunne styrket NOK.",
+            "shortAnswer": "Mindre rentedifferanse + risk-off gjør NOK mindre attraktiv, så den kan svekkes.",
+            "modelAnswer": "Når rentedifferansen mot euro blir mindre, blir det mindre «gevinst» i å holde NOK. Samtidig, i risk-off, går penger ofte til større og tryggere valutaer, så NOK kan bli svakere.",
             "explanation": {
-              "short": "Carry-trade-uattraktivitet + risk-off = NOK-svakhet.",
-              "whyCorrect": "NOK er historisk en 'carry-trade favoritt' pga høyere renter enn EUR/USD. Når denne fordelen forsvinner (krympende differanse), reduseres attraktiviteten. Parallelt: i risk-off miljøer flykter kapital til store, likvide safe-haven-valutaer (EUR, USD, CHF, JPY), ikke til mindre valutaer som NOK.",
+              "short": "Lavere «rente-fordel» og mer uro kan gi svakere NOK.",
+              "whyCorrect": "Hvis Norges rente ikke lenger ligger så mye over euro, blir NOK mindre interessant å eie for avkastning. Og når markedet blir mer forsiktig (risk-off), flytter mange penger til store, likvide valutaer i stedet for mindre valutaer som NOK.",
               "whyOthersWrong": [
-                "Å si at høyere oljefond gir automatisk sterkere NOK er for enkelt – fondets avkastning er i utenlandsk valuta.",
-                "Å hevde at NOK svekkes pga lav oljepris er irrelevant her (oljepris ikke nevnt i fakta).",
-                "Å kun fokusere på én av de to hovedmekanismene (bare carry ELLER bare risk-off) gir delvis score."
+                "Å si at oljefondets rekord alene må styrke NOK er for enkelt – flere krefter virker samtidig.",
+                "Å dra inn oljepris her blir en avsporing (ikke nevnt i fakta).",
+                "Svar som bare nevner én ting (kun rente eller kun risk-off) blir ofte bare delvis riktig."
               ]
             }
           },
@@ -396,12 +396,12 @@
           ],
           "interaction": {
             "format": "mcq",
-            "prompt": "Hva var Norges Banks hovedargument for å holde renten uendret på 4,0% i januar?",
+            "prompt": "Hvorfor holdt Norges Bank renten uendret i januar (enkelt forklart)?",
             "options": [
-              "A) Inflasjonen er allerede under 2%",
-              "B) Usikkerhet om virkningen av tidligere rentehevinger tilsa å avvente mer data",
-              "C) Kronekursen var for sterk og trengte å svekkes",
-              "D) Regjeringen ba om lavere renter for å stimulere boligmarkedet"
+              "A) Fordi inflasjonen allerede var godt under 2%",
+              "B) Fordi de ville vente og se effekten av tidligere rentehevinger",
+              "C) Fordi kronen var for sterk og måtte svekkes",
+              "D) Fordi regjeringen bestemte rentenivået"
             ],
             "answerSpec": {
               "mode": "index",
@@ -411,12 +411,12 @@
           "solution": {
             "shortAnswer": "B",
             "explanation": {
-              "short": "Banken ønsket å avvente mer data om hvordan tidligere rentehevinger virket inn på økonomien.",
-              "whyCorrect": "I pressemeldingen fremhevet Norges Bank at det er usikkerhet om hvor mye tidligere rentehevinger har virket inn, og at det var grunn til å avvente mer informasjon før neste trekk. Dette er standard 'vente-og-se'-argumentasjon.",
+              "short": "De ville vente og se mer data og effekten av tidligere hevinger.",
+              "whyCorrect": "Hovedpoenget var usikkerhet rundt hvor mye de tidligere rentehevingene allerede har bremset økonomien. Derfor valgte de å avvente mer informasjon før neste trekk.",
               "whyOthersWrong": [
-                "A) Feil: Inflasjonen var fortsatt over målet, ikke under.",
-                "C) Feil: Kronekursen ble ikke nevnt som primær begrunnelse for rentebeslutningen.",
-                "D) Feil: Norges Bank er uavhengig av regjeringen og følger ikke politiske instrukser om rentenivå."
+                "A) Feil: Inflasjonen var ikke tydelig under målet i denne sammenhengen.",
+                "C) Feil: Det var ikke hovedbegrunnelsen her.",
+                "D) Feil: Norges Bank setter renten uavhengig."
               ]
             }
           },
@@ -426,7 +426,7 @@
         {
           "segmentId": "r-2-s-2",
           "segmentType": "news_quiz",
-          "title": "ECBs retorikk",
+          "title": "ECBs budskap",
           "topicTags": ["ecb", "rente", "euro", "inflasjon"],
           "difficulty": "medium",
           "media": [],
@@ -437,12 +437,12 @@
           ],
           "interaction": {
             "format": "multi",
-            "prompt": "Hvilke av følgende utsagn om ECBs januar-møte er korrekte? (Velg alle som gjelder)",
+            "prompt": "Hva stemmer om ECB-møtet i januar? (Velg alle som gjelder)",
             "options": [
-              "A) ECB kuttet renten med 25 basispunkter",
-              "B) Lagarde signaliserte at flere rentehevinger ikke kan utelukkes",
-              "C) Inflasjonsdataene var lavere enn ECBs egne prognoser",
-              "D) Euroen styrket seg mot USD etter møtet"
+              "A) ECB kuttet renten i januar",
+              "B) Lagarde sa at kampen mot inflasjon ikke er over",
+              "C) Kjerneinflasjonen falt fra november til desember",
+              "D) ECB lovet rentekutt i mars"
             ],
             "answerSpec": {
               "mode": "indices",
@@ -452,11 +452,11 @@
           "solution": {
             "shortAnswer": "B og C",
             "explanation": {
-              "short": "Lagarde holdt døren åpen for flere hevinger hvis inflasjonen ikke kommer ned, og inflasjonsdataene var faktisk lavere enn ventet.",
-              "whyCorrect": "Lagarde var tydelig på at kampen mot inflasjonen ikke er over ('cannot declare victory yet'), som implisitt holder muligheten åpen for flere stramminger. Samtidig viste faktiske inflasjonsdata at kjerneinflasjon falt mer enn forventet (2,8% vs ventet 2,9%).",
+              "short": "Renten ble holdt, Lagarde var forsiktig, og kjerneinflasjonen falt litt.",
+              "whyCorrect": "Faktaboksen sier at ECB holdt renten uendret, Lagarde var tydelig på at de ikke er «ferdige», og kjerneinflasjonen gikk ned fra 3,0% til 2,8%.",
               "whyOthersWrong": [
-                "A) Feil: Renten ble holdt uendret, ikke kuttet.",
-                "D) Feil: Euroen svekket seg marginalt mot USD på mer dovish retorikk enn ventet."
+                "A) Feil: Renten ble ikke kuttet.",
+                "D) Feil: Det ble ikke gitt et løfte om rentekutt i mars."
               ]
             }
           },
@@ -500,12 +500,12 @@
           ],
           "interaction": {
             "format": "mcq",
-            "prompt": "Hva signaliserte endringen i Feds språkbruk fra desember til januar?",
+            "prompt": "Hva betyr endringen i språket (fra «monitor» til «prepared to adjust»)?",
             "options": [
-              "A) En overgang fra å 'observere' til å 'handle' ved behov",
-              "B) Ingen betydelig endring i tone",
-              "C) En mykere, mer dovish tilnærming",
-              "D) En garantert renteheving i mars"
+              "A) De virker mer klare til å handle hvis noe endrer seg",
+              "B) Det betyr ingenting, bare småord",
+              "C) De er helt sikre på raske rentekutt",
+              "D) De garanterer en renteheving i mars"
             ],
             "answerSpec": {
               "mode": "index",
@@ -515,12 +515,12 @@
           "solution": {
             "shortAnswer": "A",
             "explanation": {
-              "short": "Språkbruken endret seg fra passiv observasjon til aktiv beredskap for å handle.",
-              "whyCorrect": "Endringen fra 'will continue to monitor' (passiv) til 'is prepared to adjust' (aktiv/beredskap) signaliserer økt oppmerksomhet på risiko og vilje til å handle raskt. Dette er klassisk hawkish retorikk som reduserer forventninger om kutt.",
+              "short": "Det høres mer aktivt ut: klar til å justere ved behov.",
+              "whyCorrect": "«Prepared to adjust» er et mer handlingsorientert uttrykk enn «monitor». Det kan tolkes som at Fed følger risiko tettere og vil reagere hvis situasjonen krever det.",
               "whyOthersWrong": [
-                "B) Feil: Endringen var betydelig og merket av markedet (så 65%→25% endring i prising).",
-                "C) Feil: Dette var mer hawkish, ikke dovish.",
-                "D) Feil: De garanterte ingenting, kun beredskap til å handle 'if risks emerge'."
+                "B) Feil: Markedet reagerte faktisk på tonen.",
+                "C) Feil: Det er ikke et tydelig signal om raske kutt.",
+                "D) Feil: Det er ingen garanti om renteheving."
               ]
             }
           },
@@ -565,12 +565,12 @@
           ],
           "interaction": {
             "format": "multi",
-            "prompt": "Hvilke mekanismer forklarer markedsreaksjonene etter Norges Banks januar-møte? (Velg alle som gjelder)",
+            "prompt": "Hva kan forklare denne miksen (aksjer opp, lange renter ned, NOK svakere)? (Velg alle som passer)",
             "options": [
-              "A) Lavere rente = høyere nåverdi av fremtidige kontantstrømmer = høyere aksjekurs",
-              "B) Lavere rente = lavere obligasjonsyields (priser opp)",
-              "C) Lavere forventet rente = lavere avkastningsdifferanse = NOK-svakhet",
-              "D) Høyere inflasjon = sterkere valuta"
+              "A) Lavere forventet rente gjør ofte aksjer mer attraktive",
+              "B) Lavere forventet rente kan presse yields ned og obligasjonspriser opp",
+              "C) Mindre rentedifferanse kan gjøre NOK mindre attraktiv",
+              "D) Høyere inflasjon gir alltid sterkere valuta"
             ],
             "answerSpec": {
               "mode": "indices",
@@ -580,10 +580,10 @@
           "solution": {
             "shortAnswer": "A, B og C",
             "explanation": {
-              "short": "Alle tre effekter skyldes justering av renteforventninger nedover.",
-              "whyCorrect": "Når markedet justerer forventninger om norsk renteoppgang nedover: A) Aksjer stiger fordi diskonteringsrenten (kapitalkostnad) synker, øker nåverdi. B) Obligasjoner stiger (yields ned) pga lavere forventet kortsiktig rente. C) NOK svekkes pga redusert renteforskjell mot EUR.",
+              "short": "Alt handler om at forventet rente ble justert litt ned.",
+              "whyCorrect": "Når markedet tror renten fremover blir lavere enn fryktet: aksjer kan stige (lavere diskonteringsrente), obligasjonsyields kan falle (prisene opp), og NOK kan svekkes hvis rente-fordelen mot EUR blir mindre.",
               "whyOthersWrong": [
-                "D) Feil: Høyere inflasjon alene gir ikke sterkere valuta – det er sentralbankens respons (rente) som teller. Dessuten var dette en situasjon med lavere rente."
+                "D) Feil: Inflasjon alene gir ikke «alltid» sterkere valuta – renter og forventninger er viktigere her."
               ]
             }
           },
@@ -628,20 +628,20 @@
           ],
           "interaction": {
             "format": "case",
-            "prompt": "CASE: Analyser sektorrotasjonen",
-            "caseText": "Siste 6 uker har vi sett en markant rotasjon fra vekstsektorer (teknologi) til verdiselskaper (banker, energi). Samtidig har lang rente steget 40 basispunkter. Som porteføljeforvalter må du forklare denne utviklingen for kundene dine.",
+            "prompt": "CASE: Forklar rotasjonen",
+            "caseText": "De siste ukene har teknologi (vekst) falt, mens banker/energi (verdi) har gjort det bedre. Samtidig har lange renter steget. Forklar dette på en enkel måte til en kunde.",
             "answerSpec": {
               "mode": "sub_questions",
               "subQuestions": [
                 {
                   "subQuestionId": "sq-1",
                   "format": "mcq",
-                  "prompt": "Hva er hoveddriveren bak at teknologiaksjer (vekst) faller når lang rente stiger?",
+                  "prompt": "Hvorfor faller ofte vekstaksjer når lange renter stiger?",
                   "options": [
-                    "A) Høyere renter øker kostnaden for tech-selskapers gjeld",
-                    "B) Fremtidige kontantstrømmer diskonteres med høyere rente, reduserer nåverdi",
-                    "C) Tech-selskaper får lavere salg når renter er høye",
-                    "D) Investorer foretrekker banker pga høyere utbytte"
+                    "A) Fordi alle tech-selskaper får mindre kunder med én gang",
+                    "B) Fordi fremtidige kontantstrømmer blir «mindre verdt» når diskonteringsrenten stiger",
+                    "C) Fordi myndighetene forbyr teknologi når renten stiger",
+                    "D) Fordi banker alltid går opp uansett"
                   ],
                   "answerSpec": {
                     "mode": "index",
@@ -650,12 +650,12 @@
                   "solution": {
                     "shortAnswer": "B",
                     "explanation": {
-                      "short": "Vekstaksjer har meste av verdi i fjern fremtid; høyere diskonteringsrente reduserer nåverdi betydelig.",
-                      "whyCorrect": "Tech/vekst-aksjer har høye P/E-ratios fordi markedet forventer sterke kontantstrømmer langt frem i tid. Når diskonteringsrenten øker (pga stigende lang rente), reduseres nåverdien av disse fremtidige kontantstrømmene kraftig. Dette er rent matematikk: PV = CF/(1+r)^t.",
+                      "short": "Høyere rente gir lavere nåverdi av penger langt frem i tid.",
+                      "whyCorrect": "Mye av verdien i vekstaksjer ligger i forventninger om fremtidige kontantstrømmer. Når diskonteringsrenten øker, blir nåverdien lavere, og kursen kan falle.",
                       "whyOthersWrong": [
-                        "A) Sekundært: Gjeldskostnader øker, men ikke hoveddriveren for børsverdi.",
-                        "C) Indirekte: Konsumet påvirkes, men ikke hovedmekanismen for tech-fall.",
-                        "D) Utbytte er ikke hovedforklaringen – det er diskonteringseffekten."
+                        "A) Kan skje indirekte, men er ikke hovedforklaringen her.",
+                        "C) Feil: Dette har ikke med renten å gjøre.",
+                        "D) Feil: Banker kan også falle i andre perioder."
                       ]
                     }
                   },
@@ -665,7 +665,7 @@
                 {
                   "subQuestionId": "sq-2",
                   "format": "free_text",
-                  "prompt": "Hvorfor klarer banker seg relativt bra i dette scenarioet med stigende renter?",
+                  "prompt": "Hvorfor kan banker gjøre det bedre når renter stiger?",
                   "answerSpec": {
                     "mode": "rubric",
                     "normalization": {
@@ -685,13 +685,13 @@
                     }
                   },
                   "solution": {
-                    "shortAnswer": "Bankers netto rentemargin øker når rentenivået stiger fordi utlånsrenter justeres raskere og mer enn innskuddsrenter.",
+                    "shortAnswer": "Banker kan tjene mer når renten stiger, fordi rentemarginen (mellom lån og innskudd) kan øke.",
                     "explanation": {
-                      "short": "Stigende renter = høyere netto renteinntekter for banker (bedre margin).",
-                      "whyCorrect": "Bankers forretningsmodell er i stor grad basert på spread (rentemargin) mellom hva de betaler for innskudd og hva de tar for lån. Når renter stiger, kan banker øke utlånsrentene raskere enn de øker innskuddsrentene (særlig for lån med flytende rente). Dette øker netto renteinntektene og dermed lønnsomheten.",
+                      "short": "Stigende renter kan gi høyere renteinntekter for banker.",
+                      "whyCorrect": "Banker tjener ofte på forskjellen mellom hva de tar i rente på lån og hva de betaler på innskudd. Når renter stiger, kan denne marginen bli bedre, og inntjeningen øker.",
                       "whyOthersWrong": [
-                        "Å si at banker har 'lite gjeld' er ikke hovedpoenget – det er rentemarginen som teller.",
-                        "Å hevde at banker tjener på 'høyere inflasjon' er indirekte; det er sentralbankens respons (høyere rente) som gir økt margin."
+                        "Forklaringer som ikke nevner margin/spread mellom utlån og innskudd treffer dårligere.",
+                        "Å kun si «banker er trygge» er for vagt – det handler om inntjening via renter."
                       ]
                     }
                   },
@@ -702,10 +702,10 @@
             }
           },
           "solution": {
-            "shortAnswer": "Se delspørsmål-svar over.",
+            "shortAnswer": "Vekst rammes av høyere diskonteringsrente; banker kan tjene på bedre rentemargin.",
             "explanation": {
-              "short": "Vekstaksjer faller pga høyere diskonteringsrente; banker stiger pga økte rentemarginer.",
-              "whyCorrect": "Denne rotasjonen er et klassisk mønster når renteoppgangen akselererer: verdipapirer med mest varighet (lengste kontantstrømmer frem i tid) rammes hardest, mens verdipapirer med positive eksponering mot rentenivå (banker) klarer seg relativt bedre."
+              "short": "Høyere lange renter gir press på vekst, mens banker kan få drahjelp.",
+              "whyCorrect": "Når lange renter stiger, faller ofte verdien av kontantstrømmer langt frem i tid (vekst). Samtidig kan banker få bedre lønnsomhet hvis rentemarginen øker."
             }
           },
           "sourceRefs": ["src-8"],
