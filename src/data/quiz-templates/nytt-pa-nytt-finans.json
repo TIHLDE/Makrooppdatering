@@ -2,8 +2,8 @@
   "meta": {
     "title": "Nytt på nytt: Finans & Økonomi",
     "language": "nb-NO",
-    "asOfDate": "2026-02-20",
-    "version": "1.0.0",
+    "asOfDate": "2026-02-24",
+    "version": "1.0.1",
     "timezone": "Europe/Oslo"
   },
   "config": {
@@ -21,92 +21,62 @@
   "sources": [
     {
       "sourceId": "src-1",
-      "publisher": "Norges Bank",
-      "title": "Policy rate kept unchanged at 4 percent",
-      "publishedDate": "2026-01-16",
-      "url": "https://www.norges-bank.no/en/news-events/news-publications/News/2026/2026-01-16-policy-rate-kept-unchanged/",
+      "publisher": "Reuters",
+      "title": "US Supreme Court strikes down Trump's global tariffs",
+      "publishedDate": "2026-02-20",
+      "url": "https://www.reuters.com/legal/government/us-supreme-court-rejects-trumps-global-tariffs-2026-02-20/",
       "type": "primary",
       "paywalled": false,
-      "notes": "Hovedkilde for rentebeslutning og kommunikasjon"
+      "notes": "Høyesterett slår ned bred tollmyndighet; reduserer risiko for omfattende tariffer gjennom denne hjemmelen"
     },
     {
       "sourceId": "src-2",
-      "publisher": "DN Markets",
-      "title": "Analytikerne overrasket av Norges Banks signaler",
-      "publishedDate": "2026-01-17",
-      "url": "https://www.dn.no/marked/analyse/norges-bank/rentemote/2026/01/17/analytikerne-overrasket/",
-      "type": "secondary",
-      "paywalled": true,
-      "notes": "Markedsreaksjoner og analytikerkommentarer"
+      "publisher": "SSB",
+      "title": "Sterk prisvekst i januar",
+      "publishedDate": "2026-02-10",
+      "url": "https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen",
+      "type": "primary",
+      "paywalled": false,
+      "notes": "KPI 3,6% og KPI-JAE 3,4% (tolvmånedersvekst) for januar 2026"
     },
     {
       "sourceId": "src-3",
-      "publisher": "ECB",
-      "title": "Monetary policy decisions",
-      "publishedDate": "2026-01-30",
-      "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260130~530dd0656a.en.html",
-      "type": "primary",
+      "publisher": "Reuters",
+      "title": "Global Markets: U.S.-Iran tensions send oil prices higher",
+      "publishedDate": "2026-02-19",
+      "url": "https://www.reuters.com/world/china/global-markets-global-markets-2026-02-19/",
+      "type": "secondary",
       "paywalled": false,
-      "notes": "ECB rentebeslutning og uttalelser"
+      "notes": "Olje til seksmåneders topp på geopolitisk risiko; ringvirkninger for inflasjon/renter og risk-off"
     },
     {
       "sourceId": "src-4",
-      "publisher": "Federal Reserve",
-      "title": "FOMC Statement",
-      "publishedDate": "2026-01-29",
-      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260129a.htm",
-      "type": "primary",
+      "publisher": "swissinfo.ch",
+      "title": "Franc's relentless rise alarms Swiss companies",
+      "publishedDate": "2026-02-16",
+      "url": "https://www.swissinfo.ch/eng/various/francs-relentless-rise-alarms-swiss-companies/90948886",
+      "type": "secondary",
       "paywalled": false,
-      "notes": "Fed rentemøte og forward guidance"
+      "notes": "Sterk CHF svekker eksportkonkurranseevne og kan skape markedsvolatilitet"
     },
     {
       "sourceId": "src-5",
-      "publisher": "E24",
-      "title": "Oljefondet med ny all-time-high",
-      "publishedDate": "2026-02-05",
-      "url": "https://e24.no/naeringsliv/bors-finans/oljefondet/i/1GgJQzB/oljefondet-med-ny-rekord",
-      "type": "secondary",
-      "paywalled": false,
-      "notes": "Fondsforvaltning og markedsverdi"
-    },
-    {
-      "sourceId": "src-6",
-      "publisher": "Bloomberg",
-      "title": "Treasury Yields Surge on Inflation Concerns",
-      "publishedDate": "2026-02-10",
-      "url": "https://www.bloomberg.com/news/articles/2026-02-10/treasury-yields-surge",
-      "type": "primary",
-      "paywalled": true,
-      "notes": "Obligasjonsmarked og yieldbevegelser"
-    },
-    {
-      "sourceId": "src-7",
       "publisher": "Reuters",
-      "title": "NOK weakens on interest rate differential",
-      "publishedDate": "2026-02-12",
-      "url": "https://www.reuters.com/markets/currencies/nok-weakens-interest-rate-2026-02-12/",
+      "title": "Fed minutes could highlight shift in balance of risks as policymakers put rates on hold",
+      "publishedDate": "2026-02-18",
+      "url": "https://www.reuters.com/business/fed-minutes-could-highlight-shift-balance-risks-policymakers-put-rates-hold-2026-02-18/",
       "type": "secondary",
       "paywalled": false,
-      "notes": "Valutamarked og NOK-svakhet"
-    },
-    {
-      "sourceId": "src-8",
-      "publisher": "DNB Markets",
-      "title": "Sektorrotasjon i europeiske aksjer",
-      "publishedDate": "2026-02-15",
-      "url": "https://www.dnb.no/markets/analyse/sektorrotasjon-2026",
-      "type": "secondary",
-      "paywalled": true,
-      "notes": "Aksjemarked og sektorbevegelser"
+      "notes": "Fed-minutter: debatt i mer hawkish lys; signal om 'hold' en periode og vekt på inflasjonsrisiko"
     }
   ],
   "rounds": [
     {
       "roundId": "r-1",
-      "title": "Gjett sammenhengen",
-      "description": "Video, bilder og overskrifter – finn fellesnevneren og markedsimplikasjonene.",
+      "title": "Nytt på nytt – ukeoppsummering",
+      "description": "Fire saker, fire ulike spørsmålsformater.",
       "rules": {
-        "pointsPerCorrect": 2,
+        "pointsPerCorrect": 1,
         "pointsPerWrong": 0,
         "allowRetry": false
       },
@@ -114,51 +84,30 @@
         {
           "segmentId": "r-1-s-1",
           "segmentType": "guess_connection",
-          "title": "Tre sentralbanker – hva er fellesnevneren?",
-          "topicTags": ["sentralbank", "rente", "valuta", "forward-guidance"],
-          "difficulty": "intro",
+          "title": "USA: Dom om tariffer – hva er markedslogikken?",
+          "topicTags": ["usa", "tariffer", "politisk-risiko", "aksjer", "inflasjon"],
+          "difficulty": "medium",
           "media": [
             {
               "mediaId": "m-1",
-              "type": "image",
-              "title": "Norges Bank 16. januar",
-              "url": "https://www.norges-bank.no/content/uploads/2026/01/rentemote-januar-2026.jpg",
-              "alt": "Norges Bank holder renten uendret på 4 prosent",
-              "credit": "Norges Bank",
+              "type": "article",
+              "title": "Reuters: Supreme Court strikes down tariffs",
+              "url": "https://www.reuters.com/legal/government/us-supreme-court-rejects-trumps-global-tariffs-2026-02-20/",
+              "alt": "Reuters-sak om høyesterettsavgjørelse og implikasjoner for tariffpolitikk",
+              "credit": "Reuters",
               "sourceId": "src-1",
-              "timeRangeSec": null
-            },
-            {
-              "mediaId": "m-2",
-              "type": "image",
-              "title": "ECB 30. januar",
-              "url": "https://www.ecb.europa.eu/press/photo/2026/ecb-governing-council-january.jpg",
-              "alt": "ECB rentebeslutning januar 2026",
-              "credit": "ECB",
-              "sourceId": "src-3",
-              "timeRangeSec": null
-            },
-            {
-              "mediaId": "m-3",
-              "type": "image",
-              "title": "Federal Reserve 29. januar",
-              "url": "https://www.federalreserve.gov/images/fomc-january-2026.jpg",
-              "alt": "Fed holder renten uendret",
-              "credit": "Federal Reserve",
-              "sourceId": "src-4",
               "timeRangeSec": null
             }
           ],
           "factBox": [
-            "Norges Bank holdt renten uendret på 4,0% (16. januar)",
-            "ECB holdt renten uendret på 3,75% (30. januar)",
-            "Fed holdt renten uendret på 4,50% (29. januar)",
-            "Alle tre bankene signaliserte tålmodighet med hensyn til neste renteendring"
+            "US Supreme Court avviser en bred tariffhjemmel (20. feb)",
+            "Markedet reagerer ofte positivt når handelsrisiko faller",
+            "Men politisk usikkerhet kan bestå via andre virkemidler"
           ],
           "interaction": {
             "format": "free_text",
-            "prompt": "Hva er fellesnevneren for disse tre beslutningene, og hva er én plausibel konsekvens for valutamarkedet?",
-            "instructions": "Skriv 1–2 setninger. Ingen multiple choice. Maks 280 tegn.",
+            "prompt": "Hva er fellesnevneren mellom dommen og en positiv børsreaksjon – og nevn én mulig konsekvens for inflasjon eller renter?",
+            "instructions": "Skriv 1–2 setninger. Maks 280 tegn.",
             "answerSpec": {
               "mode": "rubric",
               "normalization": {
@@ -168,409 +117,111 @@
                 "collapseSpaces": true
               },
               "rubric": {
-                "mustMentionAny": ["vente", "tålmodig", "hold", "pause", "uendret", "vente-og-se"],
-                "shouldMentionAny": ["valuta", "nok", "eur", "usd", "renteoppgang", "rentesenkning", "styrking", "svakhet"],
+                "mustMentionAny": ["lavere", "mindre", "redusert", "risiko", "usikkerhet", "tariff", "toll", "handels"],
+                "shouldMentionAny": ["inflasjon", "pris", "renter", "yield", "sentralbank", "forventninger", "margin", "supply", "forsyning"],
                 "minConcepts": 2,
                 "forbiddenKeywords": [],
-                "gradingNotes": "Full score krever at man identifiserer felles hold-politikk OG nevner en valutakonsekvens (f.eks. NOK-svakhet pga mindre renteoppgang enn ventet)"
+                "gradingNotes": "Full score: forklarer at redusert toll-/handelspolitisk risiko øker risikovilje OG knytter det til lavere inflasjonspress eller lavere rente-/yieldforventninger."
               },
               "scoring": {
-                "full": 2,
-                "partial": 1,
+                "full": 1,
+                "partial": 0,
                 "none": 0
               }
             }
           },
           "solution": {
-            "shortAnswer": "Alle tre sentralbankene holder renten uendret og signaliserer tålmodighet ('vente-og-se').",
-            "modelAnswer": "Alle tre sentralbankene holder renten uendret og signaliserer tålmodighet med hensyn til neste endring. Dette kan føre til NOK-svakhet hvis markedet hadde priset inn en mer hawkish Norges Bank enn ECB/Fed, eller generell valutavolatilitet når usikkerhet om timing av neste renteendring øker.",
+            "shortAnswer": "Mindre tariff-/handelspolitisk risiko kan løfte aksjer; lavere kostnadspress kan dempe inflasjons- og rente/yieldforventninger.",
+            "modelAnswer": "Dommen reduserer risikoen for brede tariffer, som ofte betyr mindre kostnads- og supply chain-press. Det kan gi lavere inflasjonsforventninger og dermed mindre oppdrift i lange renter/yields, samtidig som aksjemarkedet priser inn lavere usikkerhet.",
             "explanation": {
-              "short": "Fellesskapet er 'vente-og-se'-politikk (hold) på tvers av tre store sentralbanker.",
-              "whyCorrect": "Norges Bank, ECB og Fed valgte alle å holde renten uendret i januar 2026. Kommunikasjonen la vekt på å avvente mer data om inflasjonsutviklingen før neste trekk. Dette skaper usikkerhet om rentebane, noe som typisk fører til økt volatilitet i valutamarkedet. NOK kan svekkes hvis norske renteoppgangser forventninger justeres ned.",
-              "whyOthersWrong": [
-                "Å kun si 'de holder renten uendret' uten å nevne kommunikasjonen om tålmodighet får ikke med den viktige forward guidance-komponenten.",
-                "Å fokusere kun på inflasjon uten å koble det til sentralbankenes vente-og-se-strategi er ufullstendig.",
-                "Å hevde at dette automatisk fører til sterkere NOK er feil – utfall avhenger av relative forventninger og hvem som beveger seg først."
-              ]
-            }
-          },
-          "sourceRefs": ["src-1", "src-3", "src-4"],
-          "points": 2
-        },
-        {
-          "segmentId": "r-1-s-2",
-          "segmentType": "guess_connection",
-          "title": "Video: Hva signaliserer denne uttalelsen?",
-          "topicTags": ["obligasjoner", "yieldkurve", "term-premium", "inflasjon"],
-          "difficulty": "medium",
-          "media": [
-            {
-              "mediaId": "m-4",
-              "type": "video",
-              "title": "Powell om inflasjonsbekymringer",
-              "url": "https://www.youtube.com/watch?v=FedPressConferenceJan2026",
-              "alt": "Jerome Powell kommenterer inflasjonsdata under FOMC-pressekonferanse",
-              "credit": "Federal Reserve/C-SPAN",
-              "sourceId": "src-4",
-              "timeRangeSec": { "start": 1245, "end": 1320 },
-              "captionsUrl": "https://www.federalreserve.gov/mediacenter/captions/20260129.vtt"
-            }
-          ],
-          "factBox": [
-            "10-årig Treasury-yield steg 15 basispunkter dagen etter FOMC-møtet",
-            "Term premium har økt markant i Q1 2026",
-            "Kjerneinflasjon (PCE) kom inn høyere enn ventet i januar",
-            "Markedsprisings sannsynlighet for rentesenkning i mars falt fra 65% til 25%"
-          ],
-          "interaction": {
-            "format": "free_text",
-            "prompt": "Basert på videoen og konteksten: Hva signaliserer Powell om inflasjonsforventninger, og hvordan påvirker dette obligasjonsmarkedet?",
-            "instructions": "Skriv 1–2 setninger. Nevn mekanismen (yield/term premium).",
-            "answerSpec": {
-              "mode": "rubric",
-              "normalization": {
-                "caseInsensitive": true,
-                "trimWhitespace": true,
-                "removePunctuation": true
-              },
-              "rubric": {
-                "mustMentionAny": ["inflasjon", "prisstabilitet", " bekymring", "oppgang", "høyere"],
-                "shouldMentionAny": ["yield", "obligasjoner", "term premium", "rente", "pris", "usikkerhet"],
-                "minConcepts": 2,
-                "forbiddenKeywords": [],
-                "gradingNotes": "Full score: identifiserer at Powell signaliserer bekymring for vedvarende inflasjon OG kobler dette til stigende yields/term premium."
-              },
-              "scoring": {
-                "full": 2,
-                "partial": 1,
-                "none": 0
-              }
-            }
-          },
-          "solution": {
-            "shortAnswer": "Powell signaliserer bekymring for vedvarende inflasjon, noe som øker term premium og skyver opp lange renter.",
-            "modelAnswer": "Powell antyder at inflasjonsdataene er bekymringsverdige og at Fed ikke rushere til rentesenkning. Dette øker usikkerheten (term premium) i obligasjonsmarkedet og fører til at investorer krever høyere avkastning (yield) på lang løpetid for å kompensere for inflasjonsrisiko.",
-            "explanation": {
-              "short": "Hawkish inflasjonskommentarer øker term premium og presser opp yields.",
-              "whyCorrect": "Når sentralbanksjefen uttrykker bekymring for vedvarende inflasjon, justerer markedet forventninger om fremtidig rentepolitikk nedover (færre/forsinkede kutt). Samtidig øker risikopremien (term premium) fordi usikkerheten om inflasjonsbanen øker. Dette gir høyere yields spesielt på lang løpetid.",
-              "whyOthersWrong": [
-                "Å si at dette er 'bullish for obligasjoner' er motsatt av riktig – høyere yields betyr lavere obligasjonspriser.",
-                "Å fokusere kun på 'renteoppgang' uten å nevne term premium-komponenten får ikke med hele bildet.",
-                "Å hevde at Powell signaliserer rentesenkning er direkte feil basert på yield-bevegelsene."
-              ]
-            }
-          },
-          "sourceRefs": ["src-4", "src-6"],
-          "points": 2
-        },
-        {
-          "segmentId": "r-1-s-3",
-          "segmentType": "guess_connection",
-          "title": "Fire nøkkeltall – hva forteller de sammen?",
-          "topicTags": ["valuta", "rente-differanse", "carry-trade", "fondsstrømmer"],
-          "difficulty": "hard",
-          "media": [
-            {
-              "mediaId": "m-5",
-              "type": "chart",
-              "title": "EUR/NOK kursutvikling",
-              "url": "https://example.com/charts/eur-nok-jan-feb-2026.png",
-              "alt": "Graf som viser EUR/NOK stigende fra 11,40 til 11,85 i løpet av februar",
-              "credit": "DNB Markets",
-              "sourceId": "src-7",
-              "timeRangeSec": null
-            },
-            {
-              "mediaId": "m-6",
-              "type": "chart",
-              "title": "3-måneders rente-differanse NOK-EUR",
-              "url": "https://example.com/charts/rente-diff-nok-eur.png",
-              "alt": "Graf som viser renteavstanden mellom Norge og Europa krymper",
-              "credit": "Norges Bank/ECB data",
-              "sourceId": "src-1",
-              "timeRangeSec": null
-            },
-            {
-              "mediaId": "m-7",
-              "type": "image",
-              "title": "Oljefondets markedsverdi",
-              "url": "https://example.com/images/oljefondet-rekord-feb-2026.jpg",
-              "alt": "Oljefondet når ny all-time-high på 19 000 milliarder kroner",
-              "credit": "Norges Bank Investment Management",
-              "sourceId": "src-5",
-              "timeRangeSec": null
-            },
-            {
-              "mediaId": "m-8",
-              "type": "image",
-              "title": "Fondsstrømmer graf",
-              "url": "https://example.com/images/fondsstrommer-risk-off.png",
-              "alt": "Store utstrømmer fra aksjefond i emerging markets",
-              "credit": "EPFR/Bloomberg",
-              "sourceId": "src-6",
-              "timeRangeSec": null
-            }
-          ],
-          "factBox": [
-            "EUR/NOK har styrket seg 4% siden midten av januar",
-            "Renteforskjellen mellom Norge og Eurosonen har krympet fra 75 bp til 25 bp",
-            "Oljefondet nådde ny ATH på 19 000 mrd kr (5. februar)",
-            "Risk-off strømmer: -$12bn ut av EM-aksjer siste 4 uker"
-          ],
-          "interaction": {
-            "format": "free_text",
-            "prompt": "Koble disse fire elementene: Hva er den underliggende mekanismen som forklarer NOK-svakhet sett i lys av rente-differanser og global risk-off?",
-            "instructions": "Skriv 1–2 setninger. Nevn minst én mekanisme (carry-trade, safe-haven, eller kapitalstrømmer).",
-            "answerSpec": {
-              "mode": "rubric",
-              "normalization": {
-                "caseInsensitive": true,
-                "trimWhitespace": true,
-                "removePunctuation": true
-              },
-              "rubric": {
-                "mustMentionAny": ["rente", "differanse", "carry", "avkastning", "strømmer", "kapital"],
-                "shouldMentionAny": ["nok", "valuta", "eur", "usd", "svakhet", "styrking", "risk-off", "safe-haven"],
-                "minConcepts": 2,
-                "forbiddenKeywords": [],
-                "gradingNotes": "Full score krever at man forklarer at krympende renteforskjell gjør NOK mindre attraktiv for carry-trade OG at risk-off øker etterspørsel etter safe-haven-valutaer (EUR/USD) fremfor NOK."
-              },
-              "scoring": {
-                "full": 2,
-                "partial": 1,
-                "none": 0
-              }
-            }
-          },
-          "solution": {
-            "shortAnswer": "Krympende rente-differanse reduserer carry-trade-appellen til NOK, mens risk-off øker safe-haven-etterspørsel etter EUR/USD.",
-            "modelAnswer": "Når renteforskjellen mellom Norge og Eurosonen krymper (fra 75 til 25 bp), blir det mindre profitabelt å drive carry-trade (låne EUR billig, plassere i NOK). Samtidig øker risk-off (bevegelse bort fra risiko) etterspørsel etter safe-haven-valutaer som EUR og USD, mens NOK (en mindre likvid, høybeta-valuta) svekkes. Oljefondets ATH er en separat strukturell faktor som isolert sett kunne styrket NOK.",
-            "explanation": {
-              "short": "Carry-trade-uattraktivitet + risk-off = NOK-svakhet.",
-              "whyCorrect": "NOK er historisk en 'carry-trade favoritt' pga høyere renter enn EUR/USD. Når denne fordelen forsvinner (krympende differanse), reduseres attraktiviteten. Parallelt: i risk-off miljøer flykter kapital til store, likvide safe-haven-valutaer (EUR, USD, CHF, JPY), ikke til mindre valutaer som NOK.",
-              "whyOthersWrong": [
-                "Å si at høyere oljefond gir automatisk sterkere NOK er for enkelt – fondets avkastning er i utenlandsk valuta.",
-                "Å hevde at NOK svekkes pga lav oljepris er irrelevant her (oljepris ikke nevnt i fakta).",
-                "Å kun fokusere på én av de to hovedmekanismene (bare carry ELLER bare risk-off) gir delvis score."
-              ]
-            }
-          },
-          "sourceRefs": ["src-1", "src-5", "src-7"],
-          "points": 2
-        }
-      ]
-    },
-    {
-      "roundId": "r-2",
-      "title": "Nyhetsquiz",
-      "description": "Test deg selv på fakta fra de siste ukene i finansmarkedene.",
-      "rules": {
-        "pointsPerCorrect": 1,
-        "pointsPerWrong": 0,
-        "allowRetry": false
-      },
-      "segments": [
-        {
-          "segmentId": "r-2-s-1",
-          "segmentType": "news_quiz",
-          "title": "Rentemøte Norges Bank",
-          "topicTags": ["norges-bank", "rente", "inflasjon"],
-          "difficulty": "intro",
-          "media": [
-            {
-              "mediaId": "m-9",
-              "type": "image",
-              "title": "Ida Wolden Bache",
-              "url": "https://www.norges-bank.no/content/uploads/2026/01/iwb-jan-2026.jpg",
-              "alt": "Sentralbanksjef Ida Wolden Bache under pressekonferanse",
-              "credit": "Norges Bank",
-              "sourceId": "src-1",
-              "timeRangeSec": null
-            }
-          ],
-          "factBox": [
-            "Norges Bank holdt styringsrenten uendret på 4,0 prosent",
-            "Komiteen var delt: to medlemmer ønsket 25 bp heving, fem ønsket uendret",
-            "Inflasjonsforventningene på 2–3 års sikt er nær inflasjonsmålet på 2%",
-            "Neste rentemøte er 19. mars 2026"
-          ],
-          "interaction": {
-            "format": "mcq",
-            "prompt": "Hva var Norges Banks hovedargument for å holde renten uendret på 4,0% i januar?",
-            "options": [
-              "A) Inflasjonen er allerede under 2%",
-              "B) Usikkerhet om virkningen av tidligere rentehevinger tilsa å avvente mer data",
-              "C) Kronekursen var for sterk og trengte å svekkes",
-              "D) Regjeringen ba om lavere renter for å stimulere boligmarkedet"
-            ],
-            "answerSpec": {
-              "mode": "index",
-              "correctIndex": 1
-            }
-          },
-          "solution": {
-            "shortAnswer": "B",
-            "explanation": {
-              "short": "Banken ønsket å avvente mer data om hvordan tidligere rentehevinger virket inn på økonomien.",
-              "whyCorrect": "I pressemeldingen fremhevet Norges Bank at det er usikkerhet om hvor mye tidligere rentehevinger har virket inn, og at det var grunn til å avvente mer informasjon før neste trekk. Dette er standard 'vente-og-se'-argumentasjon.",
-              "whyOthersWrong": [
-                "A) Feil: Inflasjonen var fortsatt over målet, ikke under.",
-                "C) Feil: Kronekursen ble ikke nevnt som primær begrunnelse for rentebeslutningen.",
-                "D) Feil: Norges Bank er uavhengig av regjeringen og følger ikke politiske instrukser om rentenivå."
-              ]
+              "short": "Mindre handelsrisiko → bedre risk-on, potensielt lavere prispress.",
+              "whyCorrect": "Tariffer kan øke prispress og usikkerhet. Når sannsynligheten for brede tariffer faller, kan markedet prise inn lavere inflasjons-/marginrisiko og høyere risikovilje."
             }
           },
           "sourceRefs": ["src-1"],
           "points": 1
         },
         {
-          "segmentId": "r-2-s-2",
+          "segmentId": "r-1-s-2",
           "segmentType": "news_quiz",
-          "title": "ECBs retorikk",
-          "topicTags": ["ecb", "rente", "euro", "inflasjon"],
-          "difficulty": "medium",
-          "media": [],
-          "factBox": [
-            "ECB holdt renten uendret på 3,75% i januar 2026",
-            "Christine Lagarde uttalte at banken 'ikke kan erklære seier ennå' på inflasjonsfronten",
-            "Kjerneinflasjon (underliggende) var 2,8% i desember, ned fra 3,0% i november"
-          ],
-          "interaction": {
-            "format": "multi",
-            "prompt": "Hvilke av følgende utsagn om ECBs januar-møte er korrekte? (Velg alle som gjelder)",
-            "options": [
-              "A) ECB kuttet renten med 25 basispunkter",
-              "B) Lagarde signaliserte at flere rentehevinger ikke kan utelukkes",
-              "C) Inflasjonsdataene var lavere enn ECBs egne prognoser",
-              "D) Euroen styrket seg mot USD etter møtet"
-            ],
-            "answerSpec": {
-              "mode": "indices",
-              "correctIndices": [1, 2]
-            }
-          },
-          "solution": {
-            "shortAnswer": "B og C",
-            "explanation": {
-              "short": "Lagarde holdt døren åpen for flere hevinger hvis inflasjonen ikke kommer ned, og inflasjonsdataene var faktisk lavere enn ventet.",
-              "whyCorrect": "Lagarde var tydelig på at kampen mot inflasjonen ikke er over ('cannot declare victory yet'), som implisitt holder muligheten åpen for flere stramminger. Samtidig viste faktiske inflasjonsdata at kjerneinflasjon falt mer enn forventet (2,8% vs ventet 2,9%).",
-              "whyOthersWrong": [
-                "A) Feil: Renten ble holdt uendret, ikke kuttet.",
-                "D) Feil: Euroen svekket seg marginalt mot USD på mer dovish retorikk enn ventet."
-              ]
-            }
-          },
-          "sourceRefs": ["src-3"],
-          "points": 1
-        }
-      ]
-    },
-    {
-      "roundId": "r-3",
-      "title": "Toneanalyse",
-      "description": "Les mellom linjene og analyser sentralbankers kommunikasjon.",
-      "rules": {
-        "pointsPerCorrect": 1,
-        "pointsPerWrong": 0,
-        "allowRetry": false
-      },
-      "segments": [
-        {
-          "segmentId": "r-3-s-1",
-          "segmentType": "tone_analysis",
-          "title": "Fed-sjefens språkbruk",
-          "topicTags": ["fed", "powell", "retorikk", "forward-guidance"],
-          "difficulty": "medium",
+          "title": "Norge: Inflasjonstall (SSB)",
+          "topicTags": ["norge", "inflasjon", "kpi", "kpi-jae", "renter"],
+          "difficulty": "intro",
           "media": [
             {
-              "mediaId": "m-10",
+              "mediaId": "m-2",
               "type": "article",
-              "title": "Uttrekk fra FOMC-uttalelse",
-              "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260129a.htm",
-              "alt": "FOMC statement 29. januar 2026",
-              "credit": "Federal Reserve",
-              "sourceId": "src-4",
-              "timeRangeSec": null
-            }
-          ],
-          "factBox": [
-            "FOMC uttalte: 'The Committee is prepared to adjust the stance of monetary policy as appropriate if risks emerge'",
-            "Forrige møte (desember) brukte formuleringen: 'The Committee will continue to monitor the implications of incoming information'",
-            "Markedsreaksjon: Sannsynlighet for mars-kutt falt fra 65% til 25%"
-          ],
-          "interaction": {
-            "format": "mcq",
-            "prompt": "Hva signaliserte endringen i Feds språkbruk fra desember til januar?",
-            "options": [
-              "A) En overgang fra å 'observere' til å 'handle' ved behov",
-              "B) Ingen betydelig endring i tone",
-              "C) En mykere, mer dovish tilnærming",
-              "D) En garantert renteheving i mars"
-            ],
-            "answerSpec": {
-              "mode": "index",
-              "correctIndex": 0
-            }
-          },
-          "solution": {
-            "shortAnswer": "A",
-            "explanation": {
-              "short": "Språkbruken endret seg fra passiv observasjon til aktiv beredskap for å handle.",
-              "whyCorrect": "Endringen fra 'will continue to monitor' (passiv) til 'is prepared to adjust' (aktiv/beredskap) signaliserer økt oppmerksomhet på risiko og vilje til å handle raskt. Dette er klassisk hawkish retorikk som reduserer forventninger om kutt.",
-              "whyOthersWrong": [
-                "B) Feil: Endringen var betydelig og merket av markedet (så 65%→25% endring i prising).",
-                "C) Feil: Dette var mer hawkish, ikke dovish.",
-                "D) Feil: De garanterte ingenting, kun beredskap til å handle 'if risks emerge'."
-              ]
-            }
-          },
-          "sourceRefs": ["src-4"],
-          "points": 1
-        }
-      ]
-    },
-    {
-      "roundId": "r-4",
-      "title": "Markedsreaksjon",
-      "description": "Hvordan reagerer ulike aktiva på sentrale hendelser?",
-      "rules": {
-        "pointsPerCorrect": 1,
-        "pointsPerWrong": 0,
-        "allowRetry": false
-      },
-      "segments": [
-        {
-          "segmentId": "r-4-s-1",
-          "segmentType": "market_reaction",
-          "title": "Rentebeslutningens konsekvenser",
-          "topicTags": ["obligasjoner", "aksjer", "valuta", "multipler"],
-          "difficulty": "hard",
-          "media": [
-            {
-              "mediaId": "m-11",
-              "type": "chart",
-              "title": "Markedsreaksjoner på Norges Bank",
-              "url": "https://example.com/charts/market-reaction-jan-2026.png",
-              "alt": "Graf som viser bevegelser i OBX, 10-årig rente og NOK etter rentemøtet",
-              "credit": "DNB Markets",
+              "title": "SSB: Konsumprisindeksen",
+              "url": "https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen",
+              "alt": "SSB publisering: KPI og KPI-JAE for januar 2026",
+              "credit": "SSB",
               "sourceId": "src-2",
               "timeRangeSec": null
             }
           ],
           "factBox": [
-            "Norges Bank holdt renten uendret, men var mindre hawkish enn fryktet",
-            "OBX-indeksen steg 1,2% samme dag",
-            "10-årig statsrente falt 5 basispunkter",
-            "NOK svekket seg 0,8% mot EUR"
+            "SSB (10. feb 2026): KPI steg 3,6% (tolvmånedersvekst) fra jan 2025 til jan 2026",
+            "SSB (10. feb 2026): KPI-JAE (underliggende) steg 3,4% (tolvmånedersvekst)",
+            "Inflasjonstall påvirker renteforventninger og kronekurs"
+          ],
+          "interaction": {
+            "format": "mcq",
+            "prompt": "Hva rapporterte SSB som tolvmånedersvekst for KPI og KPI-JAE (underliggende) i januar 2026?",
+            "options": [
+              "A) KPI 1,6% og KPI-JAE 1,4%",
+              "B) KPI 2,6% og KPI-JAE 2,4%",
+              "C) KPI 3,6% og KPI-JAE 3,4%",
+              "D) KPI 4,6% og KPI-JAE 4,4%"
+            ],
+            "answerSpec": {
+              "mode": "index",
+              "correctIndex": 2
+            }
+          },
+          "solution": {
+            "shortAnswer": "C",
+            "explanation": {
+              "short": "SSB oppga KPI 3,6% og KPI-JAE 3,4% (tolvmånedersvekst) for januar 2026.",
+              "whyCorrect": "Dette er tallene fra SSBs publisering 10. februar 2026.",
+              "whyOthersWrong": [
+                "A/B/D) Feil kombinasjoner – samsvarer ikke med SSB-tallene i publiseringen."
+              ]
+            }
+          },
+          "sourceRefs": ["src-2"],
+          "points": 1
+        },
+        {
+          "segmentId": "r-1-s-3",
+          "segmentType": "market_reaction",
+          "title": "Olje: Geopolitikk og ringvirkninger",
+          "topicTags": ["olje", "geopolitikk", "inflasjon", "renter", "risk-off"],
+          "difficulty": "medium",
+          "media": [
+            {
+              "mediaId": "m-3",
+              "type": "article",
+              "title": "Reuters: Global Markets (oil higher on tensions)",
+              "url": "https://www.reuters.com/world/china/global-markets-global-markets-2026-02-19/",
+              "alt": "Oljeprisen opp på geopolitisk risiko og konsekvenser for markeder",
+              "credit": "Reuters",
+              "sourceId": "src-3",
+              "timeRangeSec": null
+            }
+          ],
+          "factBox": [
+            "Oljeprisen steg til seksmåneders topp (19. feb) drevet av geopolitisk risiko",
+            "Høyere energi kan gi inflasjonsimpuls",
+            "Geopolitikk kan også trigge risk-off (safe havens opp, aksjer/risiko ned)"
           ],
           "interaction": {
             "format": "multi",
-            "prompt": "Hvilke mekanismer forklarer markedsreaksjonene etter Norges Banks januar-møte? (Velg alle som gjelder)",
+            "prompt": "Hvilke markedsreaksjoner er mest konsistente med en rask oljeoppgang drevet av geopolitisk risiko? (Velg alle som gjelder)",
             "options": [
-              "A) Lavere rente = høyere nåverdi av fremtidige kontantstrømmer = høyere aksjekurs",
-              "B) Lavere rente = lavere obligasjonsyields (priser opp)",
-              "C) Lavere forventet rente = lavere avkastningsdifferanse = NOK-svakhet",
-              "D) Høyere inflasjon = sterkere valuta"
+              "A) Inflasjonsforventninger kan opp → press opp på lange renter/yields",
+              "B) Energiaksjer kan få medvind relativt andre sektorer",
+              "C) Risikoaversjon kan øke → støtte til safe-haven-valutaer (f.eks. USD/CHF)",
+              "D) Geopolitisk oljeoppgang betyr alltid bred global børsoppgang"
             ],
             "answerSpec": {
               "mode": "indices",
@@ -580,136 +231,66 @@
           "solution": {
             "shortAnswer": "A, B og C",
             "explanation": {
-              "short": "Alle tre effekter skyldes justering av renteforventninger nedover.",
-              "whyCorrect": "Når markedet justerer forventninger om norsk renteoppgang nedover: A) Aksjer stiger fordi diskonteringsrenten (kapitalkostnad) synker, øker nåverdi. B) Obligasjoner stiger (yields ned) pga lavere forventet kortsiktig rente. C) NOK svekkes pga redusert renteforskjell mot EUR.",
+              "short": "Olje påvirker inflasjon/renter, sektorrotasjon og risk-off.",
+              "whyCorrect": "Energi er en viktig inflasjonskomponent, og geopolitikk kan drive risk-off. Energiselskaper kan tjene på høyere priser.",
               "whyOthersWrong": [
-                "D) Feil: Høyere inflasjon alene gir ikke sterkere valuta – det er sentralbankens respons (rente) som teller. Dessuten var dette en situasjon med lavere rente."
+                "D) Geopolitisk risiko kan like gjerne trekke markedet ned selv om energisektoren går opp."
               ]
             }
           },
-          "sourceRefs": ["src-1", "src-2"],
+          "sourceRefs": ["src-3"],
           "points": 1
-        }
-      ]
-    },
-    {
-      "roundId": "r-5",
-      "title": "Case: Sektorrotasjon",
-      "description": "En dypdykk-case basert på reelle markedsforhold.",
-      "rules": {
-        "pointsPerCorrect": 1,
-        "pointsPerWrong": 0,
-        "allowRetry": false
-      },
-      "segments": [
+        },
         {
-          "segmentId": "r-5-s-1",
-          "segmentType": "case",
-          "title": "CASE: Rotasjon mellom vekst og verdi",
-          "topicTags": ["aksjer", "sektorrotasjon", "rente", "multipler"],
+          "segmentId": "r-1-s-4",
+          "segmentType": "tone_analysis",
+          "title": "Fed: Minutter og 'higher for longer'?",
+          "topicTags": ["fed", "renter", "retorikk", "inflasjon", "forward-guidance"],
           "difficulty": "hard",
           "media": [
             {
-              "mediaId": "m-12",
-              "type": "chart",
-              "title": "Vekst vs Verdi spread",
-              "url": "https://example.com/charts/growth-value-spread.png",
-              "alt": "Graf som viser relativ avkastning vekstaksjer vs verdiaksjer",
-              "credit": "MSCI/Bloomberg",
-              "sourceId": "src-8",
+              "mediaId": "m-4",
+              "type": "article",
+              "title": "Reuters: Fed minutes highlight hawkish tilt",
+              "url": "https://www.reuters.com/business/fed-minutes-could-highlight-shift-balance-risks-policymakers-put-rates-hold-2026-02-18/",
+              "alt": "Reuters om Fed-minutter og hvordan de vektlegger inflasjonsrisiko/hold-periode",
+              "credit": "Reuters",
+              "sourceId": "src-5",
               "timeRangeSec": null
             }
           ],
           "factBox": [
-            "Vekstaksjer har høy P/E-ratio og påvirkes sterkt av endringer i diskonteringsrenten",
-            "Verdiaksjer (banker, energi, utilities) har lavere P/E og påvirkes mer av nå-situasjonen",
-            "Lang rente (10-årig) har steget 40 bp siste 6 uker",
-            "Technology-sektoren er ned 5%, Financials opp 3%"
+            "Fed-minutter (18. feb) omtales som mer 'hawkish' i debatten",
+            "Signal: renten kan holdes uendret en periode",
+            "Fokus på risiko for inflasjon som blir mer seiglivet"
           ],
           "interaction": {
-            "format": "case",
-            "prompt": "CASE: Analyser sektorrotasjonen",
-            "caseText": "Siste 6 uker har vi sett en markant rotasjon fra vekstsektorer (teknologi) til verdiselskaper (banker, energi). Samtidig har lang rente steget 40 basispunkter. Som porteføljeforvalter må du forklare denne utviklingen for kundene dine.",
+            "format": "mcq",
+            "prompt": "Hvis Fed-minuttene tolkes mer hawkish enn forventet, hva er den mest typiske markedstolkningen?",
+            "options": [
+              "A) Flere og raskere rentekutt prises inn",
+              "B) Renter forventes å holdes høyere lengre, og avkastningskrav/yields kan stige",
+              "C) Det betyr automatisk at Fed kutter på neste møte",
+              "D) Det påvirker bare aksjer, aldri renter"
+            ],
             "answerSpec": {
-              "mode": "sub_questions",
-              "subQuestions": [
-                {
-                  "subQuestionId": "sq-1",
-                  "format": "mcq",
-                  "prompt": "Hva er hoveddriveren bak at teknologiaksjer (vekst) faller når lang rente stiger?",
-                  "options": [
-                    "A) Høyere renter øker kostnaden for tech-selskapers gjeld",
-                    "B) Fremtidige kontantstrømmer diskonteres med høyere rente, reduserer nåverdi",
-                    "C) Tech-selskaper får lavere salg når renter er høye",
-                    "D) Investorer foretrekker banker pga høyere utbytte"
-                  ],
-                  "answerSpec": {
-                    "mode": "index",
-                    "correctIndex": 1
-                  },
-                  "solution": {
-                    "shortAnswer": "B",
-                    "explanation": {
-                      "short": "Vekstaksjer har meste av verdi i fjern fremtid; høyere diskonteringsrente reduserer nåverdi betydelig.",
-                      "whyCorrect": "Tech/vekst-aksjer har høye P/E-ratios fordi markedet forventer sterke kontantstrømmer langt frem i tid. Når diskonteringsrenten øker (pga stigende lang rente), reduseres nåverdien av disse fremtidige kontantstrømmene kraftig. Dette er rent matematikk: PV = CF/(1+r)^t.",
-                      "whyOthersWrong": [
-                        "A) Sekundært: Gjeldskostnader øker, men ikke hoveddriveren for børsverdi.",
-                        "C) Indirekte: Konsumet påvirkes, men ikke hovedmekanismen for tech-fall.",
-                        "D) Utbytte er ikke hovedforklaringen – det er diskonteringseffekten."
-                      ]
-                    }
-                  },
-                  "points": 1,
-                  "sourceRefs": ["src-8"]
-                },
-                {
-                  "subQuestionId": "sq-2",
-                  "format": "free_text",
-                  "prompt": "Hvorfor klarer banker seg relativt bra i dette scenarioet med stigende renter?",
-                  "answerSpec": {
-                    "mode": "rubric",
-                    "normalization": {
-                      "caseInsensitive": true,
-                      "trimWhitespace": true
-                    },
-                    "rubric": {
-                      "mustMentionAny": ["netto", "renteinntekt", "margin", "lån", "innskudd"],
-                      "shouldMentionAny": ["stiger", "øke", "bedre", "spread", "differanse"],
-                      "minConcepts": 2,
-                      "gradingNotes": "Full score krever at man forklarer at bankers netto rentemargin (spread mellom utlåns- og innskuddsrenter) typisk utvides når renter stiger."
-                    },
-                    "scoring": {
-                      "full": 1,
-                      "partial": 0,
-                      "none": 0
-                    }
-                  },
-                  "solution": {
-                    "shortAnswer": "Bankers netto rentemargin øker når rentenivået stiger fordi utlånsrenter justeres raskere og mer enn innskuddsrenter.",
-                    "explanation": {
-                      "short": "Stigende renter = høyere netto renteinntekter for banker (bedre margin).",
-                      "whyCorrect": "Bankers forretningsmodell er i stor grad basert på spread (rentemargin) mellom hva de betaler for innskudd og hva de tar for lån. Når renter stiger, kan banker øke utlånsrentene raskere enn de øker innskuddsrentene (særlig for lån med flytende rente). Dette øker netto renteinntektene og dermed lønnsomheten.",
-                      "whyOthersWrong": [
-                        "Å si at banker har 'lite gjeld' er ikke hovedpoenget – det er rentemarginen som teller.",
-                        "Å hevde at banker tjener på 'høyere inflasjon' er indirekte; det er sentralbankens respons (høyere rente) som gir økt margin."
-                      ]
-                    }
-                  },
-                  "points": 1,
-                  "sourceRefs": ["src-8"]
-                }
-              ]
+              "mode": "index",
+              "correctIndex": 1
             }
           },
           "solution": {
-            "shortAnswer": "Se delspørsmål-svar over.",
+            "shortAnswer": "B",
             "explanation": {
-              "short": "Vekstaksjer faller pga høyere diskonteringsrente; banker stiger pga økte rentemarginer.",
-              "whyCorrect": "Denne rotasjonen er et klassisk mønster når renteoppgangen akselererer: verdipapirer med mest varighet (lengste kontantstrømmer frem i tid) rammes hardest, mens verdipapirer med positive eksponering mot rentenivå (banker) klarer seg relativt bedre."
+              "short": "Hawkish tone → 'higher for longer' → oppjusterte yield-/rente-forventninger.",
+              "whyCorrect": "Når markedet oppfatter Fed som mer bekymret for inflasjon og mindre klar for kutt, priser man ofte inn færre/senere kutt og høyere avkastningskrav.",
+              "whyOthersWrong": [
+                "A/C) Dette er motsatt av hawkish tolkning.",
+                "D) Renter/yields er ofte det første som reagerer på sentralbank-tolkning."
+              ]
             }
           },
-          "sourceRefs": ["src-8"],
-          "points": 2
+          "sourceRefs": ["src-5"],
+          "points": 1
         }
       ]
     }
