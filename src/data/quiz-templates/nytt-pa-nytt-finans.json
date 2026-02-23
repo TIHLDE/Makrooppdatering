@@ -24,7 +24,7 @@
       "publisher": "Norges Bank",
       "title": "Policy rate kept unchanged at 4 percent",
       "publishedDate": "2026-01-16",
-      "url": "/images/norges_bank.webp",
+      "url": "public/images/norges_bank.webp",
       "type": "primary",
       "paywalled": false,
       "notes": "Hovedkilde for rentebeslutning og kommunikasjon"
@@ -34,7 +34,7 @@
       "publisher": "DN Markets",
       "title": "Analytikerne overrasket av Norges Banks signaler",
       "publishedDate": "2026-01-17",
-      "url": "/images/bildelink",
+      "url": "public/images/dn_markets.webp",
       "type": "secondary",
       "paywalled": true,
       "notes": "Markedsreaksjoner og analytikerkommentarer"
@@ -44,7 +44,7 @@
       "publisher": "ECB",
       "title": "Monetary policy decisions",
       "publishedDate": "2026-01-30",
-      "url": "/images/ecm.jpg",
+      "url": "public/images/ecb.webp",
       "type": "primary",
       "paywalled": false,
       "notes": "ECB rentebeslutning og uttalelser"
