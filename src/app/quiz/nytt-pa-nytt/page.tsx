@@ -3,13 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
-import { QuizData, Round, Segment, UserAnswer } from '@/types/quiz';
-import { 
-  Play, 
-  ChevronRight, 
-  ChevronLeft, 
-  CheckCircle, 
-  XCircle, 
+import { QuizData, Segment, UserAnswer } from '@/types/quiz';
+import {
+  Play,
+  ChevronLeft,
+  CheckCircle,
   Trophy,
   Clock,
   AlertCircle,
@@ -53,23 +51,26 @@ export default function NyttPaNyttQuizPage() {
     setSegmentStartTime(Date.now());
   };
 
-  const handleAnswer = useCallback((answer: string | number | number[] | boolean) => {
-    if (!currentSegment) return;
+  const handleAnswer = useCallback(
+    (answer: string | number | number[] | boolean) => {
+      if (!currentSegment) return;
 
-    const timeSpent = Date.now() - segmentStartTime;
-    
-    setUserAnswers(prev => ({
-      ...prev,
-      [currentSegment.segmentId]: {
-        segmentId: currentSegment.segmentId,
-        answer,
-        timestamp: Date.now(),
-        timeSpentMs: timeSpent
-      }
-    }));
+      const timeSpent = Date.now() - segmentStartTime;
 
-    setShowSolution(true);
-  }, [currentSegment, segmentStartTime]);
+      setUserAnswers((prev) => ({
+        ...prev,
+        [currentSegment.segmentId]: {
+          segmentId: currentSegment.segmentId,
+          answer,
+          timestamp: Date.now(),
+          timeSpentMs: timeSpent
+        }
+      }));
+
+      setShowSolution(true);
+    },
+    [currentSegment, segmentStartTime]
+  );
 
   const handleNext = () => {
     setShowSolution(false);
@@ -78,9 +79,9 @@ export default function NyttPaNyttQuizPage() {
     setFreeTextAnswer('');
 
     if (currentSegmentIndex < currentRound.segments.length - 1) {
-      setCurrentSegmentIndex(prev => prev + 1);
+      setCurrentSegmentIndex((prev) => prev + 1);
     } else if (currentRoundIndex < quiz.rounds.length - 1) {
-      setCurrentRoundIndex(prev => prev + 1);
+      setCurrentRoundIndex((prev) => prev + 1);
       setCurrentSegmentIndex(0);
     } else {
       setQuizCompleted(true);
@@ -90,9 +91,9 @@ export default function NyttPaNyttQuizPage() {
   const handlePrevious = () => {
     setShowSolution(false);
     if (currentSegmentIndex > 0) {
-      setCurrentSegmentIndex(prev => prev - 1);
+      setCurrentSegmentIndex((prev) => prev - 1);
     } else if (currentRoundIndex > 0) {
-      setCurrentRoundIndex(prev => prev - 1);
+      setCurrentRoundIndex((prev) => prev - 1);
       setCurrentSegmentIndex(quiz.rounds[currentRoundIndex - 1].segments.length - 1);
     }
   };
@@ -101,11 +102,11 @@ export default function NyttPaNyttQuizPage() {
     let score = 0;
     let maxScore = 0;
 
-    quiz.rounds.forEach(round => {
-      round.segments.forEach(segment => {
+    quiz.rounds.forEach((round) => {
+      round.segments.forEach((segment) => {
         maxScore += segment.points;
         const userAnswer = userAnswers[segment.segmentId];
-        
+
         if (userAnswer) {
           const isCorrect = checkAnswer(segment, userAnswer.answer);
           if (isCorrect) {
@@ -122,7 +123,7 @@ export default function NyttPaNyttQuizPage() {
 
   const checkAnswer = (segment: Segment, answer: any): boolean => {
     const spec = segment.interaction.answerSpec;
-    
+
     switch (spec.mode) {
       case 'index':
         return answer === spec.correctIndex;
@@ -137,20 +138,59 @@ export default function NyttPaNyttQuizPage() {
     }
   };
 
+  /**
+   * ✅ HER VAR PROBLEMET:
+   * Du viste bare placeholders (🖼️/▶️/📊).
+   * Nå rendrer vi ekte <img> når item.type === 'image'.
+   */
   const renderMedia = (media: any[]) => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         {media.map((item, idx) => (
           <div key={item.mediaId || idx} className="bg-gray-800 rounded-lg overflow-hidden">
+            {/* IMAGE (faktisk bilde) */}
             {item.type === 'image' && (
-              <div className="aspect-video bg-gray-700 flex items-center justify-center">
-                <div className="text-center p-4">
-                  <div className="text-4xl mb-2">🖼️</div>
-                  <p className="text-sm text-gray-400">{item.title}</p>
-                  <p className="text-xs text-gray-500 mt-1">{item.credit}</p>
+              <div className="relative aspect-video bg-gray-700">
+                <img
+                  src={item.url}
+                  alt={item.alt ?? item.title ?? 'Bilde'}
+                  className="absolute inset-0 w-full h-full object-contain"
+                  loading="lazy"
+                  onError={(e) => {
+                    // Hvis filnavn/sti er feil (f.eks. /images/bildelink), vis en tydelig fallback
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+                          <div style="text-align:center;padding:16px;">
+                            <div style="font-size:40px;margin-bottom:8px;">🖼️</div>
+                            <p style="font-size:12px;color:#9CA3AF;margin:0;">${item.title ?? 'Bilde'}</p>
+                            <p style="font-size:11px;color:#6B7280;margin-top:6px;">Fant ikke: ${
+                              item.url ?? ''
+                            }</p>
+                          </div>
+                        </div>
+                      `;
+                    }
+                  }}
+                />
+
+                {/* info-stripe nederst */}
+                <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-3 py-2">
+                  <p className="text-sm text-gray-200 leading-tight">{item.title}</p>
+                  {(item.credit || item.alt) && (
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      {item.credit ? `Kreditering: ${item.credit}` : item.alt}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
+
+            {/* VIDEO (placeholder som før) */}
             {item.type === 'video' && (
               <div className="aspect-video bg-gray-700 flex items-center justify-center">
                 <div className="text-center p-4">
@@ -165,6 +205,8 @@ export default function NyttPaNyttQuizPage() {
                 </div>
               </div>
             )}
+
+            {/* CHART (placeholder som før) */}
             {item.type === 'chart' && (
               <div className="aspect-video bg-gray-700 flex items-center justify-center">
                 <div className="text-center p-4">
@@ -172,6 +214,15 @@ export default function NyttPaNyttQuizPage() {
                   <p className="text-sm text-gray-400">{item.title}</p>
                   <p className="text-xs text-gray-500 mt-1">{item.credit}</p>
                 </div>
+              </div>
+            )}
+
+            {/* ARTICLE (hvis den typen dukker opp) */}
+            {item.type === 'article' && (
+              <div className="p-4">
+                <p className="text-sm text-gray-300 font-medium">{item.title}</p>
+                <p className="text-xs text-gray-500 mt-1">{item.credit}</p>
+                <p className="text-xs text-gray-400 mt-2 break-all">{item.url}</p>
               </div>
             )}
           </div>
@@ -219,14 +270,14 @@ export default function NyttPaNyttQuizPage() {
             {interaction.options?.map((option, idx) => {
               const isSelected = selectedOptions.includes(idx);
               const isCorrect = interaction.answerSpec.correctIndices?.includes(idx);
-              
+
               return (
                 <button
                   key={idx}
                   onClick={() => {
                     if (!showSolution) {
-                      setSelectedOptions(prev => 
-                        isSelected ? prev.filter(i => i !== idx) : [...prev, idx]
+                      setSelectedOptions((prev) =>
+                        isSelected ? prev.filter((i) => i !== idx) : [...prev, idx]
                       );
                     }
                   }}
@@ -244,9 +295,11 @@ export default function NyttPaNyttQuizPage() {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                      isSelected ? 'border-purple-500 bg-purple-500' : 'border-gray-500'
-                    }`}>
+                    <div
+                      className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                        isSelected ? 'border-purple-500 bg-purple-500' : 'border-gray-500'
+                      }`}
+                    >
                       {isSelected && <CheckCircle className="w-3 h-3 text-white" />}
                     </div>
                     <span>{option}</span>
@@ -279,7 +332,9 @@ export default function NyttPaNyttQuizPage() {
               className="w-full h-32 p-4 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 resize-none focus:border-purple-500 focus:outline-none"
             />
             <div className="flex justify-between text-sm text-gray-500">
-              <span>{freeTextAnswer.length}/{quiz.config.ui.freeTextMaxChars} tegn</span>
+              <span>
+                {freeTextAnswer.length}/{quiz.config.ui.freeTextMaxChars} tegn
+              </span>
             </div>
             {!showSolution && (
               <button
@@ -298,7 +353,9 @@ export default function NyttPaNyttQuizPage() {
           <div className="space-y-4">
             {interaction.answerSpec.subQuestions?.map((sq, idx) => (
               <div key={sq.subQuestionId} className="bg-gray-800 p-4 rounded-lg">
-                <p className="font-medium mb-3">{idx + 1}. {sq.prompt}</p>
+                <p className="font-medium mb-3">
+                  {idx + 1}. {sq.prompt}
+                </p>
                 {sq.format === 'mcq' && (
                   <div className="space-y-2">
                     {sq.options?.map((opt, optIdx) => (
@@ -363,27 +420,32 @@ export default function NyttPaNyttQuizPage() {
             <p className="text-gray-400 text-sm mt-2">{segment.solution.explanation.whyCorrect}</p>
           </div>
 
-          {segment.solution.explanation.whyOthersWrong && segment.solution.explanation.whyOthersWrong.length > 0 && (
-            <div>
-              <h4 className="font-semibold text-white mb-2">Vanlige feil:</h4>
-              <ul className="list-disc list-inside text-gray-400 text-sm space-y-1">
-                {segment.solution.explanation.whyOthersWrong.map((error, idx) => (
-                  <li key={idx}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {segment.solution.explanation.whyOthersWrong &&
+            segment.solution.explanation.whyOthersWrong.length > 0 && (
+              <div>
+                <h4 className="font-semibold text-white mb-2">Vanlige feil:</h4>
+                <ul className="list-disc list-inside text-gray-400 text-sm space-y-1">
+                  {segment.solution.explanation.whyOthersWrong.map((error, idx) => (
+                    <li key={idx}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
         </div>
 
         <button
           onClick={handleNext}
           className="mt-6 w-full py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 flex items-center justify-center gap-2"
         >
-          {currentRoundIndex === quiz.rounds.length - 1 && 
-           currentSegmentIndex === currentRound.segments.length - 1 ? (
-            <>Se resultat <Trophy className="w-5 h-5" /></>
+          {currentRoundIndex === quiz.rounds.length - 1 &&
+          currentSegmentIndex === currentRound.segments.length - 1 ? (
+            <>
+              Se resultat <Trophy className="w-5 h-5" />
+            </>
           ) : (
-            <>Neste spørsmål <ArrowRight className="w-5 h-5" /></>
+            <>
+              Neste spørsmål <ArrowRight className="w-5 h-5" />
+            </>
           )}
         </button>
       </div>
@@ -400,9 +462,7 @@ export default function NyttPaNyttQuizPage() {
               <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#ff6b35]">
                 {quiz.meta.title}
               </h1>
-              <p className="text-xl text-gray-400">
-                Test dine kunnskaper om finans og økonomi
-              </p>
+              <p className="text-xl text-gray-400">Test dine kunnskaper om finans og økonomi</p>
             </div>
 
             <div className="bg-gray-900 rounded-2xl p-8 mb-8">
@@ -410,7 +470,7 @@ export default function NyttPaNyttQuizPage() {
                 <BookOpen className="w-6 h-6 text-[#ff6b35]" />
                 Om quizen
               </h2>
-              
+
               <div className="grid md:grid-cols-2 gap-6 mb-8">
                 <div className="bg-gray-800 p-4 rounded-lg">
                   <div className="flex items-center gap-2 mb-2 text-[#ff6b35]">
@@ -427,9 +487,7 @@ export default function NyttPaNyttQuizPage() {
                     <Clock className="w-5 h-5" />
                     <span className="font-semibold">{totalSegments} spørsmål</span>
                   </div>
-                  <p className="text-gray-400 text-sm">
-                    Ca. 15-20 minutter å fullføre
-                  </p>
+                  <p className="text-gray-400 text-sm">Ca. 15-20 minutter å fullføre</p>
                 </div>
               </div>
 
@@ -468,7 +526,7 @@ export default function NyttPaNyttQuizPage() {
 
   if (quizCompleted) {
     const { score, maxScore, percentage } = calculateScore();
-    
+
     return (
       <>
         <Navigation />
@@ -481,22 +539,22 @@ export default function NyttPaNyttQuizPage() {
             </div>
 
             <div className="bg-gray-900 rounded-2xl p-8 text-center mb-8">
-              <div className="text-6xl font-bold text-[#ff6b35] mb-2">
-                {percentage}%
-              </div>
+              <div className="text-6xl font-bold text-[#ff6b35] mb-2">{percentage}%</div>
               <div className="text-xl text-gray-300 mb-6">
                 {score} av {maxScore} poeng
               </div>
 
               <div className="w-full bg-gray-800 rounded-full h-4 mb-8">
-                <div 
+                <div
                   className="bg-[#ff6b35] h-4 rounded-full transition-all duration-1000"
                   style={{ width: `${percentage}%` }}
                 />
               </div>
 
               {percentage >= 80 && (
-                <p className="text-green-400 font-semibold">🎉 Utmerket! Du har god kontroll på finans og økonomi!</p>
+                <p className="text-green-400 font-semibold">
+                  🎉 Utmerket! Du har god kontroll på finans og økonomi!
+                </p>
               )}
               {percentage >= 60 && percentage < 80 && (
                 <p className="text-yellow-400 font-semibold">👍 Bra jobbet! Noen områder å forbedre.</p>
@@ -526,6 +584,18 @@ export default function NyttPaNyttQuizPage() {
     );
   }
 
+  // (Defensivt, i tilfelle data mangler)
+  if (!currentRound || !currentSegment) {
+    return (
+      <>
+        <Navigation />
+        <div className="min-h-screen bg-black text-white flex items-center justify-center">
+          <div className="text-gray-400">Fant ikke quizdata for denne siden.</div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Navigation />
@@ -534,22 +604,24 @@ export default function NyttPaNyttQuizPage() {
           {/* Progress bar */}
           <div className="mb-6">
             <div className="flex justify-between text-sm text-gray-400 mb-2">
-              <span>Runde {currentRoundIndex + 1} av {quiz.rounds.length}</span>
-              <span>Spørsmål {completedSegments + 1} av {totalSegments}</span>
+              <span>
+                Runde {currentRoundIndex + 1} av {quiz.rounds.length}
+              </span>
+              <span>
+                Spørsmål {completedSegments + 1} av {totalSegments}
+              </span>
             </div>
             <div className="w-full bg-gray-800 rounded-full h-2">
-              <div 
+              <div
                 className="bg-[#ff6b35] h-2 rounded-full transition-all"
-                style={{ width: `${((completedSegments) / totalSegments) * 100}%` }}
+                style={{ width: `${(completedSegments / totalSegments) * 100}%` }}
               />
             </div>
           </div>
 
           {/* Round header */}
           <div className="mb-6">
-            <div className="text-[#ff6b35] text-sm font-semibold mb-1">
-              {currentRound.title}
-            </div>
+            <div className="text-[#ff6b35] text-sm font-semibold mb-1">{currentRound.title}</div>
             <h1 className="text-2xl font-bold">{currentSegment.title}</h1>
             <p className="text-gray-400 mt-1">{currentRound.description}</p>
           </div>
@@ -583,7 +655,7 @@ export default function NyttPaNyttQuizPage() {
                 {currentSegment.interaction.caseText}
               </div>
             )}
-            
+
             {renderInteraction(currentSegment)}
           </div>
 
@@ -601,12 +673,9 @@ export default function NyttPaNyttQuizPage() {
                 <ChevronLeft className="w-5 h-5" />
                 Forrige
               </button>
-              
+
               {quiz.config.ui.allowSkip && (
-                <button
-                  onClick={handleNext}
-                  className="text-gray-400 hover:text-white text-sm"
-                >
+                <button onClick={handleNext} className="text-gray-400 hover:text-white text-sm">
                   Hopp over →
                 </button>
               )}
