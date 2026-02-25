@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { NewsItem, Ticker, Tag } from '@prisma/client';
 import { Loader2, TrendingUp, TrendingDown, Newspaper, BarChart3, Gamepad2 } from 'lucide-react';
-import { TICKER_DATA, formatTime } from '@/lib/constants';
+import { TICKER_DATA } from '@/lib/constants';
+import { VirtualizedNewsList } from '@/components/VirtualizedNewsList';
 
 interface NewsWithRelations extends NewsItem {
   tickers: Ticker[];
@@ -33,6 +34,21 @@ export default function DashboardPage() {
   });
   const [hasLoaded, setHasLoaded] = useState(false);
   const [pagination, setPagination] = useState({ page: 1, total: 0, totalPages: 0 });
+  const newsContainerRef = useRef<HTMLDivElement>(null);
+  const [containerHeight, setContainerHeight] = useState(600);
+
+  // Update container height on resize
+  useEffect(() => {
+    const updateHeight = () => {
+      if (newsContainerRef.current) {
+        setContainerHeight(newsContainerRef.current.clientHeight);
+      }
+    };
+    
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   // Only fetch when user explicitly requests it
   const loadNews = (page = 1) => {
@@ -40,7 +56,7 @@ export default function DashboardPage() {
     fetchNews(page);
   };
 
-  const fetchNews = async (page = 1) => {
+  const fetchNews = useCallback(async (page = 1) => {
     setLoading(true);
     try {
       const timeRangeMap: Record<string, string> = {
@@ -84,23 +100,14 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters.timeRange, filters.assetTypes, filters.sentiment, commandInput]);
 
   // Refetch when filters change (after initial load)
   useEffect(() => {
     if (hasLoaded) {
       fetchNews(1);
     }
-  }, [hasLoaded, filters.timeRange, filters.assetTypes.join(','), filters.sentiment]);
-
-
-
-  const getSentimentColor = (sentiment: number | null) => {
-    if (sentiment === null) return 'text-[#888]';
-    if (sentiment > 0.2) return 'text-[#0f0]';
-    if (sentiment < -0.2) return 'text-[#f00]';
-    return 'text-[#888]';
-  };
+  }, [hasLoaded, fetchNews]);
 
   return (
     <div className="h-screen flex flex-col bg-black text-white font-mono text-sm overflow-hidden">
@@ -125,7 +132,7 @@ export default function DashboardPage() {
           {[
             { tab: 'DASHBOARD', href: '/dashboard', icon: Newspaper },
             { tab: 'SUMMARY', href: '/summary', icon: BarChart3 },
-            { tab: 'QUIZ', href: '/quiz', icon: Gamepad2 },
+            { tab: 'MAKRO', href: '/makrooppdatering', icon: Gamepad2 },
           ].map(({ tab, href, icon: Icon }) => (
             <Link
               key={tab}
@@ -272,61 +279,17 @@ export default function DashboardPage() {
         <div className="flex-1 bg-black flex flex-col min-w-0">
           <div className="bg-[#161b22] border-b border-[#333] px-3 py-2 flex items-center justify-between">
             <div className="text-[#ff6b35] font-bold">NEWS FEED</div>
-            <div className="text-xs text-[#888]">{news.length} / {news.length} ITEMS</div>
+            <div className="text-xs text-[#888]">{news.length} ITEMS</div>
           </div>
           
-          <div className="flex-1 overflow-y-auto">
-            {!hasLoaded ? (
-              <div className="flex flex-col items-center justify-center h-full text-[#666]">
-                <div className="text-lg mb-4">Select filters and load news</div>
-                <button
-                  onClick={() => loadNews(1)}
-                  className="px-6 py-3 bg-[#ff6b35] text-black font-bold text-sm hover:bg-[#ff8555] transition-colors"
-                >
-                  LOAD NEWS
-                </button>
-              </div>
-            ) : loading ? (
-              <div className="flex items-center justify-center h-full">
-                <Loader2 className="w-8 h-8 animate-spin text-[#ff6b35]" />
-              </div>
-            ) : news.length === 0 ? (
-              <div className="flex items-center justify-center h-full text-[#666]">
-                No matching items found
-              </div>
-            ) : (
-              <div className="divide-y divide-[#222]">
-                {news.map((item, idx) => (
-                  <a
-                    key={item.id}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block p-3 hover:bg-[#111] transition-colors border-l-2 border-transparent hover:border-[#ff6b35]"
-                  >
-                    <div className="flex items-start justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[#ff6b35] font-bold text-xs">{item.source}</span>
-                        <span className="text-[#666] text-xs">{formatTime(item.publishedAt)}</span>
-                      </div>
-                      <span className={getSentimentColor(item.sentiment)}>
-                        {item.sentiment && item.sentiment > 0 ? '+' : ''}
-                        {item.sentiment?.toFixed(2) || '0.00'}
-                      </span>
-                    </div>
-                    <div className="font-bold text-sm text-white mb-1 leading-tight">
-                      {item.title}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs bg-[#222] text-[#888] px-1">{item.assetType}</span>
-                      {item.tickers.slice(0, 2).map(t => (
-                        <span key={t.id} className="text-xs text-[#ff6b35]">{t.symbol}</span>
-                      ))}
-                    </div>
-                  </a>
-                ))}
-              </div>
-            )}
+          <div ref={newsContainerRef} className="flex-1 overflow-hidden">
+            <VirtualizedNewsList
+              news={news}
+              loading={loading}
+              hasLoaded={hasLoaded}
+              onLoadMore={() => loadNews(1)}
+              containerHeight={containerHeight}
+            />
           </div>
         </div>
 
@@ -415,7 +378,7 @@ export default function DashboardPage() {
                 <div className="text-[10px] text-[#888] mb-2">Kjenner du igjen Warren Buffett, Elon Musk, Jerome Powell?</div>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] bg-[#222] text-[#ff6b35] px-2 py-0.5 rounded">4 spørsmål</span>
-                  <Link href="/quiz" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
+                  <Link href="/makrooppdatering" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
                 </div>
               </div>
 
@@ -433,7 +396,7 @@ export default function DashboardPage() {
                 <div className="text-[10px] text-[#888] mb-2">Apple, Tesla, NVIDIA, Amazon - kjenner du logoene?</div>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] bg-[#222] text-[#ff6b35] px-2 py-0.5 rounded">5 spørsmål</span>
-                  <Link href="/quiz" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
+                  <Link href="/makrooppdatering" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
                 </div>
               </div>
 
@@ -451,7 +414,7 @@ export default function DashboardPage() {
                 <div className="text-[10px] text-[#888] mb-2">Hva skjedde med Bitcoin, NVIDIA og Tesla i 2024?</div>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] bg-[#222] text-[#ff6b35] px-2 py-0.5 rounded">4 spørsmål</span>
-                  <Link href="/quiz" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
+                  <Link href="/makrooppdatering" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
                 </div>
               </div>
 
@@ -469,7 +432,7 @@ export default function DashboardPage() {
                 <div className="text-[10px] text-[#888] mb-2">Apples verdi, Bitcoin-pris, Oljefondet - gjett!</div>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] bg-[#222] text-[#ff6b35] px-2 py-0.5 rounded">4 spørsmål</span>
-                  <Link href="/quiz" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
+                  <Link href="/makrooppdatering" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
                 </div>
               </div>
 
@@ -487,11 +450,11 @@ export default function DashboardPage() {
                 <div className="text-[10px] text-[#888] mb-2">Bitcoin 2008, Warren Buffett, GameStop drama</div>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] bg-[#222] text-[#ff6b35] px-2 py-0.5 rounded">4 spørsmål</span>
-                  <Link href="/quiz" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
+                  <Link href="/makrooppdatering" className="text-[10px] text-[#ff6b35] hover:underline">Spill →</Link>
                 </div>
               </div>
 
-              <Link href="/quiz">
+              <Link href="/makrooppdatering">
                 <button className="w-full mt-3 py-2 bg-[#ff6b35] text-black text-xs font-bold hover:bg-[#ff8555] transition-colors">
                   SE ALLE QUIZER →
                 </button>

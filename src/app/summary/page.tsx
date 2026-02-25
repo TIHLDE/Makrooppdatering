@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { NewsItem, AssetType, Ticker, Tag } from '@prisma/client';
 import { formatRelativeTime } from '@/lib/utils';
@@ -28,11 +28,7 @@ export default function SummaryPage() {
   const [loading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
 
-  useEffect(() => {
-    fetchSummaryData();
-  }, []);
-
-  const fetchSummaryData = async () => {
+  const fetchSummaryData = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch('/api/news?timeRange=7d&limit=100');
@@ -46,7 +42,11 @@ export default function SummaryPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchSummaryData();
+  }, [fetchSummaryData]);
 
   const generateSummarySlides = (news: NewsWithRelations[]): SummarySlide[] => {
     const themes: Array<{

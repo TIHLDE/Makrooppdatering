@@ -140,7 +140,7 @@ export interface QuizData {
 
 export interface UserAnswer {
   segmentId: string;
-  answer: string | number | number[] | boolean | null;
+  answer: string | number | number[] | boolean | Record<string, any> | null;
   timestamp: number;
   timeSpentMs?: number;
 }

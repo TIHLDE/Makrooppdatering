@@ -71,8 +71,10 @@ describe('Utils', () => {
     it('should truncate long text', () => {
       const text = 'This is a very long text that needs truncation';
       const result = truncateText(text, 10);
-      expect(result).toHaveLength(13); // 10 + '...'
+      // Length is maxLength (10) + '...' (3) - trimmed whitespace (1) = 12
+      expect(result).toHaveLength(12);
       expect(result.endsWith('...')).toBe(true);
+      expect(result.startsWith('This is a')).toBe(true);
     });
   });
 

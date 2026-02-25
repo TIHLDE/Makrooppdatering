@@ -16,7 +16,7 @@ import {
 const navItems: { href: Route; label: string; icon: typeof Newspaper }[] = [
   { href: '/dashboard', label: 'DASHBOARD', icon: Newspaper },
   { href: '/summary', label: 'SUMMARY', icon: BarChart3 },
-  { href: '/quiz', label: 'QUIZ', icon: Gamepad2 },
+  { href: '/makrooppdatering', label: 'MAKROOPPDATERING', icon: Gamepad2 },
 ];
 
 export function Navigation() {

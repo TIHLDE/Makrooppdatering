@@ -1,0 +1,338 @@
+{
+  "meta": {
+    "title": "MakroUke 8: Markedsoppdatering",
+    "language": "nb-NO",
+    "asOfDate": "2026-02-20",
+    "version": "1.0.0",
+    "timezone": "Europe/Oslo"
+  },
+  "config": {
+    "scoring": {
+      "defaultPoints": 1,
+      "partialCreditEnabled": true,
+      "maxPointsPerSegment": 3
+    },
+    "ui": {
+      "showExplanationsAfterAnswer": true,
+      "allowSkip": true,
+      "freeTextMaxChars": 280
+    }
+  },
+  "sources": [
+    {
+      "sourceId": "src-1",
+      "publisher": "Norges Bank",
+      "title": "Policy rate kept unchanged at 4 percent",
+      "publishedDate": "2026-01-16",
+      "url": "https://www.norges-bank.no/",
+      "type": "primary",
+      "paywalled": false,
+      "notes": "Hovedkilde for rentebeslutning"
+    },
+    {
+      "sourceId": "src-2",
+      "publisher": "Federal Reserve",
+      "title": "FOMC Statement",
+      "publishedDate": "2026-01-29",
+      "url": "https://www.federalreserve.gov/",
+      "type": "primary",
+      "paywalled": false,
+      "notes": "Fed rentemøte"
+    },
+    {
+      "sourceId": "src-3",
+      "publisher": "DN Markets",
+      "title": "Markedsanalyse uke 8",
+      "publishedDate": "2026-02-19",
+      "url": "https://www.dn.no/markets/",
+      "type": "secondary",
+      "paywalled": true,
+      "notes": "Markedsreaksjoner"
+    }
+  ],
+  "rounds": [
+    {
+      "roundId": "round-1",
+      "title": "MakroUke 8: Hovedtemaer",
+      "description": "Test dine kunnskaper om ukens makroøkonomiske utvikling",
+      "rules": {
+        "pointsPerCorrect": 1,
+        "pointsPerWrong": 0,
+        "allowRetry": false
+      },
+      "segments": [
+        {
+          "segmentId": "seg-1",
+          "segmentType": "news_quiz",
+          "title": "Key Takeaways",
+          "topicTags": ["makroøkonomi", "disinflasjon", "vekst"],
+          "difficulty": "medium",
+          "media": [],
+          "factBox": [
+            "Disinflasjonen fortsatte i januar i de store økonomiene",
+            "Veksttakten avtok uten tydelige hard-landing-signaler",
+            "Sentralbankene holdt rentene uendret med 'data først'-signaler",
+            "Tariffer har blitt en tydelig markedsdriver med høy headline risk"
+          ],
+          "interaction": {
+            "format": "match_pairs",
+            "prompt": "Koble sammen makroindikatorene med riktig utvikling i januar:",
+            "instructions": "Velg riktig utvikling for hver indikator fra dropdown-menyene",
+            "answerSpec": {
+              "mode": "pairs",
+              "pairs": [
+                { "left": "US 10-årig rente", "right": "Falt ca. 16 bp" },
+                { "left": "Nasdaq", "right": "Falt ~2-3%" },
+                { "left": "S&P 500", "right": "Omtrent flatt" },
+                { "left": "IG kredittspread", "right": "Utvidet +6 bp" }
+              ]
+            }
+          },
+          "solution": {
+            "shortAnswer": "US 10-år falt 16bp, Nasdaq falt 2-3%, S&P 500 flatt, IG spread +6bp",
+            "explanation": {
+              "short": "Obligasjonsrentene falt mens kredittspreader utvidet seg. Aksjemarkedet var blandet.",
+              "whyCorrect": "Rentefallet reflekterer forventninger om fremtidige rentekutt, mens kredittspreadene økte på grunn av usikkerhet. Nasdaq falt mer enn S&P 500 pga tech-sensitivitet.",
+              "whyOthersWrong": ["S&P 500 falt ikke 2-3% - det var Nasdaq", "Kredittspreader falt ikke, de økte", "Obligasjonsrentene steg ikke, de falt"]
+            }
+          },
+          "sourceRefs": ["src-3"],
+          "points": 2
+        },
+        {
+          "segmentId": "seg-2",
+          "segmentType": "guess_connection",
+          "title": "Selskaper på vei mot børsen",
+          "topicTags": ["selskaper"],
+          "difficulty": "medium",
+          "media": [
+            {
+              "mediaId": "media-video-1",
+              "type": "video",
+              "title": "Selskapspresentasjon",
+              "url": "/videos/ipos-2026.mp4",
+              "alt": "Video som viser ulike selskaper",
+              "credit": "Finansavisen",
+              "sourceId": "src-3",
+              "timeRangeSec": null
+            }
+          ],
+          "factBox": [
+            "Selskapene i videoen representerer ulike sektorer",
+            "Noen selskaper har offentliggjort planer for fremtiden",
+            "Det er økt aktivitet i markedet for nye selskaper"
+          ],
+          "interaction": {
+            "format": "short_text",
+            "prompt": "Hva er sammenhengen mellom disse selskapene?",
+            "instructions": "Beskriv kort hva selskapene har felles (2-5 ord)",
+            "answerSpec": {
+              "mode": "accepted_answers",
+              "acceptedAnswers": ["ipo", "børsnotering", "børs", "notering", "planlegger børsnotering", "skal på børsen", "børsnoteres"],
+              "normalization": {
+                "caseInsensitive": true,
+                "trimWhitespace": true,
+                "removePunctuation": true,
+                "collapseSpaces": true
+              }
+            }
+          },
+          "solution": {
+            "shortAnswer": "De planlegger alle børsnotering (IPO) i 2026",
+            "modelAnswer": "Selskapene har til felles at de alle vurderer eller planlegger børsnotering i løpet av 2026. IPO-aktiviteten ventes å øke etter en periode med få noteringer.",
+            "explanation": {
+              "short": "Alle selskapene i videoen planlegger børsnotering i 2026",
+              "whyCorrect": "Videoen viser ulike selskaper fra ulike sektorer som har ett felles trekk: de forbereder seg på å gå på børsen i 2026. Dette reflekterer en forventet oppgang i IPO-aktivitet.",
+              "whyOthersWrong": ["Det er ikke snakk om oppkjøp/fusjon", "Det er ikke et samarbeid mellom selskapene", "De konkurrerer ikke direkte - de er i ulike sektorer"]
+            }
+          },
+          "sourceRefs": ["src-3"],
+          "points": 1
+        },
+        {
+          "segmentId": "seg-3",
+          "segmentType": "news_quiz",
+          "title": "Sentralbanker og renteutsikter",
+          "topicTags": ["sentralbank", "rente", "Fed", "Norges Bank"],
+          "difficulty": "medium",
+          "media": [
+            {
+              "mediaId": "media-img-1",
+              "type": "image",
+              "title": "Federal Reserve",
+              "url": "/images/federal_reserve.jpg",
+              "alt": "Federal Reserve bygning",
+              "credit": "Federal Reserve",
+              "sourceId": "src-2",
+              "timeRangeSec": null
+            }
+          ],
+          "factBox": [
+            "Federal Reserve holdt renten uendret i januar",
+            "Norges Bank holdt styringsrenten uendret på 4%",
+            "Signalene fra begge bankene var 'data først'",
+            "Markedsprisene indikerer rentekutt senere i 2026"
+          ],
+          "interaction": {
+            "format": "truefalse",
+            "prompt": "Sentralbankene signaliserte at de vil senke rentene i mars 2026.",
+            "answerSpec": {
+              "mode": "boolean",
+              "correct": false
+            }
+          },
+          "solution": {
+            "shortAnswer": "Usant",
+            "explanation": {
+              "short": "Sentralbankene signaliserte 'data først', ikke automatiske kutt",
+              "whyCorrect": "Både Fed og Norges Bank understreket at fremtidige renteendringer avhenger av innkommende data. De ga ingen garantier om kutt i mars eller andre spesifikke datoer.",
+              "whyOthersWrong": ["Det ble ikke gitt noe løfte om mars-kutt", "'Data først' betyr avventende holdning", "Markedsprisene er ikke offisiell politikk"]
+            }
+          },
+          "sourceRefs": ["src-1", "src-2"],
+          "points": 1
+        },
+        {
+          "segmentId": "seg-4",
+          "segmentType": "market_reaction",
+          "title": "Marked: Aksjer, renter, kreditt og råvarer",
+          "topicTags": ["markeder", "aksjer", "obligasjoner", "kreditt", "råvarer"],
+          "difficulty": "hard",
+          "media": [
+            {
+              "mediaId": "media-img-2",
+              "type": "image",
+              "title": "ECM Markets",
+              "url": "/images/ecm.jpg",
+              "alt": "Equity Capital Markets",
+              "credit": "ECM",
+              "sourceId": "src-3",
+              "timeRangeSec": null
+            }
+          ],
+          "factBox": [
+            "US 10-år falt ca. 16 bp fra 23. januar til 19. februar",
+            "Det har vært endringer i risikopremier i markedet",
+            "Norske storbanker rapporterte resultater for perioden",
+            "Energisektoren har endret sin kapitalallokering"
+          ],
+          "interaction": {
+            "format": "mcq",
+            "prompt": "Hva skjedde med kredittspreader i løpet av perioden? (Kredittspreader = forskjellen i rente mellom selskapsobligasjoner og risikofrie statsobligasjoner – viser risikoen i markedet)",
+            "options": [
+              "De falt betydelig på grunn av økt risikoappetitt",
+              "De utvidet seg moderat (IG +6bp, HY +20bp)",
+              "De holdt seg helt stabile",
+              "De nådde nye historiske lavnivåer"
+            ],
+            "answerSpec": {
+              "mode": "index",
+              "correctIndex": 1
+            }
+          },
+          "solution": {
+            "shortAnswer": "Kredittspreader utvidet seg moderat (IG +6bp, HY +20bp)",
+            "explanation": {
+              "short": "Kredittspreader økte på grunn av økt usikkerhet og risk-off stemning",
+              "whyCorrect": "Investment grade spread økte 6bp og high yield 20bp. Dette reflekterer økt risikoaversjon i markedet og usikkerhet om økonomisk utvikling.",
+              "whyOthersWrong": [
+                "Spreadene falt ikke - de økte",
+                "De var ikke stabile - det var tydelig bevegelse",
+                "De var langt fra historiske lavnivåer"
+              ]
+            }
+          },
+          "sourceRefs": ["src-3"],
+          "points": 1
+        },
+        {
+          "segmentId": "seg-5",
+          "segmentType": "market_reaction",
+          "title": "Norske selskaper: Equinor og DNB",
+          "topicTags": ["norge", "equinor", "dnb", "utbytte"],
+          "difficulty": "medium",
+          "media": [
+            {
+              "mediaId": "media-img-3",
+              "type": "image",
+              "title": "Norges Bank",
+              "url": "/images/norges_bank.webp",
+              "alt": "Norges Bank hovedkontor",
+              "credit": "Norges Bank",
+              "sourceId": "src-1",
+              "timeRangeSec": null
+            }
+          ],
+          "factBox": [
+            "Equinor annonserte endringer i sin kapitalallokering",
+            "DNB leverte sterke resultater for 2025",
+            "Begge selskapene er store utbyttebetaler på Oslo Børs",
+            "Aksjonærene kan forvente endringer i utbetalinger"
+          ],
+          "interaction": {
+            "format": "match_pairs",
+            "prompt": "Koble sammen selskapet med korrekt uttalelse om utbytte/kapitalallokering:",
+            "instructions": "Velg riktig beskrivelse for hvert selskap",
+            "answerSpec": {
+              "mode": "pairs",
+              "pairs": [
+                { "left": "Equinor", "right": "Økte utbytte, kuttet tilbakekjøp" },
+                { "left": "DNB", "right": "Rekordresultat, høy utdeling" }
+              ]
+            }
+          },
+          "solution": {
+            "shortAnswer": "Equinor: Økte utbytte men kuttet tilbakekjøp. DNB: Rekordresultat og høy utdeling.",
+            "explanation": {
+              "short": "Equinor prioriterte utbytte fremfor tilbakekjøp, mens DNB kunne øke utdelingen på grunn av sterkt resultat",
+              "whyCorrect": "Equinor signaliserte økt fokus på kontantutbytte til aksjonærene fremfor tilbakekjøp av egne aksjer. DNBs sterke 2025-resultat ga rom for betydelig økt utdeling.",
+              "whyOthersWrong": [
+                "Equinor kuttet ikke utbyttet - de økte det",
+                "DNB kuttet ikke tilbakekjøp - de økte utdelingen",
+                "Ingen av selskapene kuttet utdelingen"
+              ]
+            }
+          },
+          "sourceRefs": ["src-3"],
+          "points": 2
+        },
+        {
+          "segmentId": "seg-6",
+          "segmentType": "news_quiz",
+          "title": "Geopolitikk og risiko",
+          "topicTags": ["geopolitikk", "energi", "iran", "hormuz", "tail-risk"],
+          "difficulty": "medium",
+          "media": [],
+          "factBox": [
+            "Geopolitisk risiko vurderes ulikt av markedsaktører",
+            "Iran og Hormuz-stredet nevnes som potensiell faktor",
+            "OPEC+ fortsetter tilbudsstyring for å støtte oljeprisen",
+            "Tariffer skaper høy 'headline risk' for markedene"
+          ],
+          "interaction": {
+            "format": "truefalse",
+            "prompt": "Geopolitisk energirisiko betraktes som en sentral (base case) risiko for markedene, ikke en tail risk.",
+            "answerSpec": {
+              "mode": "boolean",
+              "correct": false
+            }
+          },
+          "solution": {
+            "shortAnswer": "Usant",
+            "explanation": {
+              "short": "Geopolitisk energirisiko er kategorisert som tail risk, ikke base case",
+              "whyCorrect": "Selv om konflikten i Midt-Østen er alvorlig, vurderes en større forstyrrelse av oljeforsyningen (f.eks. via Hormuz) som en lav-sannsynlighet/høy-påvirkning hendelse - altså en tail risk.",
+              "whyOthersWrong": [
+                "Det er ikke base case scenario",
+                "Risikoen er lav sannsynlighet men høy påvirkning",
+                "OPEC+ styring er en annen faktor enn geopolitisk risiko"
+              ]
+            }
+          },
+          "sourceRefs": ["src-3"],
+          "points": 1
+        }
+      ]
+    }
+  ]
+}
