@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Nytt på nytt: Finans & Økonomi",
+    "title": "Makrooppdatering uke 9",
     "language": "nb-NO",
     "asOfDate": "2026-02-20",
     "version": "1.0.0",
@@ -121,9 +121,9 @@
             {
               "mediaId": "m-1",
               "type": "image",
-              "title": "Norges Bank 16. januar",
+              "title": "Sentralbank A - 16. januar",
               "url": "/images/norges_bank.jpg",
-              "alt": "Norges Bank holder renten uendret på 4 prosent",
+              "alt": "Sentralbankbygning med dato 16. januar",
               "credit": "Norges Bank",
               "sourceId": "src-1",
               "timeRangeSec": null
@@ -131,9 +131,9 @@
             {
               "mediaId": "m-2",
               "type": "image",
-              "title": "ECB 30. januar",
+              "title": "Sentralbank B - 30. januar",
               "url": "/images/ecb-january-2026.jpg",
-              "alt": "ECB rentebeslutning januar 2026",
+              "alt": "Sentralbankbygning med dato 30. januar",
               "credit": "ECB",
               "sourceId": "src-3",
               "timeRangeSec": null
@@ -141,20 +141,15 @@
             {
               "mediaId": "m-3",
               "type": "image",
-              "title": "Federal Reserve 29. januar",
+              "title": "Sentralbank C - 29. januar",
               "url": "/images/federal_reserve.jpg",
-              "alt": "Fed holder renten uendret",
+              "alt": "Sentralbankbygning med dato 29. januar",
               "credit": "Federal Reserve",
               "sourceId": "src-4",
               "timeRangeSec": null
             }
           ],
-          "factBox": [
-            "Norges Bank holdt renten uendret på 4,0% (16. januar)",
-            "ECB holdt renten uendret på 3,75% (30. januar)",
-            "Fed holdt renten uendret på 4,50% (29. januar)",
-            "Alle tre bankene signaliserte tålmodighet med hensyn til neste renteendring"
-          ],
+          
           "interaction": {
             "format": "free_text",
             "prompt": "Hva er felles for disse tre sentralbankene, og hva kan skje med en valuta når renter holdes uendret?",
@@ -207,9 +202,9 @@
             {
               "mediaId": "m-4",
               "type": "video",
-              "title": "Powell om inflasjonsbekymringer",
+              "title": "Sentralbanksjefens uttalelse",
               "url": "https://www.youtube.com/watch?v=FedPressConferenceJan2026",
-              "alt": "Jerome Powell kommenterer inflasjonsdata under FOMC-pressekonferanse",
+              "alt": "Pressekonferanse med sentralbanksjef",
               "credit": "Federal Reserve/C-SPAN",
               "sourceId": "src-4",
               "timeRangeSec": { "start": 1245, "end": 1320 },
@@ -266,16 +261,16 @@
         {
           "segmentId": "r-1-s-3",
           "segmentType": "guess_connection",
-          "title": "Fire hint – hvorfor svekkes NOK?",
+          "title": "Fire hint – hva skjer med den norske valutaen?",
           "topicTags": ["valuta", "rente-differanse", "carry-trade", "fondsstrømmer"],
           "difficulty": "hard",
           "media": [
             {
               "mediaId": "m-5",
               "type": "chart",
-              "title": "EUR/NOK kursutvikling",
+              "title": "Valutakursutvikling",
               "url": "https://example.com/charts/eur-nok-jan-feb-2026.png",
-              "alt": "Graf som viser EUR/NOK stigende fra 11,40 til 11,85 i løpet av februar",
+              "alt": "Graf som viser valutakursutvikling over tid",
               "credit": "DNB Markets",
               "sourceId": "src-7",
               "timeRangeSec": null
@@ -283,9 +278,9 @@
             {
               "mediaId": "m-6",
               "type": "chart",
-              "title": "3-måneders rente-differanse NOK-EUR",
+              "title": "Rentedifferanseutvikling",
               "url": "https://example.com/charts/rente-diff-nok-eur.png",
-              "alt": "Graf som viser renteavstanden mellom Norge og Europa krymper",
+              "alt": "Graf som viser renteavstand mellom land",
               "credit": "Norges Bank/ECB data",
               "sourceId": "src-1",
               "timeRangeSec": null
@@ -293,9 +288,9 @@
             {
               "mediaId": "m-7",
               "type": "image",
-              "title": "Oljefondets markedsverdi",
+              "title": "Fondsforvaltningsdata",
               "url": "https://example.com/images/oljefondet-rekord-feb-2026.jpg",
-              "alt": "Oljefondet når ny all-time-high på 19 000 milliarder kroner",
+              "alt": "Statistikk over fondsverdier",
               "credit": "Norges Bank Investment Management",
               "sourceId": "src-5",
               "timeRangeSec": null
@@ -303,16 +298,16 @@
             {
               "mediaId": "m-8",
               "type": "image",
-              "title": "Fondsstrømmer graf",
+              "title": "Markedsstrømmer",
               "url": "https://example.com/images/fondsstrommer-risk-off.png",
-              "alt": "Store utstrømmer fra aksjefond i emerging markets",
+              "alt": "Graf over kapitalbevegelser i markedet",
               "credit": "EPFR/Bloomberg",
               "sourceId": "src-6",
               "timeRangeSec": null
             }
           ],
           "factBox": [
-            "EUR/NOK har styrket seg 4% siden midten av januar",
+            "Valutakrysset EUR/NOK har endret seg 4% siden midten av januar",
             "Renteforskjellen mellom Norge og Eurosonen har krympet fra 75 bp til 25 bp",
             "Oljefondet nådde ny ATH på 19 000 mrd kr (5. februar)",
             "Risk-off strømmer: -$12bn ut av EM-aksjer siste 4 uker"
@@ -629,7 +624,7 @@
           "interaction": {
             "format": "case",
             "prompt": "CASE: Forklar rotasjonen",
-            "caseText": "De siste ukene har teknologi (vekst) falt, mens banker/energi (verdi) har gjort det bedre. Samtidig har lange renter steget. Forklar dette på en enkel måte til en kunde.",
+            "caseText": "De siste ukene har teknologi falt, mens banker og energi har gjort det bedre. Samtidig har lange renter steget. Forklar dette på en enkel måte til en kunde.",
             "answerSpec": {
               "mode": "sub_questions",
               "subQuestions": [
